@@ -25,3 +25,43 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: MEDLLM
+      description: 医学大模型
+      enabled: true
+      keywords:
+        - keyword: Medical LLM
+          keyword_cn: 医学大语言模型
+          query: Large language models in medicine and healthcare
+        - keyword: Clinical LLM
+          keyword_cn: 临床大模型
+          query: Clinical large language models for diagnosis and treatment
+        - keyword: Medical NLP
+          keyword_cn: 医学自然语言处理
+          query: Natural language processing for medical records and texts
+        - keyword: Diagnostic AI
+          keyword_cn: 诊断人工智能
+          query: AI models for medical diagnosis and clinical decision support
+        - keyword: Patient data LLM
+          keyword_cn: 患者数据大模型
+          query: Processing patient data and electronic health records with LLMs
+        - keyword: Medical fine-tuning
+          keyword_cn: 医学领域微调
+          query: Fine-tuning large language models on medical domain datasets
+      intent_queries:
+        - query: State of the art in medical large language models
+          query_cn: 医学大语言模型的技术现状
+          enabled: true
+          source: manual
+          note: ''
+        - query: Clinical applications of generative AI in healthcare
+          query_cn: 生成式人工智能在医疗中的临床应用
+          enabled: true
+          source: manual
+          note: ''
+        - query: Performance evaluation of LLMs on medical benchmarks
+          query_cn: 大语言模型在医学基准测试上的性能评估
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-03-19T08:28:20.159Z'
