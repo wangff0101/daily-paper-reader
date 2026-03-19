@@ -1,0 +1,700 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-19T20:28:14.920665+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 18,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 29,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.13878v1",
+      "title": "Step-CoT: Stepwise Visual Chain-of-Thought for Medical Visual Question Answering",
+      "abstract": "Chain-of-thought (CoT) reasoning has advanced medical visual question answering (VQA), yet most existing CoT rationales are free-form and fail to capture the structured reasoning process clinicians actually follow. This work asks: Can traceable, multi-step reasoning supervision improve reasoning accuracy and the interpretability of Medical VQA? To this end, we introduce Step-CoT, a large-scale medical reasoning dataset with expert-curated, structured multi-step CoT aligned to clinical diagnostic workflows, implicitly grounding the model's reasoning in radiographic evidence. Step-CoT comprises more than 10K real clinical cases and 70K VQA pairs organized around diagnostic workflows, providing supervised intermediate steps that guide models to follow valid reasoning trajectories. To effectively learn from Step-CoT, we further introduce a teacher-student framework with a dynamic graph-structured focusing mechanism that prioritizes diagnostically informative steps while filtering out less relevant contexts. Our experiments show that using Step-CoT can improve reasoning accuracy and interpretability. Benchmark: github.com/hahaha111111/Step-CoT. Dataset Card: huggingface.co/datasets/fl-15o/Step-CoT",
+      "authors": [
+        "Lin Fan",
+        "Yafei Ou",
+        "Zhipeng Deng",
+        "Pengyu Dai",
+        "Hou Chongxian",
+        "Jiale Yan",
+        "Yaqian Li",
+        "Kaiwen Long",
+        "Xun Gong",
+        "Masayuki Ikebe",
+        "Yefeng Zheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-03-14T10:23:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.13878v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "structured multi-step CoT aligned to clinical diagnostic workflows",
+      "llm_evidence_cn": "与临床诊断工作流程一致的结构化多步思维链",
+      "llm_evidence": "与临床诊断工作流程一致的结构化多步思维链",
+      "canonical_evidence": "与临床诊断工作流程一致的结构化多步思维链",
+      "llm_tldr_en": "Introduces Step-CoT, a dataset for medical VQA using structured reasoning to improve diagnostic accuracy.",
+      "llm_tldr_cn": "引入Step-CoT数据集，通过结构化推理提升医疗视觉问答的诊断准确性。",
+      "llm_tldr": "引入Step-CoT数据集，通过结构化推理提升医疗视觉问答的诊断准确性。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical large language models for diagnosis and treatment",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.16204v1",
+      "title": "A Scoping Review of AI-Driven Digital Interventions in Mental Health Care: Mapping Applications Across Screening, Support, Monitoring, Prevention, and Clinical Education",
+      "abstract": "Artificial intelligence (AI)-enabled digital interventions, including Generative AI (GenAI) and Human-Centered AI (HCAI), are increasingly used to expand access to digital psychiatry and mental health care. This PRISMA-ScR scoping review maps the landscape of AI-driven mental health (mHealth) technologies across five critical phases: pre-treatment (screening/triage), treatment (therapeutic support), post-treatment (remote patient monitoring), clinical education, and population-level prevention. We synthesized 36 empirical studies implemented through early 2024, focusing on Large Language Models (LLMs), machine learning (ML) models, and autonomous conversational agents. Key use cases involve referral triage, empathic communication enhancement, and AI-assisted psychotherapy delivered via chatbots and voice agents. While benefits include reduced wait times and increased patient engagement, we address recurring challenges like algorithmic bias, data privacy, and human-AI collaboration barriers. By introducing a novel four-pillar framework, this review provides a comprehensive roadmap for AI-augmented mental health care, offering actionable insights for researchers, clinicians, and policymakers to develop safe, effective, and equitable digital health interventions.",
+      "authors": [
+        "Yang Ni",
+        "Fanli Jia"
+      ],
+      "primary_category": "cs.CY",
+      "categories": [
+        "cs.CY",
+        "cs.AI",
+        "cs.HC"
+      ],
+      "published": "2026-03-17T07:33:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.16204v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Review of GenAI and LLMs in mental health care interventions",
+      "llm_evidence_cn": "生成式AI和大模型在心理健康干预中的综述",
+      "llm_evidence": "生成式AI和大模型在心理健康干预中的综述",
+      "canonical_evidence": "生成式AI和大模型在心理健康干预中的综述",
+      "llm_tldr_en": "Maps the landscape of AI and LLM applications across various phases of mental health care.",
+      "llm_tldr_cn": "梳理了AI和大模型在心理健康护理各个阶段的应用现状。",
+      "llm_tldr": "梳理了AI和大模型在心理健康护理各个阶段的应用现状。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11780v1",
+      "title": "Large Language Models for Biomedical Article Classification",
+      "abstract": "This work presents a systematic and in-depth investigation of the utility of large language models as text classifiers for biomedical article classification. The study uses several small and mid-size open source models, as well as selected closed source ones, and is more comprehensive than most prior work with respect to the scope of evaluated configurations: different types of prompts, output processing methods for generating both class and class probability predictions, as well as few-shot example counts and selection methods. The performance of the most successful configurations is compared to that of conventional classification algorithms. The obtained average PR AUC over 15 challenging datasets above 0.4 for zero-shot prompting and nearly 0.5 for few-shot prompting comes close to that of the naïve Bayes classifier (0.5), the random forest algorithm (0.5 with default settings or 0.55 with hyperparameter tuning) and fine-tuned transformer models (0.5). These results confirm the utility of large language models as text classifiers for non-trivial domains and provide practical recommendations of the most promising setups, including in particular using output token probabilities for class probability prediction.",
+      "authors": [
+        "Jakub Proboszcz",
+        "Paweł Cichosz"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-12T10:39:10+00:00",
+      "link": "https://arxiv.org/pdf/2603.11780v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLMs for biomedical article classification and text processing",
+      "llm_evidence_cn": "大语言模型用于生物医学文献分类和文本处理",
+      "llm_evidence": "大语言模型用于生物医学文献分类和文本处理",
+      "canonical_evidence": "大语言模型用于生物医学文献分类和文本处理",
+      "llm_tldr_en": "Evaluates various LLMs as text classifiers for biomedical articles across multiple datasets and configurations.",
+      "llm_tldr_cn": "评估了多种大语言模型在生物医学文献分类任务中的表现及不同配置的影响。",
+      "llm_tldr": "评估了多种大语言模型在生物医学文献分类任务中的表现及不同配置的影响。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Natural language processing for medical records and texts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11625v1",
+      "title": "MedPruner: Training-Free Hierarchical Token Pruning for Efficient 3D Medical Image Understanding in Vision-Language Models",
+      "abstract": "While specialized Medical Vision-Language Models (VLMs) have achieved remarkable success in interpreting 2D and 3D medical modalities, their deployment for 3D volumetric data remains constrained by significant computational inefficiencies. Current architectures typically suffer from massive anatomical redundancy due to the direct concatenation of consecutive 2D slices and lack the flexibility to handle heterogeneous information densities across different slices using fixed pruning ratios. To address these challenges, we propose MedPruner, a training-free and model-agnostic hierarchical token pruning framework specifically designed for efficient 3D medical image understanding. MedPruner introduces a two-stage mechanism: an Inter-slice Anchor-based Filtering module to eliminate slice-level temporal redundancy, followed by a Dynamic Information Nucleus Selection strategy that achieves adaptive token-level compression by quantifying cumulative attention weights. Extensive experiments on three 3D medical benchmarks and across three diverse medical VLMs reveal massive token redundancy in existing architectures. Notably, MedPruner enables models such as MedGemma to maintain or even exceed their original performance while retaining fewer than 5% of visual tokens, thereby drastically reducing computational overhead and validating the necessity of dynamic token selection for practical clinical deployment. Our code will be released.",
+      "authors": [
+        "Shengyuan Liu",
+        "Zanting Ye",
+        "Yunrui Lin",
+        "Chen Hu",
+        "Wanting Geng",
+        "Xu Han",
+        "Bulat Ibragimov",
+        "Yefeng Zheng",
+        "Yixuan Yuan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-12T07:37:00+00:00",
+      "link": "https://arxiv.org/pdf/2603.11625v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient 3D medical image understanding in vision-language models",
+      "llm_evidence_cn": "视觉语言模型中高效的3D医学图像理解",
+      "llm_evidence": "视觉语言模型中高效的3D医学图像理解",
+      "canonical_evidence": "视觉语言模型中高效的3D医学图像理解",
+      "llm_tldr_en": "Proposes a token pruning framework to improve the efficiency of 3D medical image understanding in VLMs.",
+      "llm_tldr_cn": "提出一种令牌剪枝框架，旨在提高视觉语言模型在3D医学图像理解中的效率。",
+      "llm_tldr": "提出一种令牌剪枝框架，旨在提高视觉语言模型在3D医学图像理解中的效率。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10967v2",
+      "title": "Med-DualLoRA: Local Adaptation of Foundation Models for 3D Cardiac MRI",
+      "abstract": "Foundation models (FMs) show great promise for robust downstream performance across medical imaging tasks and modalities, including cardiac magnetic resonance (CMR), following task-specific adaptation. However, adaptation using single-site data may lead to suboptimal performance and increased model bias, while centralized fine-tuning on clinical data is often infeasible due to privacy constraints. Federated fine-tuning offers a privacy-preserving alternative; yet conventional approaches struggle under heterogeneous, non-IID multi-center data and incur substantial communication overhead when adapting large models. In this work, we study federated FM fine-tuning for 3D CMR disease detection and propose Med-DualLoRA, a client-aware parameter-efficient fine-tuning (PEFT) federated framework that disentangles globally shared and local low-rank adaptations (LoRA) through additive decomposition. Global and local LoRA modules are trained locally, but only the global component is shared and aggregated across sites, keeping local adapters private. This design improves personalization while significantly reducing communication cost, and experiments show that adapting only two transformer blocks preserves performance while further improving efficiency. We evaluate our method on a multi-center state-of-the-art cine 3D CMR FM fine-tuned for disease detection using ACDC and combined M\\&Ms datasets, treating each vendor as a federated client. Med-DualLoRA achieves statistically significant improved performance (balanced accuracy 0.768, specificity 0.612) compared to other federated PEFT baselines, while maintaining communication efficiency. Our approach provides a scalable solution for local federated adaptation of medical FMs under realistic clinical constraints.",
+      "authors": [
+        "Joan Perramon-Llussà",
+        "Amelia Jiménez-Sánchez",
+        "Grzegorz Skorupko",
+        "Fotis Avgoustidis",
+        "Carlos Martín-Isla",
+        "Karim Lekadir",
+        "Polyxeni Gkontra"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-11T16:52:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.10967v2",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Federated fine-tuning of foundation models for medical imaging",
+      "llm_evidence_cn": "针对医学影像基础模型的联邦微调",
+      "llm_evidence": "针对医学影像基础模型的联邦微调",
+      "canonical_evidence": "针对医学影像基础模型的联邦微调",
+      "llm_tldr_en": "Proposes Med-DualLoRA for privacy-preserving federated fine-tuning of foundation models in 3D cardiac MRI.",
+      "llm_tldr_cn": "提出Med-DualLoRA，用于3D心脏MRI基础模型的隐私保护联邦微调。",
+      "llm_tldr": "提出Med-DualLoRA，用于3D心脏MRI基础模型的隐私保护联邦微调。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.10967v2"
+    },
+    {
+      "id": "2603.13168v1",
+      "title": "Developing and evaluating a chatbot to support maternal health care",
+      "abstract": "The ability to provide trustworthy maternal health information using phone-based chatbots can have a significant impact, particularly in low-resource settings where users have low health literacy and limited access to care. However, deploying such systems is technically challenging: user queries are short, underspecified, and code-mixed across languages, answers require regional context-specific grounding, and partial or missing symptom context makes safe routing decisions difficult.   We present a chatbot for maternal health in India developed through a partnership between academic researchers, a health tech company, a public health nonprofit, and a hospital. The system combines (1) stage-aware triage, routing high-risk queries to expert templates, (2) hybrid retrieval over curated maternal/newborn guidelines, and (3) evidence-conditioned generation from an LLM. Our core contribution is an evaluation workflow for high-stakes deployment under limited expert supervision. Targeting both component-level and end-to-end testing, we introduce: (i) a labeled triage benchmark (N=150) achieving 86.7% emergency recall, explicitly reporting the missed-emergency vs. over-escalation trade-off; (ii) a synthetic multi-evidence retrieval benchmark (N=100) with chunk-level evidence labels; (iii) LLM-as-judge comparison on real queries (N=781) using clinician-codesigned criteria; and (iv) expert validation. Our findings show that trustworthy medical assistants in multilingual, noisy settings require defense-in-depth design paired with multi-method evaluation, rather than any single model and evaluation method choice.",
+      "authors": [
+        "Smriti Jha",
+        "Vidhi Jain",
+        "Jianyu Xu",
+        "Grace Liu",
+        "Sowmya Ramesh",
+        "Jitender Nagpal",
+        "Gretchen Chapman",
+        "Benjamin Bellows",
+        "Siddhartha Goyal",
+        "Aarti Singh",
+        "Bryan Wilder"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.IR"
+      ],
+      "published": "2026-03-13T17:02:05+00:00",
+      "link": "https://arxiv.org/pdf/2603.13168v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "chatbot for maternal health care and symptom triage",
+      "llm_evidence_cn": "用于孕产妇保健和症状分诊的聊天机器人",
+      "llm_evidence": "用于孕产妇保健和症状分诊的聊天机器人",
+      "canonical_evidence": "用于孕产妇保健和症状分诊的聊天机器人",
+      "llm_tldr_en": "A maternal health chatbot that combines triage and LLM-based grounding for low-resource settings.",
+      "llm_tldr_cn": "一种结合分诊和大模型接地的孕产妇健康聊天机器人，适用于资源匮乏地区。",
+      "llm_tldr": "一种结合分诊和大模型接地的孕产妇健康聊天机器人，适用于资源匮乏地区。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.13168v1"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.12343v1",
+      "title": "LLM-Augmented Therapy Normalization and Aspect-Based Sentiment Analysis for Treatment-Resistant Depression on Reddit",
+      "abstract": "Treatment-resistant depression (TRD) is a severe form of major depressive disorder in which patients do not achieve remission despite multiple adequate treatment trials. Evidence across pharmacologic options for TRD remains limited, and trials often do not fully capture patient-reported tolerability. Large-scale online peer-support narratives therefore offer a complementary lens on how patients describe and evaluate medications in real-world use. In this study, we curated a corpus of 5,059 Reddit posts explicitly referencing TRD from 3,480 subscribers across 28 mental health-related subreddits from 2010 to 2025. Of these, 3,839 posts mentioned at least one medication, yielding 23,399 mentions of 81 generic-name medications after lexicon-based normalization of brand names, misspellings, and colloquialisms. We developed an aspect-based sentiment classifier by fine-tuning DeBERTa-v3 on the SMM4H 2023 therapy-sentiment Twitter corpus with large language model based data augmentation, achieving a micro-F1 score of 0.800 on the shared-task test set. Applying this classifier to Reddit, we quantified sentiment toward individual medications across three categories: positive, neutral, and negative, and tracked patterns by drug, subscriber, subreddit, and year. Overall, 72.1% of medication mentions were neutral, 14.8% negative, and 13.1% positive. Conventional antidepressants, especially SSRIs and SNRIs, showed consistently higher negative than positive proportions, whereas ketamine and esketamine showed comparatively more favorable sentiment profiles. These findings show that normalized medication extraction combined with aspect-based sentiment analysis can help characterize patient-perceived treatment experiences in TRD-related Reddit discourse, complementing clinical evidence with large-scale patient-generated perspectives.",
+      "authors": [
+        "Yuxin Zhu",
+        "Sahithi Lakamana",
+        "Masoud Rouhizadeh",
+        "Selen Bozkurt",
+        "Rachel Hershenberg",
+        "Abeed Sarker"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-12T18:03:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.12343v1",
+      "tags": [
+        "keyword:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-augmented NLP for medical narratives on social media",
+      "llm_evidence_cn": "LLM增强的社交媒体医学文本处理",
+      "llm_evidence": "LLM增强的社交媒体医学文本处理",
+      "canonical_evidence": "LLM增强的社交媒体医学文本处理",
+      "llm_tldr_en": "Uses LLMs to normalize therapy mentions and analyze sentiment in patient-reported depression narratives.",
+      "llm_tldr_cn": "利用LLM对社交媒体上的抑郁症患者叙述进行疗法规范化和情感分析。",
+      "llm_tldr": "利用LLM对社交媒体上的抑郁症患者叙述进行疗法规范化和情感分析。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Natural language processing for medical records and texts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.10519v1",
+      "title": "Visually-Guided Controllable Medical Image Generation via Fine-Grained Semantic Disentanglement",
+      "abstract": "Medical image synthesis is crucial for alleviating data scarcity and privacy constraints. However, fine-tuning general text-to-image (T2I) models remains challenging, mainly due to the significant modality gap between complex visual details and abstract clinical text. In addition, semantic entanglement persists, where coarse-grained text embeddings blur the boundary between anatomical structures and imaging styles, thus weakening controllability during generation. To address this, we propose a Visually-Guided Text Disentanglement framework. We introduce a cross-modal latent alignment mechanism that leverages visual priors to explicitly disentangle unstructured text into independent semantic representations. Subsequently, a Hybrid Feature Fusion Module (HFFM) injects these features into a Diffusion Transformer (DiT) through separated channels, enabling fine-grained structural control. Experimental results in three datasets demonstrate that our method outperforms existing approaches in terms of generation quality and significantly improves performance on downstream classification tasks. The source code is available at https://github.com/hx111/VG-MedGen.",
+      "authors": [
+        "Xin Huang",
+        "Junjie Liang",
+        "Qingshan Hou",
+        "Peng Cao",
+        "Jinzhu Yang",
+        "Xiaoli Liu",
+        "Osmar R. Zaiane"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-11T08:20:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.10519v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Generative AI for medical image synthesis",
+      "llm_evidence_cn": "用于医学图像合成的生成式人工智能",
+      "llm_evidence": "用于医学图像合成的生成式人工智能",
+      "canonical_evidence": "用于医学图像合成的生成式人工智能",
+      "llm_tldr_en": "Proposes a framework for controllable medical image generation by disentangling clinical text and visual priors.",
+      "llm_tldr_cn": "提出一种视觉引导的文本解耦框架，实现可控且高质量的医学图像合成。",
+      "llm_tldr": "提出一种视觉引导的文本解耦框架，实现可控且高质量的医学图像合成。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.10570v1",
+      "title": "End-to-End Chatbot Evaluation with Adaptive Reasoning and Uncertainty Filtering",
+      "abstract": "Large language models (LLMs) combined with retrieval augmented generation have enabled the deployment of domain-specific chatbots, but these systems remain prone to generating unsupported or incorrect answers. Reliable evaluation is therefore critical, yet manual review is costly and existing frameworks often depend on curated test sets and static metrics, limiting scalability. We propose an end-to-end automatic evaluator designed to substantially reduce human effort. Our system generates Q\\&A pairs directly from the underlying knowledge base, uses LLMs to judge chatbot responses against reference answers, and applies confidence-based filtering to highlight uncertain cases. Applied to a Vietnamese news dataset, the evaluator achieves high agreement with human judgments while significantly lowering review overhead. The framework is modular and language-agnostic, making it readily adaptable to diverse domains. This work introduces a practical, scalable solution for evaluating chatbots with minimal reliance on manual intervention.",
+      "authors": [
+        "Nhi Dang",
+        "Tung Le",
+        "Huy Tien Nguyen"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-11T09:25:35+00:00",
+      "link": "https://arxiv.org/pdf/2603.10570v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "end-to-end automatic evaluator for domain-specific chatbots",
+      "llm_evidence_cn": "领域特定聊天机器人的端到端自动评估器",
+      "llm_evidence": "领域特定聊天机器人的端到端自动评估器",
+      "canonical_evidence": "领域特定聊天机器人的端到端自动评估器",
+      "llm_tldr_en": "Develops an automated evaluation framework for domain-specific chatbots using adaptive reasoning.",
+      "llm_tldr_cn": "开发了一种利用自适应推理的领域特定聊天机器人自动评估框架。",
+      "llm_tldr": "开发了一种利用自适应推理的领域特定聊天机器人自动评估框架。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.12787v1",
+      "title": "Generalized Recognition of Basic Surgical Actions Enables Skill Assessment and Vision-Language-Model-based Surgical Planning",
+      "abstract": "Artificial intelligence, imaging, and large language models have the potential to transform surgical practice, training, and automation. Understanding and modeling of basic surgical actions (BSA), the fundamental unit of operation in any surgery, is important to drive the evolution of this field. In this paper, we present a BSA dataset comprising 10 basic actions across 6 surgical specialties with over 11,000 video clips, which is the largest to date. Based on the BSA dataset, we developed a new foundation model that conducts general-purpose recognition of basic actions. Our approach demonstrates robust cross-specialist performance in experiments validated on datasets from different procedural types and various body parts. Furthermore, we demonstrate downstream applications enabled by the BAS foundation model through surgical skill assessment in prostatectomy using domain-specific knowledge, and action planning in cholecystectomy and nephrectomy using large vision-language models. Multinational surgeons' evaluation of the language model's output of the action planning explainable texts demonstrated clinical relevance. These findings indicate that basic surgical actions can be robustly recognized across scenarios, and an accurate BSA understanding model can essentially facilitate complex applications and speed up the realization of surgical superintelligence.",
+      "authors": [
+        "Mengya Xu",
+        "Daiyun Shen",
+        "Jie Zhang",
+        "Hon Chi Yip",
+        "Yujia Gao",
+        "Cheng Chen",
+        "Dillan Imans",
+        "Yonghao Long",
+        "Yiru Ye",
+        "Yixiao Liu",
+        "Rongyun Mai",
+        "Kai Chen",
+        "Hongliang Ren",
+        "Yutong Ban",
+        "Guangsuo Wang",
+        "Francis Wong",
+        "Chi-Fai Ng",
+        "Kee Yuan Ngiam",
+        "Russell H. Taylor",
+        "Daguang Xu",
+        "Yueming Jin",
+        "Qi Dou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-13T08:46:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.12787v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Vision-Language-Model-based Surgical Planning and action recognition",
+      "llm_evidence_cn": "基于视觉语言模型的手术规划与动作识别",
+      "llm_evidence": "基于视觉语言模型的手术规划与动作识别",
+      "canonical_evidence": "基于视觉语言模型的手术规划与动作识别",
+      "llm_tldr_en": "Develops a foundation model for surgical action recognition and VLM-based surgical planning.",
+      "llm_tldr_cn": "开发了用于手术动作识别和基于视觉语言模型手术规划的基础模型。",
+      "llm_tldr": "开发了用于手术动作识别和基于视觉语言模型手术规划的基础模型。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.10967v1",
+      "title": "Med-DualLoRA: Local Adaptation of Foundation Models for 3D Cardiac MRI",
+      "abstract": "Foundation models (FMs) show great promise for robust downstream performance across medical imaging tasks and modalities, including cardiac magnetic resonance (CMR), following task-specific adaptation. However, adaptation using single-site data may lead to suboptimal performance and increased model bias, while centralized fine-tuning on clinical data is often infeasible due to privacy constraints. Federated fine-tuning offers a privacy-preserving alternative; yet conventional approaches struggle under heterogeneous, non-IID multi-center data and incur substantial communication overhead when adapting large models. In this work, we study federated FM fine-tuning for 3D CMR disease detection and propose Med-DualLoRA, a client-aware parameter-efficient fine-tuning (PEFT) federated framework that disentangles globally shared and local low-rank adaptations (LoRA) through additive decomposition. Global and local LoRA modules are trained locally, but only the global component is shared and aggregated across sites, keeping local adapters private. This design improves personalization while significantly reducing communication cost, and experiments show that adapting only two transformer blocks preserves performance while further improving efficiency. We evaluate our method on a multi-center state-of-the-art cine 3D CMR FM fine-tuned for disease detection using ACDC and combined M\\&Ms datasets, treating each vendor as a federated client. Med-DualLoRA achieves statistically significant improved performance (balanced accuracy 0.768, specificity 0.612) compared to other federated PEFT baselines, while maintaining communication efficiency. Our approach provides a scalable solution for local federated adaptation of medical FMs under realistic clinical constraints.",
+      "authors": [
+        "Joan Perramon-Llussà",
+        "Amelia Jiménez-Sánchez",
+        "Grzegorz Skorupko",
+        "Fotis Avgoustidis",
+        "Carlos Martín-Isla",
+        "Karim Lekadir",
+        "Polyxeni Gkontra"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-11T16:52:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.10967v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Parameter-efficient fine-tuning of foundation models for medical imaging",
+      "llm_evidence_cn": "医学影像基础模型的高效参数微调",
+      "llm_evidence": "医学影像基础模型的高效参数微调",
+      "canonical_evidence": "医学影像基础模型的高效参数微调",
+      "llm_tldr_en": "Proposes Med-DualLoRA for privacy-preserving federated fine-tuning of foundation models on 3D cardiac MRI data.",
+      "llm_tldr_cn": "提出 Med-DualLoRA 框架，用于在隐私保护下对 3D 心脏 MRI 基础模型进行联邦微调。",
+      "llm_tldr": "提出 Med-DualLoRA 框架，用于在隐私保护下对 3D 心脏 MRI 基础模型进行联邦微调。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.12248v1",
+      "title": "Matching Features, Not Tokens: Energy-Based Fine-Tuning of Language Models",
+      "abstract": "Cross-entropy (CE) training provides dense and scalable supervision for language models, but it optimizes next-token prediction under teacher forcing rather than sequence-level behavior under model rollouts. We introduce a feature-matching objective for language-model fine-tuning that targets sequence-level statistics of the completion distribution, providing dense semantic feedback without requiring a task-specific verifier or preference model. To optimize this objective efficiently, we propose energy-based fine-tuning (EBFT), which uses strided block-parallel sampling to generate multiple rollouts from nested prefixes concurrently, batches feature extraction over these rollouts, and uses the resulting embeddings to perform an on-policy policy-gradient update. We present a theoretical perspective connecting EBFT to KL-regularized feature-matching and energy-based modeling. Empirically, across Q&A coding, unstructured coding, and translation, EBFT matches RLVR and outperforms SFT on downstream accuracy while achieving a lower validation cross-entropy than both methods.",
+      "authors": [
+        "Samy Jelassi",
+        "Mujin Kwun",
+        "Rosie Zhao",
+        "Yuanzhi Li",
+        "Nicolo Fusi",
+        "Yilun Du",
+        "Sham M. Kakade",
+        "Carles Domingo-Enrich"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-12T17:57:50+00:00",
+      "link": "https://arxiv.org/pdf/2603.12248v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "energy-based fine-tuning for language models using feature matching",
+      "llm_evidence_cn": "基于特征匹配的语言模型能量微调方法",
+      "llm_evidence": "基于特征匹配的语言模型能量微调方法",
+      "canonical_evidence": "基于特征匹配的语言模型能量微调方法",
+      "llm_tldr_en": "Introduces a new fine-tuning objective for LLMs that could be applied to domain-specific medical datasets.",
+      "llm_tldr_cn": "引入一种新的大模型微调目标，可应用于特定领域的医疗数据集微调。",
+      "llm_tldr": "引入一种新的大模型微调目标，可应用于特定领域的医疗数据集微调。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.12932v2",
+      "title": "DS$^2$-Instruct: Domain-Specific Data Synthesis for Large Language Models Instruction Tuning",
+      "abstract": "Adapting Large Language Models (LLMs) to specialized domains requires high-quality instruction tuning datasets, which are expensive to create through human annotation. Existing data synthesis methods focus on general-purpose tasks and fail to capture domain-specific terminology and reasoning patterns. To address this, we introduce DS$^2$-Instruct, a zero-shot framework that generates domain-specific instruction datasets without human supervision. Our approach first generates task-informed keywords to ensure comprehensive domain coverage. It then creates diverse instructions by pairing these keywords with different cognitive levels from Bloom's Taxonomy. Finally, it uses self-consistency validation to ensure data quality. We apply this framework to generate datasets across seven challenging domains, such as mathematics, finance, and logical reasoning. Comprehensive evaluation demonstrates that models fine-tuned on our generated data achieve substantial improvements over existing data generation methods.",
+      "authors": [
+        "Ruiyao Xu",
+        "Noelle I. Samia",
+        "Han Liu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-13T12:25:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.12932v2",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Domain-specific data synthesis for LLM instruction tuning",
+      "llm_evidence_cn": "针对大语言模型指令微调的领域特定数据合成",
+      "llm_evidence": "针对大语言模型指令微调的领域特定数据合成",
+      "canonical_evidence": "针对大语言模型指令微调的领域特定数据合成",
+      "llm_tldr_en": "Introduces DS2-Instruct, a zero-shot framework for generating high-quality domain-specific instruction datasets.",
+      "llm_tldr_cn": "引入DS2-Instruct框架，无需人工监督即可生成高质量的领域特定指令微调数据集。",
+      "llm_tldr": "引入DS2-Instruct框架，无需人工监督即可生成高质量的领域特定指令微调数据集。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.11206v1",
+      "title": "Evidential learning driven Breast Tumor Segmentation with Stage-divided Vision-Language Interaction",
+      "abstract": "Breast cancer is one of the most common causes of death among women worldwide, with millions of fatalities annually. Magnetic Resonance Imaging (MRI) can provide various sequences for characterizing tumor morphology and internal patterns, and becomes an effective tool for detection and diagnosis of breast tumors. However, previous deep-learning based tumor segmentation methods have limitations in accurately locating tumor contours due to the challenge of low contrast between cancer and normal areas and blurred boundaries. Leveraging text prompt information holds promise in ameliorating tumor segmentation effect by delineating segmentation regions. Inspired by this, we propose text-guided Breast Tumor Segmentation model (TextBCS) with stage-divided vision-language interaction and evidential learning. Specifically, the proposed stage-divided vision-language interaction facilitates information mutual between visual and text features at each stage of down-sampling, further exerting the advantages of text prompts to assist in locating lesion areas in low contrast scenarios. Moreover, the evidential learning is adopted to quantify the segmentation uncertainty of the model for blurred boundary. It utilizes the variational Dirichlet to characterize the distribution of the segmentation probabilities, addressing the segmentation uncertainties of the boundaries. Extensive experiments validate the superiority of our TextBCS over other segmentation networks, showcasing the best breast tumor segmentation performance on publicly available datasets.",
+      "authors": [
+        "Jingxing Zhong",
+        "Qingtao Pan",
+        "Xuchang Zhou",
+        "Jiazhen Lin",
+        "Xinguo Zhuang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-11T18:24:07+00:00",
+      "link": "https://arxiv.org/pdf/2603.11206v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Text-guided vision-language interaction for tumor segmentation",
+      "llm_evidence_cn": "文本引导的视觉语言交互用于肿瘤分割",
+      "llm_evidence": "文本引导的视觉语言交互用于肿瘤分割",
+      "canonical_evidence": "文本引导的视觉语言交互用于肿瘤分割",
+      "llm_tldr_en": "Uses vision-language interaction to improve breast tumor segmentation in MRI scans.",
+      "llm_tldr_cn": "利用视觉语言交互技术改进MRI扫描中的乳腺肿瘤分割效果。",
+      "llm_tldr": "利用视觉语言交互技术改进MRI扫描中的乳腺肿瘤分割效果。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.13790v1",
+      "title": "Greedy Information Projection for LLM Data Selection",
+      "abstract": "We present \\emph{Greedy Information Projection} (\\textsc{GIP}), a principled framework for choosing training examples for large language model fine-tuning. \\textsc{GIP} casts selection as maximizing mutual information between a subset of examples and task-specific query signals, which may originate from LLM quality judgments, metadata, or other sources. The framework involves optimizing a closed-form mutual information objective defined using both data and query embeddings, naturally balancing {\\it quality} and {\\it diversity}. Optimizing this score is equivalent to maximizing the projection of the query embedding matrix onto the span of the selected data, which provides a geometric explanation for the co-emergence of quality and diversity. Building on this view, we employ a fast greedy matching-pursuit procedure with efficient projection-based updates. On instruction-following and mathematical reasoning datasets, \\textsc{GIP} selects small subsets that match full-data fine-tuning while using only a fraction of examples and compute, unifying quality-aware and diversity-aware selection for efficient fine-tuning.",
+      "authors": [
+        "Victor Ye Dong",
+        "Kuan-Yun Lee",
+        "Jiamei Shuai",
+        "Shengfei Liu",
+        "Yi Liu",
+        "Jian Jiao"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "published": "2026-03-14T06:42:20+00:00",
+      "link": "https://arxiv.org/pdf/2603.13790v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Data selection framework for LLM fine-tuning",
+      "llm_evidence_cn": "大语言模型微调的数据选择框架",
+      "llm_evidence": "大语言模型微调的数据选择框架",
+      "canonical_evidence": "大语言模型微调的数据选择框架",
+      "llm_tldr_en": "Presents a principled framework for selecting high-quality training examples for LLM fine-tuning.",
+      "llm_tldr_cn": "提出一种基于信息投影的原则性框架，用于为大语言模型微调选择高质量训练样本。",
+      "llm_tldr": "提出一种基于信息投影的原则性框架，用于为大语言模型微调选择高质量训练样本。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.13743v1",
+      "title": "Six Interventions for the Responsible and Ethical Implementation of Medical AI Agents",
+      "abstract": "Large language model (LLM)-based AI agents are increasingly capable of complex clinical reasoning and may soon participate in medical decision-making with limited or no real-time human oversight. This shift raises fundamental questions about how the core principles of medical ethics (i.e., beneficence, nonmaleficence, autonomy, and justice) can be upheld when the clinical responsibility extends to autonomous systems. Here we propose an ethics-by-design framework for medical AI agents comprising six practical interventions: auditable ethical reasoning modules, explicit human override conditions, structured patient preference profiles, AI-specific ethics oversight tools, global benchmarking repositories for ethical scenarios, and regulatory sandboxes for real-world evaluation. Together, these mechanisms aim to operationalize ethical governance for emerging clinical AI agents.   https://github.com/BissonTom/Ethical-Governance-of-Medical-AI-Agents",
+      "authors": [
+        "Tom Bisson",
+        "Henriette Voelker",
+        "Sanddhya Jayabalan",
+        "A John Iafrate",
+        "Jakob N Kather",
+        "Jochen K Lennerz"
+      ],
+      "primary_category": "cs.CY",
+      "categories": [
+        "cs.CY"
+      ],
+      "published": "2026-03-14T04:28:59+00:00",
+      "link": "https://arxiv.org/pdf/2603.13743v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "ethics-by-design framework for medical AI agents in clinical reasoning",
+      "llm_evidence_cn": "医疗AI智能体临床推理的伦理设计框架",
+      "llm_evidence": "医疗AI智能体临床推理的伦理设计框架",
+      "canonical_evidence": "医疗AI智能体临床推理的伦理设计框架",
+      "llm_tldr_en": "Proposes six interventions for the responsible and ethical implementation of medical AI agents.",
+      "llm_tldr_cn": "为医疗AI智能体的负责任和伦理实施提出了六项干预措施。",
+      "llm_tldr": "为医疗AI智能体的负责任和伦理实施提出了六项干预措施。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.12932v1",
+      "title": "DS$^2$-Instruct: Domain-Specific Data Synthesis for Large Language Models Instruction Tuning",
+      "abstract": "Adapting Large Language Models (LLMs) to specialized domains requires high-quality instruction tuning datasets, which are expensive to create through human annotation. Existing data synthesis methods focus on general-purpose tasks and fail to capture domain-specific terminology and reasoning patterns. To address this, we introduce DS$^2$-Instruct, a zero-shot framework that generates domain-specific instruction datasets without human supervision. Our approach first generates task-informed keywords to ensure comprehensive domain coverage. It then creates diverse instructions by pairing these keywords with different cognitive levels from Bloom's Taxonomy. Finally, it uses self-consistency validation to ensure data quality. We apply this framework to generate datasets across seven challenging domains, such as mathematics, finance, and logical reasoning. Comprehensive evaluation demonstrates that models fine-tuned on our generated data achieve substantial improvements over existing data generation methods.",
+      "authors": [
+        "Ruiyao Xu",
+        "Noelle I. Samia",
+        "Han Liu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-13T12:25:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.12932v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Domain-Specific Data Synthesis for LLM Instruction Tuning",
+      "llm_evidence_cn": "用于大模型指令微调的领域特定数据合成",
+      "llm_evidence": "用于大模型指令微调的领域特定数据合成",
+      "canonical_evidence": "用于大模型指令微调的领域特定数据合成",
+      "llm_tldr_en": "A zero-shot framework for generating domain-specific instruction datasets to adapt LLMs to specialized fields.",
+      "llm_tldr_cn": "一种零样本框架，用于生成领域特定指令集以使大模型适配专业领域。",
+      "llm_tldr": "一种零样本框架，用于生成领域特定指令集以使大模型适配专业领域。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

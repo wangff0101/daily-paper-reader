@@ -1,0 +1,161 @@
+Title: Med-DualLoRA: Local Adaptation of Foundation Models for 3D Cardiac MRI
+
+URL Source: https://arxiv.org/pdf/2603.10967v2
+
+Published Time: Wed, 18 Mar 2026 01:15:04 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# Med-DualLoRA: Local Adaptation of Foundation Models for 3D Cardiac MRI 
+
+Joan Perramon-Llussà 1B, Amelia Jiménez-Sánchez 1, Grzegorz Skorupko 1, Fotis Avgoustidis 1, Carlos Martín-Isla 1, Karim Lekadir 1,2, and Polyxeni Gkontra 1 
+
+> 1
+
+Artificial Intelligence in Medicine Lab (BCN-AIM), Departament de Matemàtiques i Informàtica, Universitat de Barcelona, Spain 
+
+B joan.perramon@ub.edu  
+
+> 2
+
+Institució Catalana de Recerca i Estudis Avançats (ICREA), Barcelona, Spain 
+
+Abstract. Foundation models (FMs) show great promise for robust downstream performance across medical imaging tasks and modalities, including cardiac magnetic resonance (CMR), following task-specific adap-tation. However, adaptation using single-site data may lead to subopti-mal performance and increased model bias, while centralized fine-tuning on clinical data is often infeasible due to privacy constraints. Federated fine-tuning offers a privacy-preserving alternative; yet conventional ap-proaches struggle under heterogeneous, non-IID multi-center data and incur substantial communication overhead when adapting large mod-els. In this work, we study federated FM fine-tuning for 3D CMR dis-ease detection and propose Med-DualLoRA, a client-aware parameter-efficient fine-tuning (PEFT) federated framework that disentangles glob-ally shared and local low-rank adaptations (LoRA) through additive de-composition. Global and local LoRA modules are trained locally, but only the global component is shared and aggregated across sites, keep-ing local adapters private. This design improves personalization while significantly reducing communication cost, and experiments show that adapting only two transformer blocks preserves performance while fur-ther improving efficiency. We evaluate our method on a multi-center state-of-the-art cine 3D CMR FM fine-tuned for disease detection using ACDC and combined M&Ms datasets, treating each vendor as a fed-erated client. Med-DualLoRA achieves statistically significant improved performance (balanced accuracy 0.768, specificity 0.612) compared to other federated PEFT baselines, while maintaining communication ef-ficiency. Our approach provides a scalable solution for local federated adaptation of medical FMs under realistic clinical constraints. 
+
+Keywords: Foundation model · CMR · Federated Learning · LoRA ·
+
+PEFT · Disease detection 
+
+# 1 Introduction 
+
+Cardiac magnetic resonance (CMR) is the reference modality for the assess-ment of cardiac heart structure and function, providing rich structural and  
+
+> arXiv:2603.10967v2 [cs.CV] 17 Mar 2026 2Perramon-Llussà et al.
+
+functional information for diagnosis, risk stratification, and longitudinal mon-itoring [19]. Although deep learning has demonstrated strong potential in au-tomating CMR-based tasks [15], most models are trained on data from a single institution and, therefore, exhibit limited generalization to external hospitals due to domain shift, scanner heterogeneity, and annotation variability [7, 27]. Foundation models (FMs) trained on large-scale heterogeneous datasets have re-cently demonstrated improved transferability across medical imaging tasks and modalities, including CMR, following task-specific adaptation [2, 10, 25]. How-ever, site-specific adaptation alone can fail to yield optimal performance and can increase model bias [4], while centralized fine-tuning using clinical data is often impractical due to privacy constrains [22, 12]. To address these challenges, federated fine-tuning of FMs provides a promis-ing privacy-preserving strategy for multi-site adaptation [18]. Nonetheless, fed-eration of large FMs involves repeated transmission of high-dimensional parame-ter updates, resulting in substantial communication and computational overhead that can be prohibitive in privacy-sensitive and resource-constrained clinical en-vironments [22]. Parameter-efficient fine-tuning (PEFT) techniques aim to adapt pretrained models while updating only a small subset of parameters. Linear probing represents the simplest PEFT strategy by freezing the backbone and training a lightweight task-specific head [24], whereas Low-Rank Adaptation (LoRA) injects low-rank adapters into pretrained models while freezing back-bone weights [9]. By reducing trainable parameters, these approaches improve communication efficiency in federated learning (FL) [18]. However, aggregating client-specific adapters into a single global model under heterogeneous (non-IID) data distributions can bias the model toward dominant clients, potentially lead-ing to suboptimal performance on minority or distribution-shifted centers [29]. To tackle this limitation, client-aware FL methods introduce client-specific components to better capture local characteristics. In the natural language pro-cessing domain, FedALoRA adaptively initializes local models before each train-ing iteration by fusing global and client parameters to balance general and domain-specific knowledge [26]. FDLoRA proposes dual LoRA modules that de-couple global and local adaptations with adaptive fusion in large language mod-els [21]. The concept of decoupling global and local representations was previ-ously explored in deep feed-forward architectures for 2D imaging, employing base and personalization layers to address heterogeneity in non-medical datasets [1]. Despite these advances, existing approaches in 3D medical imaging either rely on implicit regularization or modify aggregation heuristics [8], without explicitly disentangling globally transferable and client-specific low-rank adaptations. To bridge this gap, we propose Med-DualLoRA, a client-aware and commu-nication -efficient federated fine-tuning framework for 3D CMR FMs that ex-plicitly disentangles shared and local low-rank adaptations through an additive formulation. By separating globally transferable and site-specific representations, Med-DualLoRA improves robustness under distribution shift while maintaining efficient communication. Our contributions are summarized as follows: Title Suppressed Due to Excessive Length 3Client 1   
+
+> CineMA
+> CLS
+> Client N
+> CineMA
+> CLS
+> (b) Med-DualLoRA: Local federated adaptation
+> CLS
+> CineMA
+> Server
+> Client i
+> CineMA
+> CLS
+> Server aggregation: Client update:
+> CineMA
+> CLS
+> Full-ft
+> (a) Baselines
+> Head-only
+> BACineMA
+> CLS
+> LoRA
+> CineMA
+> CLS
+
+Fig. 1. (a) Fine-tuning baselines. (b) Our Med-DualLoRA method is a dual low-rank adaptation framework for collaborative learning of transferable global rep-resentations with reduced communication, while preserving client-specific differences under heterogeneous data. CLS: classifier head. 
+
+1. We present the first in-depth analysis of key fine-tuning strategies for 3D CMR FMs in multi-center settings, using CineMA [6] as a case study. 2. We introduce Med-DualLoRA, a federated fine-tuning method for medical imaging FMs that learns global and client-specific adaptations separately. To the best of our knowledge, this is the first work to introduce such structural separation for federated adaptation of 3D medical imaging FMs. 3. We validate the proposed framework on multi-center CMR disease detec-tion across two publicly available MICCAI challenge datasets (ACDC and M&Ms), demonstrating statistically significant improved cross-center gener-alization and per-site robustness over federated PEFT baselines. 4. We show that applying Med-DualLoRA to only two FM transformer blocks preserves performance while substantially reducing communication cost. 
+
+# 2 Med-DualLora Framework 
+
+Inspired by LoRA, we inject trainable low-rank adapters into the linear projec-tions of the attention layers of a frozen state-of-the-art CMR pretrained FM. These adapters augment the original transformations through additive low-rank updates rather than replacing the backbone weights, preserving the pretrained representations while introducing only a small number of additional parameters. An overview of the proposed Med-DualLoRA architecture is provided in Fig. 1b. 
+
+Federated Dual Low-Rank Adaptation. For a linear projection W ∈ Rd×m
+
+and input x ∈ Rm, being m the input dimensionality and d the output dimen-4 Perramon-Llussà et al. 
+
+sionality of the linear projection, we replace it with a dual LoRA module. For client i, the forward pass is: 
+
+fi(x) = W x + αr Bg Ag x + αr Bli Ali x, (1) where Ag , B g ∈ Rr×m, Rd×r denote the shared (global) LoRA parameters, and Ali , B li ∈ Rr×m, Rd×r denote the client-specific (local) LoRA parameters. Here, r is the rank of the adaptation and α is a scaling factor. During local training, both global and local parameters are trainable. We keep the backbone weights frozen. The total number of trainable parameters per layer is 2r(d + m),which is orders of magnitude smaller than full fine-tuning. 
+
+Federated Optimization. Each client optimizes both global and local LoRA parameters on its own dataset. After local training, only the global parameters are transmitted and aggregated using weighted averaging: 
+
+Ag ←
+
+> N
+
+X
+
+> i=1
+
+ni
+
+n Agi , Bg ←
+
+> N
+
+X
+
+> i=1
+
+ni
+
+n Bgi , (2) where ni is the number of samples of client i and n = P 
+
+> i
+
+ni. The local parameters (Ali , B li ) remain strictly private and are never shared. This separa-tion enables collaborative learning of globally transferable representations with reduced communication while capturing client-specific variations under hetero-geneous distributions. 
+
+# 3 Experimental Setup 
+
+Datasets. We fine-tune and evaluate our method on two publicly available cine cardiac MRI benchmarks: the Automated Cardiac Diagnosis Challenge (ACDC) [3] and a curated combined version of the Multi-centre, Multi-vendor & Multi-disease (M&Ms-1 and M&Ms-2) datasets [5, 16]. The combined M&Ms collection follows the curation described in [23]. ACDC comprises 150 patients acquired under controlled conditions, whereas the merged M&Ms dataset con-tains 543 multi-center, multi-vendor acquisitions from five institutions and four vendors (Siemens, GE, Philips, Canon), reflecting realistic clinical variability in scanner models, field strengths, slice thickness, and acquisition protocols. Images are preprocessed following the original CineMA pipeline [6]. Only SAX images of the end-diastole and end-systole frames are used for binary dis-ease detection. We use the original ACDC dataset train/val/test splits. For the combined M&Ms dataset, we retain the split assignments from M&Ms2 where available, and use the corresponding M&Ms1 splits for images not included in M&Ms2. Vendors and ACDC are treated as separate federated clients. Class distributions are reported in Table 1. Title Suppressed Due to Excessive Length 5                                                            
+
+> Table 1. Distribution of diseased (DIS) and non-diseased (NOR) samples across clients and splits, including overall totals. Canon GE Philips Siemens ACDC Total
+> DIS NOR DIS NOR DIS NOR DIS NOR DIS NOR DIS NOR Train 28 753 20 78 26 151 16 72 18 382 87 Val 3414 115 732 38272 17 Test 5315 219 434 340 10 113 22
+> Total 36 14 82 23 112 37 217 22 120 30 567 126
+
+Baselines. While our method is model agnostic, we choose CineMA FM [6] as the pretrained backbone for our experiments, given its strong performance on diverse clinical CMR downstream tasks. We compare our federated LoRA method against three data centralized and two data FL baselines (Fig. 1a). Cen-tralized full fine-tuning trains the entire backbone and head on pooled data, providing an upper-bound performance reference. Linear probing, i.e. head-only tuning, in both centralized and FL settings, updates only the classification head while keeping the backbone frozen, representing minimal communication. Stan-dard LoRA centralized and FL fine-tunes low-rank adapters in select transformer blocks, illustrating the trade-off between trainable parameters and performance. We also compare our method to client-specific models trained only with their private data to have a local baseline (Fig. 2a). 
+
+Federated Training Protocol. At initialization, the central server distributes the pretrained backbone to all participating clients. During each communication round, clients perform local optimization using their private data, updating only the designated trainable components (classification head, LoRA adapters, or dual LoRA adapters), while the backbone remains frozen. The resulting updates are transmitted to the server and aggregated using FedAvg [17]. For the Med-DualLoRA scenario, only the global LoRA adapters are shared and aggregated across clients, while keeping the local LoRA on-site. The aggregated parameters are then redistributed to the clients for the next training round and added to local LoRA modules as in Equation 1 (Fig.1b). At inference time, for Med-DualLoRA, each client loads the common global LoRA and their private local LoRA into transformer layers and combines them in the same manner. 
+
+Implementation Details. All models are implemented in PyTorch. LoRA adapters are injected into the attention and MLP projections of selected trans-former blocks. Based on validation experiments with different LoRA ranks and scaling factors, we select r = 4 and α = 8 as it provides the best trade-off between communication efficiency and performance. For Med-DualLoRA, global and lo-cal adapters share the same rank, scaling factor, and target modules. Models are fine-tuned using the cross-entropy loss for binary classification. Optimization is performed using AdamW with weight decay, with learning rates selected per configuration based on dataset size and training setting. Centralized models are trained for up to 500 epochs with early stopping based on validation loss, while 6 Perramon-Llussà et al.                                                                                    
+
+> Table 2. Performance metrics (mean ±std) for centralized and federated baselines, and Med-DualLoRA. Asterisks indicate statistically significant differences compared to Med-DualLoRA using paired t-test: ∗p<0.05, ∗∗ p<0.01.
+> Experiment Balanced Acc. Sensitivity Specificity F1 Centralized
+> Full-ft 0.745 ±0.049 0.953 ±0.013 0.538 ±0.111 0.927 ±0.006 Head-only 0.810 ±0.124 0.949 ±0.006 0.672 ±0.250 0.937 ±0.022 LoRA 0.780 ±0.042 0.943 ±0.017 0.616 ±0.092 0.929 ±0.009
+> Federated
+> Head-only 0.514 ±0.024 ∗∗ 0.997 ±0.005 ∗0.030 ±0.053 ∗∗ 0.909 ±0.000 LoRA 0.693 ±0.032 ∗0.970 ±0.005 0.417 ±0.061 ∗0.927 ±0.006 Med-Dual LoRA 0.768 ±0.026 0.924 ±0.020 0.612 ±0.039 0.921 ±0.009
+
+in the FL setting each client performs one local epoch per communication round using the same stopping criterion. Centralized experiments are conducted on a single NVIDIA GeForce RTX 4090 GPU, while federated experiments run on a dual NVIDIA L40S system to emulate concurrent client updates. All experiments are run for three random seeds and averaged across seeds. We make the code publicly available at https://github.com/joanperramon/Med-DualLoRA under the MIT License. The version used for the MICCAI 2026 experiments is archived under the GitHub tag ‘miccai2026‘ to ensure reproducibility. 
+
+Evaluation Metrics All trained models are evaluated on the original external test set of each dataset. For disease detection, and given the class imbalance, we report balanced accuracy, sensitivity, specificity, and F1-score per client. Moreover, we compute a sample-size–weighted average across clients for both centralized and FL settings, consistent with the FedAvg aggregation protocol. Client-specific models are trained and evaluated on their local dataset. Statistical significance across experimental scenarios is assessed using paired t-tests. 
+
+Communication Budget & LoRA Blocks Analysis. To quantify the trade-off between predictive performance and communication cost, we conduct a struc-tured ablation study varying the number of transformer blocks equipped with LoRA adapters. Since the backbone of the FM remains frozen, only the trainable components are transmitted during federated aggregation. Thus, the communi-cation overhead scales with the number of adapted blocks and the rank r.For a linear layer W ∈ Rd×m equipped with LoRA of rank r, the number of transmitted parameters scales linearly with the layer dimensions and rank. When LoRA is applied to L transformer blocks and P projections per block, the per-round communication cost is Params comm = L · P · r(d + m). The communication budget in MB is computed by multiplying the number of transmitted parameters by their storage size (32-bit floating point in our experiments). Title Suppressed Due to Excessive Length 7(a) (a)  (b)      
+
+> Fig. 2. (a) Client-wise performance under centralized, client-specific, and federated training. Model performance is shown per client and averaged across clients (size-normalized); error bars indicate mean ±standard deviation across runs.
+> (b) Pareto frontier of communication cost versus balanced accuracy. Stars denote frontier configurations, illustrating the trade-off between performance and com-munication per round.
+
+# 4 Results 
+
+Centralized training provides an upper bound. As expected, centralized training yields the strongest overall performance (Table 2). Full fine-tuning achieves a weighted balanced accuracy of 0.745 ± 0.049, while centralized head-only fine-tuning reaches 0.810 ± 0.124. LoRA in the centralized setting per-forms comparably (0.780 ± 0.042), demonstrating that PEFT can approximate full fine-tuning when data is pooled without statistically significant differences. Across sites, sensitivity is consistently high ( > 0.94 ), whereas specificity varies substantially, indicating a bias toward the diseased (majority) class. 
+
+Strong inter-client variability in local models. Client-specific models trained on local datasets show a drop in performance with respect to data centralized models (Fig. 2a). Smaller datasets such as Canon exhibit low balanced accuracy (0.611 ± 0.096) and very low specificity (0.222 ± 0.192), suggesting majority-class bias due to limited sample size. In contrast, larger datasets such as GE achieve substantially higher performance (balanced accuracy 0.756 ± 0.067). The variability observed across vendors highlights the statistical heterogeneity. 
+
+Standard PEFT degrades in FL. When moving to FL, performance drops significantly for PEFT baselines (Table 2). Federated head-only fine-tuning col-lapses to a balanced accuracy of 0.514 ± 0.024, driven by near-perfect sensitivity (0.997 ± 0.005), but extremely low specificity (0.03 ± 0.053), indicating that it suffers from severe class imbalance and insufficient model capacity. Federated LoRA improves performance (0.693 ± 0.032 balanced accuracy) but remains be-low its centralized counterpart, although the drop is not statistically significant. These results suggest that reducing trainable parameters alone is insufficient in heterogeneous FL, where local updates are data-limited and statistically mis-aligned across clients. 8 Perramon-Llussà et al. 
+
+Med-DualLoRA improves robustness in FL. Our proposed Med-DualLoRA methodology achieves a balanced accuracy of 0.768 ± 0.026 in the FL setting, offering a statistically significant improvement over federated LoRA (+7.5%; p=0.0371) and head-only fine-tuning (+25.4%; p<0.001). Importantly, Med-DualLoRA restores specificity (0.612 vs. 0.417 for LoRA and 0.03 for head-only) while maintaining high sensitivity (0.924), leading to balanced perfor-mance across classes. Variance across runs remains low (std 0.026 for balanced accuracy), indicating stable optimization. Although the F1-score for LoRA is numerically higher, this difference is not statistically significant. Notably, Med-DualLoRA performs comparably to centralized fine-tuning (p>0.05), effectively closing the federated–centralized performance gap. Furthermore, as illustrated in Fig. 2a, Med-DualLoRA maintains competitive performance across vendors, including smaller datasets, supporting the hypothesis that additive separation of global and local low-rank components mitigates cross-client interference. 
+
+Communication-accuracy trade-off. Pareto frontier analysis reveals the trade-off between communication cost per FL round and predictive performance (Fig. 2b). Head-only adaptation provides the minimal communication baseline (3 MB/round) but lies at the lowest accuracy point (0.514 ± 0.024). Med-DualLoRA with all transformer blocks (12) achieves the highest balanced ac-curacy (0.768 ± 0.026) at ∼154 MB/round and dominates standard LoRA at the same communication cost. Notably, applying Med-DualLoRA to only two transformer blocks ( ∼28 MB/round) already reaches near-optimal performance (0.7465 ± 0.0178), placing it on the efficiency frontier. Intermediate configura-tions (4–10 blocks) lie below the frontier, indicating diminishing returns. Overall, Med-DualLoRA offers the most favorable balance between robustness and com-munication efficiency in heterogeneous FL. 
+
+# 5 Conclusions and Discussion 
+
+While centralized training provides an optimistic upper bound, it is often imprac-tical in real-world. Simple PEFT strategies tend to degrade under heterogeneous, non-IID client distributions. Med-DualLoRA addresses this limitation by disen-tangling shared and local low-rank adaptations, maintaining performance with respect to centralized and reducing communication overhead. Notably, we proved that adapting only a small subset of transformer blocks already approaches peak performance, underscoring the efficiency of the proposed design in small and im-balanced local datasets. Performance variability across vendors reflects realistic domain shift and lim-ited minority-class representation, particularly in small cohorts where metric in-stability is expected. We preserved the original ACDC and M&Ms data splits to ensure comparability with prior work, although this may have amplified client-level class imbalance, suggesting stratified partitioning as future work. Although FedAvg enables collaborative learning, it favors dominant distributions under non-IID settings [17]. Integrating Med-DualLoRA with advanced aggregation Title Suppressed Due to Excessive Length 9
+
+strategies such as FedProx [14], Scaffold [13], or the Rate-My-LoRA approach [8] may further improve performance and avoid site-specific bias. Finally, broader comparisons with emerging PEFT methods beyond LoRA, such as AdapterFu-sion [20] or vision prompt tuning [11], and extension to recent multimodal CMR FMs [28] remain promising directions for future work. Overall, Med-DualLoRA demonstrates that structurally disentangling shared and local adaptations enables effective, client-aware, and communication-efficient federated fine-tuning of 3D CMR FMs, supporting scalable and privacy-preserving deployment across heterogeneous clinical environments. 
+
+Acknowledgments. This work is part of the project TrustAI-ES (PID2023-146751OA-I00), funded by MICIU/AEI/10.13039/501100011033. 
+
+Disclosure of Interests. None. 
+
+# References 
+
+1. Arivazhagan, M.G., Aggarwal, V., Singh, A.K., Choudhary, S.: Federated learning with personalization layers. arXiv preprint arXiv:1912.00818 (2019) 2. Azizi, S., Mustafa, B., Ryan, F., Beaver, Z., Freyberg, J., Deaton, J., Loh, A., Karthikesalingam, A., Kornblith, S., Chen, T., et al.: Big self-supervised models advance medical image classification. In: Proceedings of the IEEE/CVF interna-tional conference on computer vision. pp. 3478–3488 (2021) 3. Bernard, O., Lalande, A., Zotti, C., Cervenansky, F., Yang, X., Heng, P.A., Cetin, I., Lekadir, K., Camara, O., Ballester, M.A.G., et al.: Deep learning techniques for automatic mri cardiac multi-structures segmentation and diagnosis: is the problem solved? IEEE transactions on medical imaging 37 (11), 2514–2525 (2018) 4. Bommasani, R., Hudson, D.A., Adeli, E., Altman, R., Arora, S., von Arx, S., Bernstein, M.S., Bohg, J., Bosselut, A., Brunskill, E., et al.: On the opportunities and risks of foundation models. arXiv preprint arXiv:2108.07258 (2021) 5. Campello, V.M., Gkontra, P., Izquierdo, C., Martin-Isla, C., Sojoudi, A., Full, P.M., Maier-Hein, K., Zhang, Y., He, Z., Ma, J., et al.: Multi-centre, multi-vendor and multi-disease cardiac segmentation: the m&ms challenge. IEEE Transactions on Medical Imaging 40 (12), 3543–3554 (2021) 6. Fu, Y., Bai, W., Yi, W., Manisty, C., Bhuva, A.N., Treibel, T.A., Moon, J.C., Clarkson, M.J., Davies, R.H., Hu, Y.: A versatile foundation model for cine cardiac magnetic resonance image analysis tasks. arXiv preprint arXiv:2506.00679 (2025) 7. Guan, H., Liu, M.: Domain adaptation for medical image analysis: a survey. IEEE Transactions on Biomedical Engineering 69 (3), 1173–1185 (2021) 8. He, X., Shi, H., Han, L., Tan, C., Liu, B., Xu, Z., Ye, M., Axel, L., Li, K., Metaxas, D.: Rate-my-lora: Efficient and adaptive federated model tuning for cardiac mri segmentation. In: 2025 IEEE 22nd International Symposium on Biomedical Imag-ing (ISBI). pp. 1–5. IEEE (2025) 9. Hu, E.J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L., Chen, W., et al.: Lora: Low-rank adaptation of large language models. International Confer-ence on Learning Representations 1(2), 3 (2022) 10 Perramon-Llussà et al. 10. Jacob, A.J., Borgohain, I., Chitiboi, T., Sharma, P., Comaniciu, D., Rueckert, D.: Towards a cardiovascular magnetic resonance foundation model for multi-task car-diac image analysis. Journal of Cardiovascular Magnetic Resonance 27 (2), 101967 (2025) 11. Jia, M., Tang, L., Chen, B.C., Cardie, C., Belongie, S., Hariharan, B., Lim, S.N.: Visual prompt tuning. In: European conference on computer vision. pp. 709–727. Springer (2022) 12. Jiménez-Sánchez, A., Tardy, M., Ballester, M.A.G., Mateus, D., Piella, G.: Memory-aware curriculum federated learning for breast cancer classification. Com-puter Methods and Programs in Biomedicine 229 , 107318 (2023) 13. Karimireddy, S.P., Kale, S., Mohri, M., Reddi, S., Stich, S., Suresh, A.T.: Scaffold: Stochastic controlled averaging for federated learning. In: International conference on machine learning. pp. 5132–5143. PMLR (2020) 14. Li, T., Sahu, A.K., Zaheer, M., Sanjabi, M., Talwalkar, A., Smith, V.: Federated optimization in heterogeneous networks. Proceedings of Machine learning and sys-tems 2, 429–450 (2020) 15. Litjens, G., Kooi, T., Bejnordi, B.E., Setio, A.A.A., Ciompi, F., Ghafoorian, M., Van Der Laak, J.A., Van Ginneken, B., Sánchez, C.I.: A survey on deep learning in medical image analysis. Medical image analysis 42 , 60–88 (2017) 16. Martín-Isla, C., Campello, V.M., Izquierdo, C., Kushibar, K., Sendra-Balcells, C., Gkontra, P., Sojoudi, A., Fulton, M.J., Arega, T.W., Punithakumar, K., et al.: Deep learning segmentation of the right ventricle in cardiac mri: the m&ms chal-lenge. IEEE Journal of Biomedical and Health Informatics 27 (7), 3302–3313 (2023) 17. McMahan, B., Moore, E., Ramage, D., Hampson, S., y Arcas, B.A.: Communication-efficient learning of deep networks from decentralized data. In: Artificial Intelligence and Statistics. pp. 1273–1282. PMLR (2017) 18. Mouheb, K., Elbatel, M., Papma, J., Biessels, G.J., Claassen, J., Middelkoop, H., van Munster, B., van der Flier, W., Ramakers, I., Klein, S., et al.: Federated fine-tuning of sam-med3d for mri-based dementia classification. In: International Conference on Medical Image Computing and Computer-Assisted Intervention. pp. 69–79. Springer (2025) 19. Pennell, D.J.: Cardiovascular magnetic resonance. Circulation 121 (5), 692–705 (2010) 20. Pfeiffer, J., Kamath, A., Rücklé, A., Cho, K., Gurevych, I.: Adapterfusion: non-destructive task composition for transfer learning. arxiv e-prints. arXiv preprint arXiv:2005.00247 (2020) 21. Qi, J., Luan, Z., Huang, S., Fung, C., Yang, H., Qian, D.: Fdlora: Personalized federated learning of large language model via dual lora tuning. arXiv preprint arXiv:2406.07925 (2024) 22. Rieke, N., Hancox, J., Li, W., Milletari, F., Roth, H.R., Albarqouni, S., Bakas, S., Galtier, M.N., Landman, B.A., Maier-Hein, K., et al.: The future of digital health with federated learning. NPJ Digital Medicine 3(1), 119 (2020) 23. Skorupko, G., Avgoustidis, F., Martín-Isla, C., Garrucho, L., Kessler, D.A., Pu-jadas, E.R., Díaz, O., Bobowicz, M., Gwoździewicz, K., Bargalló, X., et al.: Feder-ated nnu-net for privacy-preserving medical image segmentation. Scientific Reports 
+
+15 (1), 38312 (2025) 24. Truong, T., Mohammadi, S., Lenga, M.: How transferable are self-supervised fea-tures in medical image classification tasks? In: Machine Learning for Health. pp. 54–74. PMLR (2021) Title Suppressed Due to Excessive Length 11 25. Wang, S., Safari, M., Li, Q., Chang, C.W., Qiu, R.L., Roper, J., Yu, D.S., Yang, X.: Triad: Vision foundation model for 3d magnetic resonance imaging. Research Square pp. rs–3 (2025) 26. Yi, X., Hu, C., Cai, B., Huang, H., Chen, Y., Wang, K.: Fedalora: Adaptive local lora aggregation for personalized federated learning in llm. IEEE Internet of Things Journal 12 (24), 51854–51865 (2025). https://doi.org/10.1109/JIOT.2025.3582427 27. Zech, J.R., Badgeley, M.A., Liu, M., Costa, A.B., Titano, J.J., Oermann, E.K.: Variable generalization performance of a deep learning model to detect pneumo-nia in chest radiographs: a cross-sectional study. PLoS medicine 15 (11), e1002683 (2018) 28. Zhang, Y., Hager, P., Liu, C., Shit, S., Chen, C., Rueckert, D., Pan, J.: Towards cardiac mri foundation models: Comprehensive visual-tabular representations for whole-heart assessment and beyond. Medical Image Analysis p. 103756 (2025) 29. Zhao, Y., Li, M., Lai, L., Suda, N., Civin, D., Chandra, V.: Federated learning with non-iid data. arXiv preprint arXiv:1806.00582 (2018)
