@@ -1,0 +1,2332 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-19T08:35:11.182686+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 60,
+    "deep_cap": 6,
+    "deep_selected": 46,
+    "quick_candidates": 31,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.09638v1",
+      "title": "Tracking Cancer Through Text: Longitudinal Extraction From Radiology Reports Using Open-Source Large Language Models",
+      "abstract": "Radiology reports capture crucial longitudinal information on tumor burden, treatment response, and disease progression, yet their unstructured narrative format complicates automated analysis. While large language models (LLMs) have advanced clinical text processing, most state-of-the-art systems remain proprietary, limiting their applicability in privacy-sensitive healthcare environments. We present a fully open-source, locally deployable pipeline for longitudinal information extraction from radiology reports, implemented using the \\texttt{llm\\_extractinator} framework. The system applies the \\texttt{qwen2.5-72b} model to extract and link target, non-target, and new lesion data across time points in accordance with RECIST criteria. Evaluation on 50 Dutch CT Thorax/Abdomen report pairs yielded high extraction performance, with attribute-level accuracies of 93.7\\% for target lesions, 94.9\\% for non-target lesions, and 94.0\\% for new lesions. The approach demonstrates that open-source LLMs can achieve clinically meaningful performance in multi-timepoint oncology tasks while ensuring data privacy and reproducibility. These results highlight the potential of locally deployable LLMs for scalable extraction of structured longitudinal data from routine clinical text.",
+      "authors": [
+        "Luc Builtjes",
+        "Alessa Hering"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-10T13:13:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.09638v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Longitudinal extraction from radiology reports using open-source LLMs",
+      "llm_evidence_cn": "使用开源大模型从放射报告中进行纵向信息提取",
+      "llm_evidence": "使用开源大模型从放射报告中进行纵向信息提取",
+      "canonical_evidence": "使用开源大模型从放射报告中进行纵向信息提取",
+      "llm_tldr_en": "Develops an open-source pipeline using LLMs to extract cancer progression data from unstructured radiology reports.",
+      "llm_tldr_cn": "开发了一个使用大模型的开源流程，从非结构化放射报告中提取癌症进展数据。",
+      "llm_tldr": "开发了一个使用大模型的开源流程，从非结构化放射报告中提取癌症进展数据。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Natural language processing for medical records and texts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.09638v2",
+      "title": "Tracking Cancer Through Text: Longitudinal Extraction From Radiology Reports Using Open-Source Large Language Models",
+      "abstract": "Radiology reports capture crucial longitudinal information on tumor burden, treatment response, and disease progression, yet their unstructured narrative format complicates automated analysis. While large language models (LLMs) have advanced clinical text processing, most state-of-the-art systems remain proprietary, limiting their applicability in privacy-sensitive healthcare environments. We present a fully open-source, locally deployable pipeline for longitudinal information extraction from radiology reports, implemented using the llm_extractinator framework. The system applies the qwen2.5-72b model to extract and link target, non-target, and new lesion data across time points in accordance with RECIST criteria. Evaluation on 50 Dutch CT Thorax/Abdomen report pairs yielded high extraction performance, with attribute-level accuracies of 93.7% for target lesions, 94.9% for non-target lesions, and 94.0% for new lesions. The approach demonstrates that open-source LLMs can achieve clinically meaningful performance in multi-timepoint oncology tasks while ensuring data privacy and reproducibility. These results highlight the potential of locally deployable LLMs for scalable extraction of structured longitudinal data from routine clinical text.",
+      "authors": [
+        "Luc Builtjes",
+        "Alessa Hering"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-10T13:13:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.09638v2",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Information extraction from radiology reports using LLMs",
+      "llm_evidence_cn": "利用大模型从放射报告中提取信息",
+      "llm_evidence": "利用大模型从放射报告中提取信息",
+      "canonical_evidence": "利用大模型从放射报告中提取信息",
+      "llm_tldr_en": "Presents an open-source pipeline using Qwen2.5 for longitudinal cancer data extraction from radiology reports.",
+      "llm_tldr_cn": "展示了一个开源流水线，利用Qwen2.5从放射报告中提取纵向癌症数据。",
+      "llm_tldr": "展示了一个开源流水线，利用Qwen2.5从放射报告中提取纵向癌症数据。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Natural language processing for medical records and texts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10492v1",
+      "title": "Human-AI Co-reasoning for Clinical Diagnosis with Evidence-Integrated Language Agent",
+      "abstract": "We present PULSE, a medical reasoning agent that combines a domain-tuned large language model with scientific literature retrieval to support diagnostic decision-making in complex real-world cases. To evaluate its capabilities, we curated a benchmark of 82 authentic endocrinology case reports encompassing a broad spectrum of disease types and incidence levels. In controlled experiments, we compared PULSE's performance against physicians with varying levels of expertise-from residents to senior specialists-and examined how AI assistance influenced human diagnostic reasoning. PULSE attained expert-competitive accuracy, outperforming residents and junior specialists while matching senior specialist performance at both Top@1 and Top@4 thresholds. Unlike physicians, whose accuracy declined with disease rarity, PULSE maintained stable performance across incidence tiers. The agent also exhibited adaptive reasoning, increasing output length with case difficulty in a manner analogous to the longer deliberation observed among expert clinicians. When used collaboratively, PULSE enabled physicians to correct initial errors and broaden diagnostic hypotheses, but also introduced risks of automation bias. The study explores both serial and concurrent collaboration workflows, revealing that PULSE offers robust support across common and rare presentations. These findings underscore both the promise and the limitations of language model-based agents in clinical diagnosis, and offer a framework for evaluating their role in real-world decision-making.",
+      "authors": [
+        "Zhongzhen Huang",
+        "Yan Ling",
+        "Hong Chen",
+        "Ye Feng",
+        "Li Wu",
+        "Linjie Mu",
+        "Shaoting Zhang",
+        "Xiaofan Zhang",
+        "Kun Qian",
+        "Xiaomu Li"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-11T07:39:05+00:00",
+      "link": "https://arxiv.org/pdf/2603.10492v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Domain-tuned LLM for clinical diagnostic decision-making",
+      "llm_evidence_cn": "领域微调的大模型用于临床诊断决策",
+      "llm_evidence": "领域微调的大模型用于临床诊断决策",
+      "canonical_evidence": "领域微调的大模型用于临床诊断决策",
+      "llm_tldr_en": "PULSE is a medical reasoning agent that matches senior specialist accuracy in clinical diagnosis.",
+      "llm_tldr_cn": "PULSE是一个医疗推理智能体，在临床诊断准确率上达到了资深专家水平。",
+      "llm_tldr": "PULSE是一个医疗推理智能体，在临床诊断准确率上达到了资深专家水平。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical large language models for diagnosis and treatment",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10492v2",
+      "title": "Human-AI Co-reasoning for Clinical Diagnosis with Evidence-Integrated Language Agent",
+      "abstract": "We present PULSE, a medical reasoning agent that combines a domain-tuned large language model with scientific literature retrieval to support diagnostic decision-making in complex real-world cases. To evaluate its capabilities, we curated a benchmark of 82 authentic endocrinology case reports encompassing a broad spectrum of disease types and incidence levels. In controlled experiments, we compared PULSE's performance against physicians with varying levels of expertise-from residents to senior specialists-and examined how AI assistance influenced human diagnostic reasoning. PULSE attained expert-competitive accuracy, outperforming residents and junior specialists while matching senior specialist performance at both Top@1 and Top@4 thresholds. Unlike physicians, whose accuracy declined with disease rarity, PULSE maintained stable performance across incidence tiers. The agent also exhibited adaptive reasoning, increasing output length with case difficulty in a manner analogous to the longer deliberation observed among expert clinicians. When used collaboratively, PULSE enabled physicians to correct initial errors and broaden diagnostic hypotheses, but also introduced risks of automation bias. The study explores both serial and concurrent collaboration workflows, revealing that PULSE offers robust support across common and rare presentations. These findings underscore both the promise and the limitations of language model-based agents in clinical diagnosis, and offer a framework for evaluating their role in real-world decision-making.",
+      "authors": [
+        "Zhongzhen Huang",
+        "Yan Ling",
+        "Hong Chen",
+        "Ye Feng",
+        "Li Wu",
+        "Linjie Mu",
+        "Shaoting Zhang",
+        "Xiaofan Zhang",
+        "Kun Qian",
+        "Xiaomu Li"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-11T07:39:05+00:00",
+      "link": "https://arxiv.org/pdf/2603.10492v2",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Domain-tuned LLM for clinical diagnostic decision-making",
+      "llm_evidence_cn": "领域微调的大模型用于临床诊断决策",
+      "llm_evidence": "领域微调的大模型用于临床诊断决策",
+      "canonical_evidence": "领域微调的大模型用于临床诊断决策",
+      "llm_tldr_en": "PULSE is a medical reasoning agent that matches senior specialist accuracy in clinical diagnosis.",
+      "llm_tldr_cn": "PULSE是一个医疗推理智能体，在临床诊断准确率上达到了资深专家水平。",
+      "llm_tldr": "PULSE是一个医疗推理智能体，在临床诊断准确率上达到了资深专家水平。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical large language models for diagnosis and treatment",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10560v1",
+      "title": "PET-F2I: A Comprehensive Benchmark and Parameter-Efficient Fine-Tuning of LLMs for PET/CT Report Impression Generation",
+      "abstract": "PET/CT imaging is pivotal in oncology and nuclear medicine, yet summarizing complex findings into precise diagnostic impressions is labor-intensive. While LLMs have shown promise in medical text generation, their capability in the highly specialized domain of PET/CT remains underexplored. We introduce PET-F2I-41K (PET Findings-to-Impression Benchmark), a large-scale benchmark for PET/CT impression generation using LLMs, constructed from over 41k real-world reports. Using PET-F2I-41K, we conduct a comprehensive evaluation of 27 models across proprietary frontier LLMs, open-source generalist models, and medical-domain LLMs, and we develop a domain-adapted 7B model (PET-F2I-7B) fine-tuned from Qwen2.5-7B-Instruct via LoRA. Beyond standard NLG metrics (e.g., BLEU-4, ROUGE-L, BERTScore), we propose three clinically grounded metrics - Entity Coverage Rate (ECR), Uncovered Entity Rate (UER), and Factual Consistency Rate (FCR) - to assess diagnostic completeness and factual reliability. Experiments reveal that neither frontier nor medical-domain LLMs perform adequately in zero-shot settings. In contrast, PET-F2I-7B achieves substantial gains (e.g., 0.708 BLEU-4) and a 3.0x improvement in entity coverage over the strongest baseline, while offering advantages in cost, latency, and privacy. Beyond this modeling contribution, PET-F2I-41K establishes a standardized evaluation framework to accelerate the development of reliable and clinically deployable reporting systems for PET/CT.",
+      "authors": [
+        "Yuchen Liu",
+        "Wenbo Zhang",
+        "Liling Peng",
+        "Yichi Zhang",
+        "Yu Fu",
+        "Xin Guo",
+        "Chao Qu",
+        "Yuan Qi",
+        "Le Xue"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-11T09:08:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.10560v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "benchmark and fine-tuning of LLMs for PET/CT report generation",
+      "llm_evidence_cn": "PET/CT报告生成的LLM基准测试与微调",
+      "llm_evidence": "PET/CT报告生成的LLM基准测试与微调",
+      "canonical_evidence": "PET/CT报告生成的LLM基准测试与微调",
+      "llm_tldr_en": "Introduces a large-scale PET/CT benchmark and a domain-adapted 7B model for medical report impression generation.",
+      "llm_tldr_cn": "发布大规模PET/CT报告生成基准，并开发了针对该医学领域的微调大模型。",
+      "llm_tldr": "发布大规模PET/CT报告生成基准，并开发了针对该医学领域的微调大模型。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11281v1",
+      "title": "ThReadMed-QA: A Multi-Turn Medical Dialogue Benchmark from Real Patient Questions",
+      "abstract": "Medical question-answering benchmarks predominantly evaluate single-turn exchanges, failing to capture the iterative, clarification-seeking nature of real patient consultations. We introduce ThReadMed-QA, a benchmark of 2,437 fully-answered patient-physician conversation threads extracted from r/AskDocs, comprising 8,204 question-answer pairs across up to 9 turns. Unlike prior work relying on simulated dialogues, adversarial prompts, or exam-style questions, ThReadMed-QA captures authentic patient follow-up questions and verified physician responses, reflecting how patients naturally seek medical information online. We evaluate five state-of-the-art LLMs -- GPT-5, GPT-4o, Claude Haiku, Gemini 2.5 Flash, and Llama 3.3 70B -- on a stratified test split of 238 conversations (948 QA pairs) using a calibrated LLM-as-a-judge rubric grounded in physician ground truth. Even the strongest model, GPT-5, achieves only 41.2% fully-correct responses. All five models degrade significantly from turn 0 to turn 2 (p < 0.001), with wrong-answer rates roughly tripling by the third turn. We identify a fundamental tension between single-turn capability and multi-turn reliability: models with the strongest initial performance (GPT-5: 75.2; Claude Haiku: 72.3 out of 100) exhibit the steepest declines by turn 2 (dropping 16.2 and 25.0 points respectively), while weaker models plateau or marginally improve. We introduce two metrics to quantify multi-turn failure modes: Conversational Consistency Score (CCS) and Error Propagation Rate (EPR). CCS reveals that nearly one in three Claude Haiku conversations swings between a fully correct and a completely wrong response within the same thread. EPR shows that a single wrong turn raises the probability of a subsequent wrong turn by 1.9-6.1x across all models.",
+      "authors": [
+        "Monica Munnangi",
+        "Saiph Savage"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-11T20:17:57+00:00",
+      "link": "https://arxiv.org/pdf/2603.11281v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Multi-turn medical dialogue benchmark for LLM evaluation",
+      "llm_evidence_cn": "用于大模型评估的多轮医学对话基准",
+      "llm_evidence": "用于大模型评估的多轮医学对话基准",
+      "canonical_evidence": "用于大模型评估的多轮医学对话基准",
+      "llm_tldr_en": "Introduces ThReadMed-QA, a benchmark for evaluating LLMs on authentic multi-turn medical conversations.",
+      "llm_tldr_cn": "推出ThReadMed-QA，一个用于评估大模型在真实多轮医学对话中表现的基准。",
+      "llm_tldr": "推出ThReadMed-QA，一个用于评估大模型在真实多轮医学对话中表现的基准。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11597v1",
+      "title": "Performance Evaluation of Open-Source Large Language Models for Assisting Pathology Report Writing in Japanese",
+      "abstract": "The performance of large language models (LLMs) for supporting pathology report writing in Japanese remains unexplored. We evaluated seven open-source LLMs from three perspectives: (A) generation and information extraction of pathology diagnosis text following predefined formats, (B) correction of typographical errors in Japanese pathology reports, and (C) subjective evaluation of model-generated explanatory text by pathologists and clinicians. Thinking models and medical-specialized models showed advantages in structured reporting tasks that required reasoning and in typo correction. In contrast, preferences for explanatory outputs varied substantially across raters. Although the utility of LLMs differed by task, our findings suggest that open-source LLMs can be useful for assisting Japanese pathology report writing in limited but clinically relevant scenarios.",
+      "authors": [
+        "Masataka Kawai",
+        "Singo Sakashita",
+        "Shumpei Ishikawa",
+        "Shogo Watanabe",
+        "Anna Matsuoka",
+        "Mikio Sakurai",
+        "Yasuto Fujimoto",
+        "Yoshiyuki Takahara",
+        "Atsushi Ohara",
+        "Hirohiko Miyake",
+        "Genichiro Ishii"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-12T06:40:04+00:00",
+      "link": "https://arxiv.org/pdf/2603.11597v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Performance evaluation of LLMs for pathology report writing",
+      "llm_evidence_cn": "大模型在病理报告编写中的性能评估",
+      "llm_evidence": "大模型在病理报告编写中的性能评估",
+      "canonical_evidence": "大模型在病理报告编写中的性能评估",
+      "llm_tldr_en": "Evaluates open-source LLMs for Japanese pathology report generation, extraction, and error correction.",
+      "llm_tldr_cn": "评估开源大模型在日语病理报告生成、信息提取和纠错方面的表现。",
+      "llm_tldr": "评估开源大模型在日语病理报告生成、信息提取和纠错方面的表现。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.12430v1",
+      "title": "Surg-R1: A Hierarchical Reasoning Foundation Model for Scalable and Interpretable Surgical Decision Support with Multi-Center Clinical Validation",
+      "abstract": "Surgical scene understanding demands not only accurate predictions but also interpretable reasoning that surgeons can verify against clinical expertise. However, existing surgical vision-language models generate predictions without reasoning chains, and general-purpose reasoning models fail on compositional surgical tasks without domain-specific knowledge. We present Surg-R1, a surgical Vision-Language Model that addresses this gap through hierarchical reasoning trained via a four-stage pipeline. Our approach introduces three key contributions: (1) a three-level reasoning hierarchy decomposing surgical interpretation into perceptual grounding, relational understanding, and contextual reasoning; (2) the largest surgical chain-of-thought dataset with 320,000 reasoning pairs; and (3) a four-stage training pipeline progressing from supervised fine-tuning to group relative policy optimization and iterative self-improvement. Evaluation on SurgBench, comprising six public benchmarks and six multi-center external validation datasets from five institutions, demonstrates that Surg-R1 achieves the highest Arena Score (64.9%) on public benchmarks versus Gemini 3.0 Pro (46.1%) and GPT-5.1 (37.9%), outperforming both proprietary reasoning models and specialized surgical VLMs on the majority of tasks spanning instrument localization, triplet recognition, phase recognition, action recognition, and critical view of safety assessment, with a 15.2 percentage point improvement over the strongest surgical baseline on external validation.",
+      "authors": [
+        "Jian Jiang",
+        "Chenxi Lin",
+        "Yiming Gu",
+        "Zengyi Qin",
+        "Zhitao Zeng",
+        "Kun Yuan",
+        "Yonghao Long",
+        "Xiang Xia",
+        "Cheng Yuan",
+        "Yuqi Wang",
+        "Zijie Yue",
+        "Kunyi Yang",
+        "Yuting Zhang",
+        "Zhu Zhuo",
+        "Dian Qin",
+        "Xin Wang",
+        "NG Chi Fai",
+        "Brian Anthony",
+        "Daguang Xu",
+        "Guy Rosman",
+        "Ozanan Meireles",
+        "Zizhen Zhang",
+        "Nicolas Padoy",
+        "Hesheng Wang",
+        "Qi Dou",
+        "Yueming Jin",
+        "Yutong Ban"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-12T20:26:28+00:00",
+      "link": "https://arxiv.org/pdf/2603.12430v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Surgical reasoning foundation model for clinical decision support",
+      "llm_evidence_cn": "用于临床决策支持的手术推理基础模型",
+      "llm_evidence": "用于临床决策支持的手术推理基础模型",
+      "canonical_evidence": "用于临床决策支持的手术推理基础模型",
+      "llm_tldr_en": "Introduces Surg-R1, a surgical VLM that provides interpretable reasoning for clinical decision support.",
+      "llm_tldr_cn": "推出了Surg-R1，这是一种为临床决策支持提供可解释推理链的手术视觉语言大模型。",
+      "llm_tldr": "推出了Surg-R1，这是一种为临床决策支持提供可解释推理链的手术视觉语言大模型。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.12458v1",
+      "title": "Shattering the Shortcut: A Topology-Regularized Benchmark for Multi-hop Medical Reasoning in LLMs",
+      "abstract": "While Large Language Models (LLMs) achieve expert-level performance on standard medical benchmarks through single-hop factual recall, they severely struggle with the complex, multi-hop diagnostic reasoning required in real-world clinical settings. A primary obstacle is \"shortcut learning\", where models exploit highly connected, generic hub nodes (e.g., \"inflammation\") in knowledge graphs to bypass authentic micro-pathological cascades. To address this, we introduce ShatterMed-QA, a bilingual benchmark of 10,558 multi-hop clinical questions designed to rigorously evaluate deep diagnostic reasoning. Our framework constructs a topology-regularized medical Knowledge Graph using a novel $k$-Shattering algorithm, which physically prunes generic hubs to explicitly sever logical shortcuts. We synthesize the evaluation vignettes by applying implicit bridge entity masking and topology-driven hard negative sampling, forcing models to navigate biologically plausible distractors without relying on superficial elimination. Comprehensive evaluations of 21 LLMs reveal massive performance degradation on our multi-hop tasks, particularly among domain-specific models. Crucially, restoring the masked evidence via Retrieval-Augmented Generation (RAG) triggers near-universal performance recovery, validating ShatterMed-QA's structural fidelity and proving its efficacy in diagnosing the fundamental reasoning deficits of current medical AI. Explore the dataset, interactive examples, and full leaderboards at our project website: https://shattermed-qa-web.vercel.app/",
+      "authors": [
+        "Xing Zi",
+        "Xinying Zhou",
+        "Jinghao Xiao",
+        "Catarina Moreira",
+        "Mukesh Prasad"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-12T21:19:54+00:00",
+      "link": "https://arxiv.org/pdf/2603.12458v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Benchmark for multi-hop medical reasoning in LLMs",
+      "llm_evidence_cn": "大语言模型多步医学推理基准测试",
+      "llm_evidence": "大语言模型多步医学推理基准测试",
+      "canonical_evidence": "大语言模型多步医学推理基准测试",
+      "llm_tldr_en": "Introduces ShatterMed-QA to evaluate and improve deep diagnostic reasoning in LLMs by reducing shortcut learning.",
+      "llm_tldr_cn": "引入ShatterMed-QA基准，通过减少捷径学习来评估和提升大模型在复杂临床诊断中的深度推理能力。",
+      "llm_tldr": "引入ShatterMed-QA基准，通过减少捷径学习来评估和提升大模型在复杂临床诊断中的深度推理能力。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.13691v1",
+      "title": "QuarkMedBench: A Real-World Scenario Driven Benchmark for Evaluating Large Language Models",
+      "abstract": "While Large Language Models (LLMs) excel on standardized medical exams, high scores often fail to translate to high-quality responses for real-world medical queries. Current evaluations rely heavily on multiple-choice questions, failing to capture the unstructured, ambiguous, and long-tail complexities inherent in genuine user inquiries. To bridge this gap, we introduce QuarkMedBench, an ecologically valid benchmark tailored for real-world medical LLM assessment. We compiled a massive dataset spanning Clinical Care, Wellness Health, and Professional Inquiry, comprising 20,821 single-turn queries and 3,853 multi-turn sessions. To objectively evaluate open-ended answers, we propose an automated scoring framework that integrates multi-model consensus with evidence-based retrieval to dynamically generate 220,617 fine-grained scoring rubrics (~9.8 per query). During evaluation, hierarchical weighting and safety constraints structurally quantify medical accuracy, key-point coverage, and risk interception, effectively mitigating the high costs and subjectivity of human grading. Experimental results demonstrate that the generated rubrics achieve a 91.8% concordance rate with clinical expert blind audits, establishing highly dependable medical reliability. Crucially, baseline evaluations on this benchmark reveal significant performance disparities among state-of-the-art models when navigating real-world clinical nuances, highlighting the limitations of conventional exam-based metrics. Ultimately, QuarkMedBench establishes a rigorous, reproducible yardstick for measuring LLM performance on complex health issues, while its framework inherently supports dynamic knowledge updates to prevent benchmark obsolescence.",
+      "authors": [
+        "Yao Wu",
+        "Kangping Yin",
+        "Liang Dong",
+        "Zhenxin Ma",
+        "Shuting Xu",
+        "Xuehai Wang",
+        "Yuxuan Jiang",
+        "Tingting Yu",
+        "Yunqing Hong",
+        "Jiayi Liu",
+        "Rianzhe Huang",
+        "Shuxin Zhao",
+        "Haiping Hu",
+        "Wen Shang",
+        "Jian Xu",
+        "Guanjun Jiang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-14T01:51:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.13691v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Real-world scenario driven benchmark for evaluating medical LLMs",
+      "llm_evidence_cn": "真实世界场景驱动的医疗大模型评估基准",
+      "llm_evidence": "真实世界场景驱动的医疗大模型评估基准",
+      "canonical_evidence": "真实世界场景驱动的医疗大模型评估基准",
+      "llm_tldr_en": "Introduces QuarkMedBench, a large-scale benchmark for evaluating LLMs on real-world medical queries.",
+      "llm_tldr_cn": "推出QuarkMedBench，一个针对真实医疗咨询场景的大模型评估基准数据集。",
+      "llm_tldr": "推出QuarkMedBench，一个针对真实医疗咨询场景的大模型评估基准数据集。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.13800v1",
+      "title": "Beyond Medical Diagnostics: How Medical Multimodal Large Language Models Think in Space",
+      "abstract": "Visual spatial intelligence is critical for medical image interpretation, yet remains largely unexplored in Multimodal Large Language Models (MLLMs) for 3D imaging. This gap persists due to a systemic lack of datasets featuring structured 3D spatial annotations beyond basic labels. In this study, we introduce an agentic pipeline that autonomously synthesizes spatial visual question-answering (VQA) data by orchestrating computational tools such as volume and distance calculators with multi-agent collaboration and expert radiologist validation. We present SpatialMed, the first comprehensive benchmark for evaluating 3D spatial intelligence in medical MLLMs, comprising nearly 10K question-answer pairs across multiple organs and tumor types. Our evaluations on 14 state-of-the-art MLLMs and extensive analyses reveal that current models lack robust spatial reasoning capabilities for medical imaging.",
+      "authors": [
+        "Quoc-Huy Trinh",
+        "Xi Ding",
+        "Yang Liu",
+        "Zhenyue Qin",
+        "Xingjian Li",
+        "Gorkem Durak",
+        "Halil Ertugrul Aktas",
+        "Elif Keles",
+        "Ulas Bagci",
+        "Min Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-14T07:17:45+00:00",
+      "link": "https://arxiv.org/pdf/2603.13800v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Benchmark for evaluating 3D spatial intelligence in medical Multimodal Large Language Models",
+      "llm_evidence_cn": "评估医学多模态大语言模型3D空间智能的基准",
+      "llm_evidence": "评估医学多模态大语言模型3D空间智能的基准",
+      "canonical_evidence": "评估医学多模态大语言模型3D空间智能的基准",
+      "llm_tldr_en": "Introduces SpatialMed, a benchmark to evaluate 3D spatial reasoning in medical multimodal large language models.",
+      "llm_tldr_cn": "推出了SpatialMed，这是首个评估医学多模态大模型3D空间智能的综合基准。",
+      "llm_tldr": "推出了SpatialMed，这是首个评估医学多模态大模型3D空间智能的综合基准。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14158v1",
+      "title": "Clinician input steers frontier AI models toward both accurate and harmful decisions",
+      "abstract": "Large language models (LLMs) are entering clinician workflows, yet evaluations rarely measure how clinician reasoning shapes model behavior during clinical interactions. We combined 61 New England Journal of Medicine Case Records with 92 real-world clinician-AI interactions to evaluate 21 reasoning LLM variants across 8 frontier models on differential diagnosis generation and next step recommendations under three conditions: reasoning alone, after expert clinician context, and after adversarial clinician context. LLM-clinician concordance increased substantially after clinician exposure, with simulations sharing >=3 differential diagnosis items rising from 65.8% to 93.5% and >=3 next step recommendations from 20.3% to 53.8%. Expert context significantly improved correct final diagnosis inclusion across all 21 models (mean +20.4 percentage points), reflecting both reasoning improvement and passive content echoing, while adversarial context caused significant diagnostic degradation in 14 models (mean -5.4 percentage points). Multi-turn disagreement probes revealed distinct model phenotypes ranging from highly conformist to dogmatic, with adversarial arguments remaining a persistent vulnerability even for otherwise resilient models. Inference-time scaling reduced harmful echoing of clinician-introduced recommendations across WHO-defined harm severity tiers (relative reductions: 62.7% mild, 57.9% moderate, 76.3% severe, 83.5% death-tier). In GPT-4o experiments, explicit clinician uncertainty signals improved diagnostic performance after adversarial context (final diagnosis inclusion 27% to 42%) and reduced alignment with incorrect arguments by 21%. These findings establish a foundation for evaluating clinician-AI collaboration, introducing interactive metrics and mitigation strategies essential for safety and robustness.",
+      "authors": [
+        "Ivan Lopez",
+        "Selin S. Everett",
+        "Bryan J. Bunning",
+        "April S. Liang",
+        "Dong Han Yao",
+        "Shivam C. Vedak",
+        "Kameron C. Black",
+        "Sophie Ostmeier",
+        "Stephen P. Ma",
+        "Emily Alsentzer",
+        "Jonathan H. Chen",
+        "Akshay S. Chaudhari",
+        "Eric Horvitz"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.LG"
+      ],
+      "published": "2026-03-14T23:47:53+00:00",
+      "link": "https://arxiv.org/pdf/2603.14158v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "evaluating frontier LLMs on differential diagnosis and clinical decision support",
+      "llm_evidence_cn": "评估前沿大模型在鉴别诊断和临床决策支持中的表现",
+      "llm_evidence": "评估前沿大模型在鉴别诊断和临床决策支持中的表现",
+      "canonical_evidence": "评估前沿大模型在鉴别诊断和临床决策支持中的表现",
+      "llm_tldr_en": "Evaluates how clinician input influences LLM performance in differential diagnosis and medical reasoning.",
+      "llm_tldr_cn": "评估了临床医生输入如何影响大模型在鉴别诊断和医疗推理中的表现。",
+      "llm_tldr": "评估了临床医生输入如何影响大模型在鉴别诊断和医疗推理中的表现。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14183v1",
+      "title": "Selective Fine-Tuning of GPT Architectures for Parameter-Efficient Clinical Text Classification",
+      "abstract": "The rapid expansion of electronic health record (EHR) systems has generated large volumes of unstructured clinical narratives that contain valuable information for disease identification, patient cohort discovery, and clinical decision support. Extracting structured knowledge from these free-text documents remains challenging because clinical language is highly specialized, labeled datasets are limited, and full fine-tuning of large pretrained language models can require substantial computational resources. Efficient adaptation strategies are therefore essential for practical clinical natural language processing applications. This study proposes a parameter-efficient selective fine-tuning framework for adapting GPT-2 to clinical text classification tasks. Instead of updating the entire pretrained model, the majority of network parameters are frozen, and only the final Transformer block, the final layer normalization module, and a lightweight classification head are updated during training. This design substantially reduces the number of trainable parameters while preserving the contextual representation capabilities learned during pretraining. The proposed approach is evaluated using radiology reports from the MIMIC-IV-Note dataset with automatically derived CheXpert-style labels. Experiments on 50,000 radiology reports demonstrate that selective fine-tuning achieves approximately 91% classification accuracy while updating fewer than 6% of the model parameters. Comparative experiments with head-only training and full-model fine-tuning show that the proposed method provides a favorable balance between predictive performance and computational efficiency. These results indicate that selective fine-tuning offers an efficient and scalable framework for clinical text classification.",
+      "authors": [
+        "Fariba Afrin Irany",
+        "Sampson Akwafuo"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-15T02:16:06+00:00",
+      "link": "https://arxiv.org/pdf/2603.14183v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Parameter-efficient selective fine-tuning of GPT for clinical text classification",
+      "llm_evidence_cn": "针对临床文本分类的GPT架构参数高效选择性微调",
+      "llm_evidence": "针对临床文本分类的GPT架构参数高效选择性微调",
+      "canonical_evidence": "针对临床文本分类的GPT架构参数高效选择性微调",
+      "llm_tldr_en": "A framework for efficient GPT-2 adaptation to clinical narratives for decision support.",
+      "llm_tldr_cn": "一种将GPT-2高效适配到临床叙述以支持决策的参数高效微调框架。",
+      "llm_tldr": "一种将GPT-2高效适配到临床叙述以支持决策的参数高效微调框架。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14326v1",
+      "title": "ECG-Reasoning-Benchmark: A Benchmark for Evaluating Clinical Reasoning Capabilities in ECG Interpretation",
+      "abstract": "While Multimodal Large Language Models (MLLMs) show promising performance in automated electrocardiogram interpretation, it remains unclear whether they genuinely perform actual step-by-step reasoning or just rely on superficial visual cues. To investigate this, we introduce \\textbf{ECG-Reasoning-Benchmark}, a novel multi-turn evaluation framework comprising over 6,400 samples to systematically assess step-by-step reasoning across 17 core ECG diagnoses. Our comprehensive evaluation of state-of-the-art models reveals a critical failure in executing multi-step logical deduction. Although models possess the medical knowledge to retrieve clinical criteria for a diagnosis, they exhibit near-zero success rates (6% Completion) in maintaining a complete reasoning chain, primarily failing to ground the corresponding ECG findings to the actual visual evidence in the ECG signal. These results demonstrate that current MLLMs bypass actual visual interpretation, exposing a critical flaw in existing training paradigms and underscoring the necessity for robust, reasoning-centric medical AI. The code and data are available at https://github.com/Jwoo5/ecg-reasoning-benchmark.",
+      "authors": [
+        "Jungwoo Oh",
+        "Hyunseung Chung",
+        "Junhee Lee",
+        "Min-Gyu Kim",
+        "Hangyul Yoon",
+        "Ki Seong Lee",
+        "Youngchae Lee",
+        "Muhan Yeo",
+        "Edward Choi"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-03-15T11:09:38+00:00",
+      "link": "https://arxiv.org/pdf/2603.14326v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Evaluating clinical reasoning of MLLMs in ECG interpretation",
+      "llm_evidence_cn": "评估多模态大模型在心电图解读中的临床推理能力",
+      "llm_evidence": "评估多模态大模型在心电图解读中的临床推理能力",
+      "canonical_evidence": "评估多模态大模型在心电图解读中的临床推理能力",
+      "llm_tldr_en": "Introduces a benchmark to assess step-by-step clinical reasoning in MLLMs for ECG diagnosis.",
+      "llm_tldr_cn": "引入ECG推理基准，系统评估多模态大模型在心电图诊断中的分步临床推理能力。",
+      "llm_tldr": "引入ECG推理基准，系统评估多模态大模型在心电图诊断中的分步临床推理能力。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.15677v1",
+      "title": "MedArena: Comparing LLMs for Medicine-in-the-Wild Clinician Preferences",
+      "abstract": "Large language models (LLMs) are increasingly central to clinician workflows, spanning clinical decision support, medical education, and patient communication. However, current evaluation methods for medical LLMs rely heavily on static, templated benchmarks that fail to capture the complexity and dynamics of real-world clinical practice, creating a dissonance between benchmark performance and clinical utility. To address these limitations, we present MedArena, an interactive evaluation platform that enables clinicians to directly test and compare leading LLMs using their own medical queries. Given a clinician-provided query, MedArena presents responses from two randomly selected models and asks the user to select the preferred response. Out of 1571 preferences collected across 12 LLMs up to November 1, 2025, Gemini 2.0 Flash Thinking, Gemini 2.5 Pro, and GPT-4o were the top three models by Bradley-Terry rating. Only one-third of clinician-submitted questions resembled factual recall tasks (e.g., MedQA), whereas the majority addressed topics such as treatment selection, clinical documentation, or patient communication, with ~20% involving multi-turn conversations. Additionally, clinicians cited depth and detail and clarity of presentation more often than raw factual accuracy when explaining their preferences, highlighting the importance of readability and clinical nuance. We also confirm that the model rankings remain stable even after controlling for style-related factors like response length and formatting. By grounding evaluation in real-world clinical questions and preferences, MedArena offers a scalable platform for measuring and improving the utility and efficacy of medical LLMs.",
+      "authors": [
+        "Eric Wu",
+        "Kevin Wu",
+        "Jason Hom",
+        "Paul H. Yi",
+        "Angela Zhang",
+        "Alejandro Lozano",
+        "Jeff Nirschl",
+        "Jeff Tangney",
+        "Kevin Byram",
+        "Braydon Dymm",
+        "Narender Annapureddy",
+        "Eric Topol",
+        "David Ouyang",
+        "James Zou"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-13T22:30:26+00:00",
+      "link": "https://arxiv.org/pdf/2603.15677v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Interactive evaluation platform for comparing LLMs based on clinician preferences",
+      "llm_evidence_cn": "基于临床医生偏好的大模型交互式评估平台",
+      "llm_evidence": "基于临床医生偏好的大模型交互式评估平台",
+      "canonical_evidence": "基于临床医生偏好的大模型交互式评估平台",
+      "llm_tldr_en": "Presents MedArena, a platform for clinicians to evaluate medical LLMs using real-world queries.",
+      "llm_tldr_cn": "推出MedArena平台，让临床医生通过真实查询直接测试和对比医疗大模型。",
+      "llm_tldr": "推出MedArena平台，让临床医生通过真实查询直接测试和对比医疗大模型。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.17234v1",
+      "title": "Deployment and Evaluation of an EHR-integrated, Large Language Model-Powered Tool to Triage Surgical Patients",
+      "abstract": "Surgical co-management (SCM) is an evidence-based model in which hospitalists jointly manage medically complex perioperative patients alongside surgical teams. Despite its clinical and financial value, SCM is limited by the need to manually identify eligible patients. To determine whether SCM triage can be automated, we conducted a prospective, unblinded study at Stanford Health Care in which an LLM-based, electronic health record (EHR)-integrated triage tool (SCM Navigator) provided SCM recommendations followed by physician review.   Using pre-operative documentation, structured data, and clinical criteria for perioperative morbidity, SCM Navigator categorized patients as appropriate, not appropriate, or possibly appropriate for SCM. Faculty indicated their clinical judgment and provided free-text feedback when they disagreed. Sensitivity, specificity, positive predictive value, and negative predictive value were measured using physician determinations as a reference. Free-text reasons were thematically categorized, and manual chart review was conducted on all false-negative cases and 30 randomly selected cases from the largest false-positive category. Since deployment, 6,193 cases have been triaged, of which 1,582 (23%) were recommended for hospitalist consultation. SCM Navigator displayed high sensitivity (0.94, 95% CI 0.91-0.96) and moderate specificity (0.74, 95% CI 0.71-0.77). Post-hoc chart review suggested most discrepancies reflect modifiable gaps in clinical criteria, institutional workflow, or physician practice variability rather than LLM misclassification, which accounted for 2 of 19 (11%) false-negative cases. These findings demonstrate that an LLM-powered, EHR-integrated, human-in-the-loop AI system can accurately and safely triage surgical patients for SCM, and that AI-enabled screening tools can augment and potentially automate time-intensive clinical workflows.",
+      "authors": [
+        "Jane Wang",
+        "Timothy Keyes",
+        "April S Liang",
+        "Stephen P Ma",
+        "Jason Shen",
+        "Jerry Liu",
+        "Nerissa Ambers",
+        "Abby Pandya",
+        "Rita Pandya",
+        "Jason Hom",
+        "Natasha Steele",
+        "Jonathan H Chen",
+        "Kevin Schulman"
+      ],
+      "primary_category": "cs.CY",
+      "categories": [
+        "cs.CY",
+        "cs.AI"
+      ],
+      "published": "2026-03-18T00:36:58+00:00",
+      "link": "https://arxiv.org/pdf/2603.17234v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "EHR-integrated LLM tool for triaging surgical patients",
+      "llm_evidence_cn": "集成到电子健康档案中的LLM工具用于外科患者分诊",
+      "llm_evidence": "集成到电子健康档案中的LLM工具用于外科患者分诊",
+      "canonical_evidence": "集成到电子健康档案中的LLM工具用于外科患者分诊",
+      "llm_tldr_en": "Evaluates an EHR-integrated LLM tool that automates the identification and triage of complex surgical patients.",
+      "llm_tldr_cn": "评估了一种集成到电子病历中的大模型工具，用于自动识别和分诊复杂的外科手术患者。",
+      "llm_tldr": "评估了一种集成到电子病历中的大模型工具，用于自动识别和分诊复杂的外科手术患者。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.09685v1",
+      "title": "Automatic Cardiac Risk Management Classification using large-context Electronic Patients Health Records",
+      "abstract": "To overcome the limitations of manual administrative coding in geriatric Cardiovascular Risk Management, this study introduces an automated classification framework leveraging unstructured Electronic Health Records (EHRs). Using a dataset of 3,482 patients, we benchmarked three distinct modeling paradigms on longitudinal Dutch clinical narratives: classical machine learning baselines, specialized deep learning architectures optimized for large-context sequences, and general-purpose generative Large Language Models (LLMs) in a zero-shot setting. Additionally, we evaluated a late fusion strategy to integrate unstructured text with structured medication embeddings and anthropometric data. Our analysis reveals that the custom Transformer architecture outperforms both traditional methods and generative \\acs{llm}s, achieving the highest F1-scores and Matthews Correlation Coefficients. These findings underscore the critical role of specialized hierarchical attention mechanisms in capturing long-range dependencies within medical texts, presenting a robust, automated alternative to manual workflows for clinical risk stratification.",
+      "authors": [
+        "Jacopo Vitale",
+        "David Della Morte",
+        "Luca Bacco",
+        "Mario Merone",
+        "Mark de Groot",
+        "Saskia Haitjema",
+        "Leandro Pecchia",
+        "Bram van Es"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.IR"
+      ],
+      "published": "2026-03-10T13:55:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.09685v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Processing unstructured EHRs with generative LLMs",
+      "llm_evidence_cn": "使用生成式大模型处理非结构化电子健康档案",
+      "llm_evidence": "使用生成式大模型处理非结构化电子健康档案",
+      "canonical_evidence": "使用生成式大模型处理非结构化电子健康档案",
+      "llm_tldr_en": "Benchmarks LLMs and deep learning for automated cardiac risk classification using Dutch clinical narratives.",
+      "llm_tldr_cn": "利用荷兰语临床叙述，基准测试了大模型在自动化心脏风险分类中的表现。",
+      "llm_tldr": "利用荷兰语临床叙述，基准测试了大模型在自动化心脏风险分类中的表现。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.09909v1",
+      "title": "MedMASLab: A Unified Orchestration Framework for Benchmarking Multimodal Medical Multi-Agent Systems",
+      "abstract": "While Multi-Agent Systems (MAS) show potential for complex clinical decision support, the field remains hindered by architectural fragmentation and the lack of standardized multimodal integration. Current medical MAS research suffers from non-uniform data ingestion pipelines, inconsistent visual-reasoning evaluation, and a lack of cross-specialty benchmarking. To address these challenges, we present MedMASLab, a unified framework and benchmarking platform for multimodal medical multi-agent systems. MedMASLab introduces: (1) A standardized multimodal agent communication protocol that enables seamless integration of 11 heterogeneous MAS architectures across 24 medical modalities. (2) An automated clinical reasoning evaluator, a zero-shot semantic evaluation paradigm that overcomes the limitations of lexical string-matching by leveraging large vision-language models to verify diagnostic logic and visual grounding. (3) The most extensive benchmark to date, spanning 11 organ systems and 473 diseases, standardizing data from 11 clinical benchmarks. Our systematic evaluation reveals a critical domain-specific performance gap: while MAS improves reasoning depth, current architectures exhibit significant fragility when transitioning between specialized medical sub-domains. We provide a rigorous ablation of interaction mechanisms and cost-performance trade-offs, establishing a new technical baseline for future autonomous clinical systems. The source code and data is publicly available at: https://github.com/NUS-Project/MedMASLab/",
+      "authors": [
+        "Yunhang Qian",
+        "Xiaobin Hu",
+        "Jiaquan Yu",
+        "Siyang Xin",
+        "Xiaokun Chen",
+        "Jiangning Zhang",
+        "Peng-Tao Jiang",
+        "Jiawei Liu",
+        "Hongwei Bran Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-10T17:03:11+00:00",
+      "link": "https://arxiv.org/pdf/2603.09909v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Unified framework for benchmarking multimodal medical multi-agent systems",
+      "llm_evidence_cn": "多模态医疗多智能体系统基准测试的统一框架",
+      "llm_evidence": "多模态医疗多智能体系统基准测试的统一框架",
+      "canonical_evidence": "多模态医疗多智能体系统基准测试的统一框架",
+      "llm_tldr_en": "MedMASLab standardizes evaluation and communication for multimodal medical AI agents.",
+      "llm_tldr_cn": "MedMASLab为多模态医疗AI智能体提供了标准化的评估和通信协议。",
+      "llm_tldr": "MedMASLab为多模态医疗AI智能体提供了标准化的评估和通信协议。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.09943v1",
+      "title": "PathMem: Toward Cognition-Aligned Memory Transformation for Pathology MLLMs",
+      "abstract": "Computational pathology demands both visual pattern recognition and dynamic integration of structured domain knowledge, including taxonomy, grading criteria, and clinical evidence. In practice, diagnostic reasoning requires linking morphological evidence with formal diagnostic and grading criteria. Although multimodal large language models (MLLMs) demonstrate strong vision language reasoning capabilities, they lack explicit mechanisms for structured knowledge integration and interpretable memory control. As a result, existing models struggle to consistently incorporate pathology-specific diagnostic standards during reasoning. Inspired by the hierarchical memory process of human pathologists, we propose PathMem, a memory-centric multimodal framework for pathology MLLMs. PathMem organizes structured pathology knowledge as a long-term memory (LTM) and introduces a Memory Transformer that models the dynamic transition from LTM to working memory (WM) through multimodal memory activation and context-aware knowledge grounding, enabling context-aware memory refinement for downstream reasoning. PathMem achieves SOTA performance across benchmarks, improving WSI-Bench report generation (12.8% WSI-Precision, 10.1% WSI-Relevance) and open-ended diagnosis by 9.7% and 8.9% over prior WSI-based models.",
+      "authors": [
+        "Jinyue Li",
+        "Yuci Liang",
+        "Qiankun Li",
+        "Xinheng Lyu",
+        "Jiayu Qian",
+        "Huabao Chen",
+        "Kun Wang",
+        "Zhigang Zeng",
+        "Anil Anthony Bharath",
+        "Yang Liu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-10T17:35:49+00:00",
+      "link": "https://arxiv.org/pdf/2603.09943v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Multimodal LLMs for pathology diagnostic reasoning and knowledge integration",
+      "llm_evidence_cn": "用于病理诊断推理和知识集成的多模态大模型",
+      "llm_evidence": "用于病理诊断推理和知识集成的多模态大模型",
+      "canonical_evidence": "用于病理诊断推理和知识集成的多模态大模型",
+      "llm_tldr_en": "Proposes PathMem to integrate structured domain knowledge into multimodal LLMs for pathology diagnostic reasoning.",
+      "llm_tldr_cn": "提出了PathMem框架，将结构化领域知识集成到多模态大模型中以进行病理诊断推理。",
+      "llm_tldr": "提出了PathMem框架，将结构化领域知识集成到多模态大模型中以进行病理诊断推理。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical large language models for diagnosis and treatment",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10494v1",
+      "title": "VERI-DPO: Evidence-Aware Alignment for Clinical Summarization via Claim Verification and Direct Preference Optimization",
+      "abstract": "Brief Hospital Course (BHC) narratives must be clinically useful yet faithful to fragmented EHR evidence. LLM-based clinical summarizers still introduce unsupported statements, and alignment can encourage omissions (\"say-less\" degeneration). We introduce VERI-DPO, which uses claim verification to mine preferences and distill them into the summarizer with Direct Preference Optimization (DPO). On MIMIC-III-Ext-VeriFact-BHC (100 ICU patients; patient-level splits), we train a retrieval-augmented verifier to label claim-evidence pairs as Supported, Not Supported, or Not Addressed via a single-token format. The verifier scores sentence-level claims from sampled BHC candidates and aggregates margins into a coverage-aware utility to mine length-controlled, contradiction-anchored preference pairs. On held-out patients, verifier-mined preferences separate candidates by contradiction density, and VERI-DPO reduces Not Supported claim rates from 10.7% to 1.9% (local verifier judge) and from 11.6% to 6.4% (GPT-4o judge), while improving validity from 76.7% to 82.5% and maintaining informative length.",
+      "authors": [
+        "Weixin Liu",
+        "Congning Ni",
+        "Qingyuan Song",
+        "Susannah L. Rose",
+        "Christopher Symons",
+        "Murat Kantarcioglu",
+        "Bradley A. Malin",
+        "Zhijun Yin"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-03-11T07:41:58+00:00",
+      "link": "https://arxiv.org/pdf/2603.10494v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based clinical summarization of EHR evidence",
+      "llm_evidence_cn": "基于大语言模型的电子健康档案临床摘要生成",
+      "llm_evidence": "基于大语言模型的电子健康档案临床摘要生成",
+      "canonical_evidence": "基于大语言模型的电子健康档案临床摘要生成",
+      "llm_tldr_en": "Introduces VERI-DPO to improve clinical summarization faithfulness to EHR evidence using claim verification.",
+      "llm_tldr_cn": "引入VERI-DPO，通过断言验证提高临床摘要对电子病历证据的忠实度。",
+      "llm_tldr": "引入VERI-DPO，通过断言验证提高临床摘要对电子病历证据的忠实度。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10677v1",
+      "title": "Emulating Clinician Cognition via Self-Evolving Deep Clinical Research",
+      "abstract": "Clinical diagnosis is a complex cognitive process, grounded in dynamic cue acquisition and continuous expertise accumulation. Yet most current artificial intelligence (AI) systems are misaligned with this reality, treating diagnosis as single-pass retrospective prediction while lacking auditable mechanisms for governed improvement. We developed DxEvolve, a self-evolving diagnostic agent that bridges these gaps through an interactive deep clinical research workflow. The framework autonomously requisitions examinations and continually externalizes clinical experience from increasing encounter exposure as diagnostic cognition primitives. On the MIMIC-CDM benchmark, DxEvolve improved diagnostic accuracy by 11.2% on average over backbone models and reached 90.4% on a reader-study subset, comparable to the clinician reference (88.8%). DxEvolve improved accuracy on an independent external cohort by 10.2% (categories covered by the source cohort) and 17.1% (uncovered categories) compared to the competitive method. By transforming experience into a governable learning asset, DxEvolve supports an accountable pathway for the continual evolution of clinical AI.",
+      "authors": [
+        "Ruiyang Ren",
+        "Yuhao Wang",
+        "Yunsen Liang",
+        "Lan Luo",
+        "Jing Liu",
+        "Haifeng Wang",
+        "Cong Feng",
+        "Yinan Zhang",
+        "Chunyan Miao",
+        "Ji-Rong Wen",
+        "Wayne Xin Zhao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-03-11T11:41:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.10677v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Self-evolving diagnostic agent for clinical reasoning",
+      "llm_evidence_cn": "用于临床推理的自我进化诊断智能体",
+      "llm_evidence": "用于临床推理的自我进化诊断智能体",
+      "canonical_evidence": "用于临床推理的自我进化诊断智能体",
+      "llm_tldr_en": "Presents DxEvolve, a diagnostic agent that emulates clinician cognition to improve diagnostic accuracy.",
+      "llm_tldr_cn": "提出DxEvolve诊断智能体，通过模拟临床医生认知过程来提高诊断准确性。",
+      "llm_tldr": "提出DxEvolve诊断智能体，通过模拟临床医生认知过程来提高诊断准确性。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical large language models for diagnosis and treatment",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10891v1",
+      "title": "A Hybrid Knowledge-Grounded Framework for Safety and Traceability in Prescription Verification",
+      "abstract": "Medication errors pose a significant threat to patient safety, making pharmacist verification (PV) a critical, yet heavily burdened, final safeguard. The direct application of Large Language Models (LLMs) to this zero-tolerance domain is untenable due to their inherent factual unreliability, lack of traceability, and weakness in complex reasoning. To address these challenges, we introduce PharmGraph-Auditor, a novel system designed for safe and evidence-grounded prescription auditing. The core of our system is a trustworthy Hybrid Pharmaceutical Knowledge Base (HPKB), implemented under the Virtual Knowledge Graph (VKG) paradigm. This architecture strategically unifies a relational component for set constraint satisfaction and a graph component for topological reasoning via a rigorous mapping layer. To construct this HPKB, we propose the Iterative Schema Refinement (ISR) algorithm, a framework that enables the co-evolution of both graph and relational schemas from medical texts. For auditing, we introduce the KB-grounded Chain of Verification (CoV), a new reasoning paradigm that transforms the LLM from an unreliable generator into a transparent reasoning engine. CoV decomposes the audit task into a sequence of verifiable queries against the HPKB, generating hybrid query plans to retrieve evidence from the most appropriate data store. Experimental results demonstrate robust knowledge extraction capabilities and show promises of using PharmGraph-Auditor to enable pharmacists to achieve safer and faster prescription verification.",
+      "authors": [
+        "Yichi Zhu",
+        "Kan Ling",
+        "Xu Liu",
+        "Hengrun Zhang",
+        "Huiqun Yu",
+        "Guisheng Fan"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.IR"
+      ],
+      "published": "2026-03-11T15:35:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.10891v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Knowledge-grounded LLM framework for prescription verification",
+      "llm_evidence_cn": "基于知识增强的大模型处方审核框架",
+      "llm_evidence": "基于知识增强的大模型处方审核框架",
+      "canonical_evidence": "基于知识增强的大模型处方审核框架",
+      "llm_tldr_en": "Develops PharmGraph-Auditor, a hybrid knowledge-grounded system for safe and traceable prescription auditing.",
+      "llm_tldr_cn": "开发了PharmGraph-Auditor，一个基于混合知识的处方审计系统，确保安全与可追溯性。",
+      "llm_tldr": "开发了PharmGraph-Auditor，一个基于混合知识的处方审计系统，确保安全与可追溯性。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.10933v1",
+      "title": "Bridging the Skill Gap in Clinical CBCT Interpretation with CBCTRepD",
+      "abstract": "Generative AI has advanced rapidly in medical report generation; however, its application to oral and maxillofacial CBCT reporting remains limited, largely because of the scarcity of high-quality paired CBCT-report data and the intrinsic complexity of volumetric CBCT interpretation. To address this, we introduce CBCTRepD, a bilingual oral and maxillofacial CBCT report-generation system designed for integration into routine radiologist-AI co-authoring workflows. We curated a large-scale, high-quality paired CBCT-report dataset comprising approximately 7,408 studies, covering 55 oral disease entities across diverse acquisition settings, and used it to develop the system. We further established a clinically grounded, multi-level evaluation framework that assesses both direct AI-generated drafts and radiologist-edited collaboration reports using automatic metrics together with radiologist- and clinician-centered evaluation. Using this framework, we show that CBCTRepD achieves superior report-generation performance and produces drafts with writing quality and standardization comparable to those of intermediate radiologists. More importantly, in radiologist-AI collaboration, CBCTRepD provides consistent and clinically meaningful benefits across experience levels: it helps novice radiologists improve toward intermediate-level reporting, enables intermediate radiologists to approach senior-level performance, and even assists senior radiologists by reducing omission-related errors, including clinically important missed lesions. By improving report structure, reducing omissions, and promoting attention to co-existing lesions across anatomical regions, CBCTRepD shows strong and reliable potential as a practical assistant for real-world CBCT reporting across multi-level care settings.",
+      "authors": [
+        "Qinxin Wu",
+        "Fucheng Niu",
+        "Hengchuan Zhu",
+        "Yifan Sun",
+        "Ye Shen",
+        "Xu Li",
+        "Han Wu",
+        "Leqi Liu",
+        "Zhiwen Pan",
+        "Zuozhu Liu",
+        "Fudong Zhu",
+        "Bin Feng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-11T16:18:07+00:00",
+      "link": "https://arxiv.org/pdf/2603.10933v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Generative AI for clinical CBCT report generation",
+      "llm_evidence_cn": "生成式AI用于临床CBCT报告生成",
+      "llm_evidence": "生成式AI用于临床CBCT报告生成",
+      "canonical_evidence": "生成式AI用于临床CBCT报告生成",
+      "llm_tldr_en": "Develops CBCTRepD, a system for automated oral and maxillofacial CBCT report generation using generative AI.",
+      "llm_tldr_cn": "开发了CBCTRepD系统，利用生成式AI自动化生成口腔颌面部CBCT报告。",
+      "llm_tldr": "开发了CBCTRepD系统，利用生成式AI自动化生成口腔颌面部CBCT报告。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11394v1",
+      "title": "Stop Listening to Me! How Multi-turn Conversations Can Degrade Diagnostic Reasoning",
+      "abstract": "Patients and clinicians are increasingly using chatbots powered by large language models (LLMs) for healthcare inquiries. While state-of-the-art LLMs exhibit high performance on static diagnostic reasoning benchmarks, their efficacy across multi-turn conversations, which better reflect real-world usage, has been understudied. In this paper, we evaluate 17 LLMs across three clinical datasets to investigate how partitioning the decision-space into multiple simpler turns of conversation influences their diagnostic reasoning. Specifically, we develop a \"stick-or-switch\" evaluation framework to measure model conviction (i.e., defending a correct diagnosis or safe abstention against incorrect suggestions) and flexibility (i.e., recognizing a correct suggestion when it is introduced) across conversations. Our experiments reveal the conversation tax, where multi-turn interactions consistently degrade performance when compared to single-shot baselines. Notably, models frequently abandon initial correct diagnoses and safe abstentions to align with incorrect user suggestions. Additionally, several models exhibit blind switching, failing to distinguish between signal and incorrect suggestions.",
+      "authors": [
+        "Kevin H. Guo",
+        "Chao Yan",
+        "Avinash Baidya",
+        "Katherine Brown",
+        "Xiang Gao",
+        "Juming Xiong",
+        "Zhijun Yin",
+        "Bradley A. Malin"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-03-12T00:14:35+00:00",
+      "link": "https://arxiv.org/pdf/2603.11394v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Evaluating LLM diagnostic reasoning in multi-turn conversations",
+      "llm_evidence_cn": "评估多轮对话中大模型的诊断推理能力",
+      "llm_evidence": "评估多轮对话中大模型的诊断推理能力",
+      "canonical_evidence": "评估多轮对话中大模型的诊断推理能力",
+      "llm_tldr_en": "Investigates how multi-turn interactions affect the diagnostic reasoning and conviction of 17 LLMs.",
+      "llm_tldr_cn": "研究多轮对话交互如何影响17个大模型的诊断推理能力和结论坚定度。",
+      "llm_tldr": "研究多轮对话交互如何影响17个大模型的诊断推理能力和结论坚定度。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11407v1",
+      "title": "Reproducible Synthetic Clinical Letters for Seizure Frequency Information Extraction",
+      "abstract": "Seizure-frequency information is important for epilepsy research and clinical care, but it is usually recorded in variable free-text clinic letters that are hard to annotate and share. We developed a reproducible, privacy-preserving framework for extracting seizure frequency using fully synthetic yet task-faithful epilepsy letters. We defined a structured label scheme covering common descriptions of seizure burden, including explicit rates, ranges, clusters, seizure-free intervals, unknown frequency, and explicit no-seizure statements. A teacher language model generated NHS-style synthetic letters paired with normalized labels, rationales, and evidence spans. We fine-tuned several open-weight language models (4B-14B parameters) on these synthetic letters to extract seizure frequency from full documents, comparing direct numeric prediction with structured label prediction and testing evidence-grounded outputs. On a clinician-checked held-out set of real clinic letters, models trained only on synthetic data generalized well, and structured labels consistently outperformed direct numeric regression. With 15,000 synthetic training letters, models achieved micro-F1 scores up to 0.788 for fine-grained categories and 0.847 for pragmatic categories; a medically oriented 4B model achieved 0.787 and 0.858, respectively. Evidence-grounded outputs also supported rapid clinical verification and error analysis. These results show that synthetic, structured, evidence-grounded supervision can enable robust seizure-frequency extraction without sharing sensitive patient text and may generalize to other temporally complex clinical information extraction tasks.",
+      "authors": [
+        "Yujian Gan",
+        "Stephen H. Barlow",
+        "Ben Holgate",
+        "Joe Davies",
+        "James T. Teo",
+        "Joel S. Winston",
+        "Mark P. Richardson"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-03-12T00:41:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.11407v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "fine-tuning language models on synthetic clinical letters for information extraction",
+      "llm_evidence_cn": "在合成临床信函上微调语言模型以进行信息提取",
+      "llm_evidence": "在合成临床信函上微调语言模型以进行信息提取",
+      "canonical_evidence": "在合成临床信函上微调语言模型以进行信息提取",
+      "llm_tldr_en": "A framework for extracting seizure frequency from clinical letters using fine-tuned language models.",
+      "llm_tldr_cn": "一种利用微调语言模型从临床信函中提取癫痫发作频率的框架。",
+      "llm_tldr": "一种利用微调语言模型从临床信函中提取癫痫发作频率的框架。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11594v1",
+      "title": "Leveraging Large Language Models and Survival Analysis for Early Prediction of Chemotherapy Outcomes",
+      "abstract": "Chemotherapy for cancer treatment is costly and accompanied by severe side effects, highlighting the critical need for early prediction of treatment outcomes to improve patient management and informed decision-making. Predictive models for chemotherapy outcomes using real-world data face challenges, including the absence of explicit phenotypes and treatment outcome labels such as cancer progression and toxicity. This study addresses these challenges by employing Large Language Models (LLMs) and ontology-based techniques for phenotypes and outcome label extraction from patient notes. We focused on one of the most frequently occurring cancers, breast cancer, due to its high prevalence and significant variability in patient response to treatment, making it a critical area for improving predictive modeling. The dataset included features such as vitals, demographics, staging, biomarkers, and performance scales. Drug regimens and their combinations were extracted from the chemotherapy plans in the EMR data and shortlisted based on NCCN guidelines, verified with NIH standards, and analyzed through survival modeling. The proposed approach significantly reduced phenotypes sparsity and improved predictive accuracy. Random Survival Forest was used to predict time-to-failure, achieving a C-index of 73%, and utilized as a classifier at a specific time point to predict treatment outcomes, with accuracy and F1 scores above 70%. The outcome probabilities were validated for reliability by calibration curves. We extended our approach to four other cancer types. This research highlights the potential of early prediction of treatment outcomes using LLM-based clinical data extraction enabling personalized treatment plans with better patient outcomes.",
+      "authors": [
+        "Muhammad Faisal Shahid",
+        "Asad Afzal",
+        "Abdullah Faiz",
+        "Muhammad Siddiqui",
+        "Arbaz Khan Shehzad",
+        "Fatima Aftab",
+        "Muhammad Usamah Shahid",
+        "Muddassar Farooq"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-12T06:25:12+00:00",
+      "link": "https://arxiv.org/pdf/2603.11594v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLMs for phenotype and outcome extraction from patient notes",
+      "llm_evidence_cn": "利用LLM从患者病历中提取表型和结果标签",
+      "llm_evidence": "利用LLM从患者病历中提取表型和结果标签",
+      "canonical_evidence": "利用LLM从患者病历中提取表型和结果标签",
+      "llm_tldr_en": "Uses LLMs to extract clinical phenotypes from patient notes for early prediction of chemotherapy outcomes.",
+      "llm_tldr_cn": "利用LLM从病程记录中提取临床表型，用于化疗结果的早期生存分析预测。",
+      "llm_tldr": "利用LLM从病程记录中提取临床表型，用于化疗结果的早期生存分析预测。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.11721v1",
+      "title": "When OpenClaw Meets Hospital: Toward an Agentic Operating System for Dynamic Clinical Workflows",
+      "abstract": "Large language model (LLM) agents extend conventional generative models by integrating reasoning, tool invocation, and persistent memory. Recent studies suggest that such agents may significantly improve clinical workflows by automating documentation, coordinating care processes, and assisting medical decision making. However, despite rapid progress, deploying autonomous agents in healthcare environments remains difficult due to reliability limitations, security risks, and insufficient long-term memory mechanisms. This work proposes an architecture that adapts LLM agents for hospital environments. The design introduces four core components: a restricted execution environment inspired by Linux multi-user systems, a document-centric interaction paradigm connecting patient and clinician agents, a page-indexed memory architecture designed for long-term clinical context management, and a curated medical skills library enabling ad-hoc composition of clinical task sequences. Rather than granting agents unrestricted system access, the architecture constrains actions through predefined skill interfaces and resource isolation. We argue that such a system forms the basis of an Agentic Operating System for Hospital, a computing layer capable of coordinating clinical workflows while maintaining safety, transparency, and auditability. This work grounds the design in OpenClaw, an open-source autonomous agent framework that structures agent capabilities as a curated library of discrete skills, and extends it with the infrastructure-level constraints required for safe clinical deployment.",
+      "authors": [
+        "Wenxian Yang",
+        "Hanzheng Qiu",
+        "Bangqun Zhang",
+        "Chengquan Li",
+        "Zhiyong Huang",
+        "Xiaobin Feng",
+        "Rongshan Yu",
+        "Jiahong Dong"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-12T09:28:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.11721v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "adapting LLM agents for hospital environments and clinical workflows",
+      "llm_evidence_cn": "使大模型智能体适应医院环境和临床工作流程",
+      "llm_evidence": "使大模型智能体适应医院环境和临床工作流程",
+      "canonical_evidence": "使大模型智能体适应医院环境和临床工作流程",
+      "llm_tldr_en": "Proposes an agentic operating system to integrate LLMs into dynamic clinical workflows and documentation.",
+      "llm_tldr_cn": "提出一种智能体操作系统，将大模型集成到动态临床工作流和文档处理中。",
+      "llm_tldr": "提出一种智能体操作系统，将大模型集成到动态临床工作流和文档处理中。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.12469v1",
+      "title": "Unleashing Video Language Models for Fine-grained HRCT Report Generation",
+      "abstract": "Generating precise diagnostic reports from High-Resolution Computed Tomography (HRCT) is critical for clinical workflow, yet it remains a formidable challenge due to the high pathological diversity and spatial sparsity within 3D volumes. While Video Language Models (VideoLMs) have demonstrated remarkable spatio-temporal reasoning in general domains, their adaptability to domain-specific, high-volume medical interpretation remains underexplored. In this work, we present AbSteering, an abnormality-centric framework that steers VideoLMs toward precise HRCT report generation. Specifically, AbSteering introduces: (i) an abnormality-centric Chain-of-Thought scheme that enforces abnormality reasoning, and (ii) a Direct Preference Optimization objective that utilizes clinically confusable abnormalities as hard negatives to enhance fine-grained discrimination. Our results demonstrate that general-purpose VideoLMs possess strong transferability to high-volume medical imaging when guided by this paradigm. Notably, AbSteering outperforms state-of-the-art domain-specific CT foundation models, which are pretrained with large-scale CTs, achieving superior detection sensitivity while simultaneously mitigating hallucinations. Our data and model weights are released at https://anonymous.4open.science/r/hrct-report-generation-video-vlm-728C/",
+      "authors": [
+        "Yingying Fang",
+        "Huichi Zhou",
+        "KinHei Lee",
+        "Yijia Wang",
+        "Zhenxuan Zhang",
+        "Jiahao Huang",
+        "Guang Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-12T21:34:38+00:00",
+      "link": "https://arxiv.org/pdf/2603.12469v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Generative AI for HRCT diagnostic report generation",
+      "llm_evidence_cn": "生成式AI用于HRCT诊断报告生成",
+      "llm_evidence": "生成式AI用于HRCT诊断报告生成",
+      "canonical_evidence": "生成式AI用于HRCT诊断报告生成",
+      "llm_tldr_en": "Proposes AbSteering to adapt Video Language Models for precise medical imaging report generation.",
+      "llm_tldr_cn": "提出AbSteering框架，使视频语言模型能够生成精确的HRCT医疗影像报告。",
+      "llm_tldr": "提出AbSteering框架，使视频语言模型能够生成精确的HRCT医疗影像报告。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.13673v1",
+      "title": "LLM-MINE: Large Language Model based Alzheimer's Disease and Related Dementias Phenotypes Mining from Clinical Notes",
+      "abstract": "Accurate extraction of Alzheimer's Disease and Related Dementias (ADRD) phenotypes from electronic health records (EHR) is critical for early-stage detection and disease staging. However, this information is usually embedded in unstructured textual data rather than tabular data, making it difficult to be extracted accurately. We therefore propose LLM-MINE, a Large Language Model-based phenotype mining framework for automatic extraction of ADRD phenotypes from clinical notes. Using two expert-defined phenotype lists, we evaluate the extracted phenotypes by examining their statistical significance across cohorts and their utility for unsupervised disease staging. Chi-square analyses confirm statistically significant phenotype differences across cohorts, with memory impairment being the strongest discriminator. Few-shot prompting with the combined phenotype lists achieves the best clustering performance (ARI=0.290, NMI=0.232), substantially outperforming biomedical NER and dictionary-based baselines. Our results demonstrate that LLM-based phenotype extraction is a promising tool for discovering clinically meaningful ADRD signals from unstructured notes.",
+      "authors": [
+        "Mingchen Shao",
+        "Yuzhang Xie",
+        "Carl Yang",
+        "Jiaying Lu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-03-14T00:45:23+00:00",
+      "link": "https://arxiv.org/pdf/2603.13673v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based phenotype mining from unstructured clinical notes",
+      "llm_evidence_cn": "基于大模型的非结构化临床笔记表型挖掘",
+      "llm_evidence": "基于大模型的非结构化临床笔记表型挖掘",
+      "canonical_evidence": "基于大模型的非结构化临床笔记表型挖掘",
+      "llm_tldr_en": "Introduces LLM-MINE for automatic extraction of dementia phenotypes from unstructured clinical text.",
+      "llm_tldr_cn": "引入LLM-MINE框架，从非结构化临床文本中自动提取痴呆症表型。",
+      "llm_tldr": "引入LLM-MINE框架，从非结构化临床文本中自动提取痴呆症表型。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Natural language processing for medical records and texts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.13676v1",
+      "title": "TheraAgent: Multi-Agent Framework with Self-Evolving Memory and Evidence-Calibrated Reasoning for PET Theranostics",
+      "abstract": "PET theranostics is transforming precision oncology, yet treatment response varies substantially; many patients receiving 177Lu-PSMA radioligand therapy (RLT) for metastatic castration-resistant prostate cancer (mCRPC) fail to respond, demanding reliable pre-therapy prediction. While LLM-based agents have shown remarkable potential in complex medical diagnosis, their application to PET theranostic outcome prediction remains unexplored, which faces three key challenges: (1) data and knowledge scarcity: RLT was only FDA-approved in 2022, yielding few training cases and insufficient domain knowledge in general LLMs; (2) heterogeneous information integration: robust prediction hinges on structured knowledge extraction from PET/CT, laboratory tests, and free-text clinical documentation; (3) evidence-grounded reasoning: clinical decisions must be anchored in trial evidence rather than LLM hallucinations. In this paper, we present TheraAgent, to our knowledge, the first agentic framework for PET theranostics, with three core innovations: (1) Multi-Expert Feature Extraction with Confidence-Weighted Consensus, where three specialized experts process heterogeneous inputs with uncertainty quantification; (2) Self-Evolving Agentic Memory (SEA-Mem), which learns prognostic patterns from accumulated cases, enabling case-based reasoning from limited data; (3) Evidence-Calibrated Reasoning, integrating a curated theranostics knowledge base to ground predictions in VISION/TheraP trial evidence. Evaluated on 35 real patients and 400 synthetic cases, TheraAgent achieves 75.7% overall accuracy on real patients and 87.0% on synthetic cases, outperforming MDAgents and MedAgent-Pro by over 20%. These results highlight a promising blueprint for trustworthy AI agents in PET theranostics, enabling trial-calibrated, multi-source decision support. Code will be released upon acceptance.",
+      "authors": [
+        "Zhihao Chen",
+        "Jiahui Wang",
+        "Yizhou Chen",
+        "Xiaozhong Ji",
+        "Xiaobin Hu",
+        "Jimin Hong",
+        "Wolfram Andreas Bosbach",
+        "Axel Rominger",
+        "Ali Afshar-Oromieh",
+        "Hongming Shan",
+        "Kuangyu Shi"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-14T00:50:10+00:00",
+      "link": "https://arxiv.org/pdf/2603.13676v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Multi-agent framework for medical diagnosis and outcome prediction",
+      "llm_evidence_cn": "用于医疗诊断和结果预测的多智能体框架",
+      "llm_evidence": "用于医疗诊断和结果预测的多智能体框架",
+      "canonical_evidence": "用于医疗诊断和结果预测的多智能体框架",
+      "llm_tldr_en": "Proposes TheraAgent, a multi-agent LLM framework for predicting outcomes in PET theranostics.",
+      "llm_tldr_cn": "提出TheraAgent多智能体框架，利用大模型预测PET诊疗一体化的治疗结果。",
+      "llm_tldr": "提出TheraAgent多智能体框架，利用大模型预测PET诊疗一体化的治疗结果。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical large language models for diagnosis and treatment",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.13956v1",
+      "title": "EviAgent: Evidence-Driven Agent for Radiology Report Generation",
+      "abstract": "Automated radiology report generation holds immense potential to alleviate the heavy workload of radiologists. Despite the formidable vision-language capabilities of recent Multimodal Large Language Models (MLLMs), their clinical deployment is severely constrained by inherent limitations: their \"black-box\" decision-making renders the generated reports untraceable due to the lack of explicit visual evidence to support the diagnosis, and they struggle to access external domain knowledge. To address these challenges, we propose the Evidence-driven Radiology Report Generation Agent (EviAgent). Unlike opaque end-to-end paradigms, EviAgent coordinates a transparent reasoning trajectory by breaking down the complex generation process into granular operational units. We integrate multi-dimensional visual experts and retrieval mechanisms as external support modules, endowing the system with explicit visual evidence and high-quality clinical priors. Extensive experiments on MIMIC-CXR, CheXpert Plus, and IU-Xray datasets demonstrate that EviAgent outperforms both large-scale generalist models and specialized medical models, providing a robust and trustworthy solution for automated radiology report generation.",
+      "authors": [
+        "Tuoshi Qi",
+        "Shenshen Bu",
+        "Yingfei Xiang",
+        "Zhiming Dai"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-14T14:07:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.13956v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multimodal LLM agent for radiology report generation and diagnosis",
+      "llm_evidence_cn": "用于放射报告生成和诊断的多模态大模型智能体",
+      "llm_evidence": "用于放射报告生成和诊断的多模态大模型智能体",
+      "canonical_evidence": "用于放射报告生成和诊断的多模态大模型智能体",
+      "llm_tldr_en": "An evidence-driven agent that improves transparency and accuracy in automated radiology report generation.",
+      "llm_tldr_cn": "一种证据驱动的智能体，提高了自动放射报告生成的透明度和准确性。",
+      "llm_tldr": "一种证据驱动的智能体，提高了自动放射报告生成的透明度和准确性。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14265v1",
+      "title": "MedPriv-Bench: Benchmarking the Privacy-Utility Trade-off of Large Language Models in Medical Open-End Question Answering",
+      "abstract": "Recent advances in Retrieval-Augmented Generation (RAG) have enabled large language models (LLMs) to ground outputs in clinical evidence. However, connecting LLMs with external databases introduces the risk of contextual leakage: a subtle privacy threat where unique combinations of medical details enable patient re-identification even without explicit identifiers. Current benchmarks in healthcare heavily focus on accuracy, ignoring such privacy issues, despite strict regulations like Health Insurance Portability and Accountability Act (HIPAA) and General Data Protection Regulation (GDPR). To fill this gap, we present MedPriv-Bench, the first benchmark specifically designed to jointly evaluate privacy preservation and clinical utility in medical open-ended question answering. Our framework utilizes a multi-agent, human-in-the-loop pipeline to synthesize sensitive medical contexts and clinically relevant queries that create realistic privacy pressure. We establish a standardized evaluation protocol leveraging a pre-trained RoBERTa-Natural Language Inference (NLI) model as an automated judge to quantify data leakage, achieving an average of 85.9% alignment with human experts. Through an extensive evaluation of 9 representative LLMs, we demonstrate a pervasive privacy-utility trade-off. Our findings underscore the necessity of domain-specific benchmarks to validate the safety and efficacy of medical AI systems in privacy-sensitive environments.",
+      "authors": [
+        "Shaowei Guan",
+        "Yu Zhai",
+        "Hin Chi Kwok",
+        "Jiawei Du",
+        "Xinyu Feng",
+        "Jing Li",
+        "Harry Qin",
+        "Vivian Hui"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.MA"
+      ],
+      "published": "2026-03-15T07:47:35+00:00",
+      "link": "https://arxiv.org/pdf/2603.14265v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Benchmarking privacy-utility trade-off in medical open-end question answering",
+      "llm_evidence_cn": "医疗开放式问答中隐私与效用的权衡基准测试",
+      "llm_evidence": "医疗开放式问答中隐私与效用的权衡基准测试",
+      "canonical_evidence": "医疗开放式问答中隐私与效用的权衡基准测试",
+      "llm_tldr_en": "Introduces MedPriv-Bench to evaluate privacy risks and accuracy in medical RAG systems.",
+      "llm_tldr_cn": "提出MedPriv-Bench，用于评估医疗检索增强生成系统中的隐私泄露风险与准确性。",
+      "llm_tldr": "提出MedPriv-Bench，用于评估医疗检索增强生成系统中的隐私泄露风险与准确性。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14323v1",
+      "title": "How Do Medical MLLMs Fail? A Study on Visual Grounding in Medical Images",
+      "abstract": "Generalist multimodal large language models (MLLMs) have achieved impressive performance across a wide range of vision-language tasks. However, their performance on medical tasks, particularly in zero-shot settings where generalization is critical, remains suboptimal. A key research gap is the limited understanding of why medical MLLMs underperform in medical image interpretation. In this work, we present a pioneering systematic investigation into the visual grounding capabilities of state-of-the-art medical MLLMs. To disentangle visual grounding from semantic grounding, we design VGMED, a novel evaluation dataset developed with expert clinical guidance, explicitly assessing the visual grounding capability of medical MLLMs. We introduce new quantitative metrics and conduct detailed qualitative analyses. Our study across eight state-of-the-art (SOTA) medical MLLMs validates that they often fail to ground their predictions in clinically relevant image regions. We note that this finding is specific to medical image analysis; in contrast, prior work has shown that MLLMs are capable of grounding their predictions in the correct image regions when applied to natural scene images. Motivated by these findings, we propose VGRefine, a simple yet effective inference-time method that refines attention distribution to improve visual grounding in medical settings. Our approach achieves SOTA performance across 6 diverse Med-VQA benchmarks (over 110K VQA samples from 8 imaging modalities) without requiring additional training or external expert models. Overall, our work, for the first time, systematically validates inadequate visual grounding as one of the key contributing factors for medical MLLMs' under-performance. Additional experiments are included in the Supp.",
+      "authors": [
+        "Guimeng Liu",
+        "Tianze Yu",
+        "Somayeh Ebrahimkhani",
+        "Lin Zhi Zheng Shawn",
+        "Kok Pin Ng",
+        "Ngai-Man Cheung"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-15T10:46:27+00:00",
+      "link": "https://arxiv.org/pdf/2603.14323v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Evaluation of visual grounding in medical MLLMs",
+      "llm_evidence_cn": "医学多模态大模型视觉定位能力评估",
+      "llm_evidence": "医学多模态大模型视觉定位能力评估",
+      "canonical_evidence": "医学多模态大模型视觉定位能力评估",
+      "llm_tldr_en": "Investigates why medical multimodal LLMs fail in image interpretation using a new evaluation dataset.",
+      "llm_tldr_cn": "通过新设计的VGMED数据集，系统研究医学多模态大模型在图像解读中失效的原因。",
+      "llm_tldr": "通过新设计的VGMED数据集，系统研究医学多模态大模型在图像解读中失效的原因。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14771v1",
+      "title": "OpenHospital: A Thing-in-itself Arena for Evolving and Benchmarking LLM-based Collective Intelligence",
+      "abstract": "Large Language Model (LLM)-based Collective Intelligence (CI) presents a promising approach to overcoming the data wall and continuously boosting the capabilities of LLM agents. However, there is currently no dedicated arena for evolving and benchmarking LLM-based CI. To address this gap, we introduce OpenHospital, an interactive arena where physician agents can evolve CI through interactions with patient agents. This arena employs a data-in-agent-self paradigm that rapidly enhances agent capabilities and provides robust evaluation metrics for benchmarking both medical proficiency and system efficiency. Experiments demonstrate the effectiveness of OpenHospital in both fostering and quantifying CI.",
+      "authors": [
+        "Peigen Liu",
+        "Rui Ding",
+        "Yuren Mao",
+        "Ziyan Jiang",
+        "Yuxiang Ye",
+        "Yunjun Gao",
+        "Ying Zhang",
+        "Renjie Sun",
+        "Longbin Lai",
+        "Zhengping Qian"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-16T03:12:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.14771v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Arena for evolving and benchmarking LLM-based medical agents",
+      "llm_evidence_cn": "大语言模型医学智能体演化与基准测试竞技场",
+      "llm_evidence": "大语言模型医学智能体演化与基准测试竞技场",
+      "canonical_evidence": "大语言模型医学智能体演化与基准测试竞技场",
+      "llm_tldr_en": "Presents OpenHospital, an interactive arena for benchmarking medical proficiency and efficiency of LLM agents.",
+      "llm_tldr_cn": "推出OpenHospital交互式竞技场，用于演化和评估大模型医学智能体的专业能力与系统效率。",
+      "llm_tldr": "推出OpenHospital交互式竞技场，用于演化和评估大模型医学智能体的专业能力与系统效率。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "State of the art in medical large language models",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14771v2",
+      "title": "OpenHospital: A Thing-in-itself Arena for Evolving and Benchmarking LLM-based Collective Intelligence",
+      "abstract": "Large Language Model (LLM)-based Collective Intelligence (CI) presents a promising approach to overcoming the data wall and continuously boosting the capabilities of LLM agents. However, there is currently no dedicated arena for evolving and benchmarking LLM-based CI. To address this gap, we introduce OpenHospital, an interactive arena where physician agents can evolve CI through interactions with patient agents. This arena employs a data-in-agent-self paradigm that rapidly enhances agent capabilities and provides robust evaluation metrics for benchmarking both medical proficiency and system efficiency. Experiments demonstrate the effectiveness of OpenHospital in both fostering and quantifying CI.",
+      "authors": [
+        "Peigen Liu",
+        "Rui Ding",
+        "Yuren Mao",
+        "Ziyan Jiang",
+        "Yuxiang Ye",
+        "Yunjun Gao",
+        "Ying Zhang",
+        "Renjie Sun",
+        "Longbin Lai",
+        "Zhengping Qian"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-16T03:12:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.14771v2",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Arena for evolving and benchmarking LLM-based collective intelligence in medicine",
+      "llm_evidence_cn": "用于演化和基准测试医疗领域LLM集体智能的竞技场",
+      "llm_evidence": "用于演化和基准测试医疗领域LLM集体智能的竞技场",
+      "canonical_evidence": "用于演化和基准测试医疗领域LLM集体智能的竞技场",
+      "llm_tldr_en": "OpenHospital facilitates interaction between physician and patient agents to boost medical proficiency.",
+      "llm_tldr_cn": "OpenHospital通过医生与患者智能体的交互来提升并评估医疗大模型的专业能力。",
+      "llm_tldr": "OpenHospital通过医生与患者智能体的交互来提升并评估医疗大模型的专业能力。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.15270v1",
+      "title": "From Documents to Spans: Code-Centric Learning for LLM-based ICD Coding",
+      "abstract": "ICD coding is a critical yet challenging task in healthcare. Recently, LLM-based methods demonstrate stronger generalization than discriminative methods in ICD coding. However, fine-tuning LLMs for ICD coding faces three major challenges. First, existing public ICD coding datasets provide limited coverage of the ICD code space, restricting a model's ability to generalize to unseen codes. Second, naive fine-tuning diminishes the interpretability of LLMs, as few public datasets contain explicit supporting evidence for assigned codes. Third, ICD coding typically involves long clinical documents, making fine-tuning LLMs computationally expensive. To address these issues, we propose Code-Centric Learning, a training framework that shifts supervision from full clinical documents to scalable, short evidence spans. The key idea of this framework is that span-level learning improves LLMs' ability to perform document-level ICD coding. Our proposed framework consists of a mixed training strategy and code-centric data expansion, which substantially reduces training cost, improves accuracy on unseen ICD codes and preserves interpretability. Under the same LLM backbone, our method substantially outperforms strong baselines. Notably, our method enables small-scale LLMs to achieve performance comparable to much larger proprietary models, demonstrating its effectiveness and potential for fully automated ICD coding.",
+      "authors": [
+        "Xu Zhang",
+        "Wenxin Ma",
+        "Chenxu Wu",
+        "Rongsheng Wang",
+        "Kun Zhang",
+        "S. Kevin Zhou"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-16T13:37:01+00:00",
+      "link": "https://arxiv.org/pdf/2603.15270v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Fine-tuning LLMs for ICD coding in clinical documents",
+      "llm_evidence_cn": "针对临床文档ICD编码任务微调大语言模型",
+      "llm_evidence": "针对临床文档ICD编码任务微调大语言模型",
+      "canonical_evidence": "针对临床文档ICD编码任务微调大语言模型",
+      "llm_tldr_en": "Proposes Code-Centric Learning to improve LLM fine-tuning for automated medical ICD coding.",
+      "llm_tldr_cn": "提出以代码为中心的学习框架，优化大模型在医疗ICD编码任务中的微调效果。",
+      "llm_tldr": "提出以代码为中心的学习框架，优化大模型在医疗ICD编码任务中的微调效果。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.15932v1",
+      "title": "Nodule-Aligned Latent Space Learning with LLM-Driven Multimodal Diffusion for Lung Nodule Progression Prediction",
+      "abstract": "Early diagnosis of lung cancer is challenging due to biological uncertainty and the limited understanding of the biological mechanisms driving nodule progression. To address this, we propose Nodule-Aligned Multimodal (Latent) Diffusion (NAMD), a novel framework that predicts lung nodule progression by generating 1-year follow-up nodule computed tomography images with baseline scans and the patient's and nodule's Electronic Health Record (EHR). NAMD introduces a nodule-aligned latent space, where distances between latents directly correspond to changes in nodule attributes, and utilizes an LLM-driven control mechanism to condition the diffusion backbone on patient data. On the National Lung Screening Trial (NLST) dataset, our method synthesizes follow-up nodule images that achieve an AUROC of 0.805 and an AUPRC of 0.346 for lung nodule malignancy prediction, significantly outperforming both baseline scans and state-of-the-art synthesis methods, while closely approaching the performance of real follow-up scans (AUROC: 0.819, AUPRC: 0.393). These results demonstrate that NAMD captures clinically relevant features of lung nodule progression, facilitating earlier and more accurate diagnosis.",
+      "authors": [
+        "James Song",
+        "Yifan Wang",
+        "Chuan Zhou",
+        "Liyue Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-16T21:22:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.15932v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-driven control mechanism to condition diffusion on EHR and patient data",
+      "llm_evidence_cn": "大模型驱动的控制机制，利用电子健康档案和患者数据调节扩散模型",
+      "llm_evidence": "大模型驱动的控制机制，利用电子健康档案和患者数据调节扩散模型",
+      "canonical_evidence": "大模型驱动的控制机制，利用电子健康档案和患者数据调节扩散模型",
+      "llm_tldr_en": "Uses an LLM-driven framework to predict lung nodule progression by integrating CT scans and EHR data.",
+      "llm_tldr_cn": "利用大模型驱动框架，结合CT影像和电子健康档案数据预测肺结节进展。",
+      "llm_tldr": "利用大模型驱动框架，结合CT影像和电子健康档案数据预测肺结节进展。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.16002v1",
+      "title": "RadAnnotate: Large Language Models for Efficient and Reliable Radiology Report Annotation",
+      "abstract": "Radiology report annotation is essential for clinical NLP, yet manual labeling is slow and costly. We present RadAnnotate, an LLM-based framework that studies retrieval-augmented synthetic reports and confidence-based selective automation to reduce expert effort for labeling in RadGraph. We study RadGraph-style entity labeling (graph nodes) and leave relation extraction (edges) to future work. First, we train entity-specific classifiers on gold-standard reports and characterize their strengths and failure modes across anatomy and observation categories, with uncertain observations hardest to learn. Second, we generate RAG-guided synthetic reports and show that synthetic-only models remain within 1-2 F1 points of gold-trained models, and that synthetic augmentation is especially helpful for uncertain observations in a low-resource setting, improving F1 from 0.61 to 0.70. Finally, by learning entity-specific confidence thresholds, RadAnnotate can automatically annotate 55-90% of reports at 0.86-0.92 entity match score while routing low-confidence cases for expert review.",
+      "authors": [
+        "Saisha Pradeep Shetty",
+        "Roger Eric Goldman",
+        "Vladimir Filkov"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-03-16T23:23:23+00:00",
+      "link": "https://arxiv.org/pdf/2603.16002v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based framework for radiology report annotation and clinical NLP",
+      "llm_evidence_cn": "基于大模型的放射报告标注与临床自然语言处理框架",
+      "llm_evidence": "基于大模型的放射报告标注与临床自然语言处理框架",
+      "canonical_evidence": "基于大模型的放射报告标注与临床自然语言处理框架",
+      "llm_tldr_en": "Develops RadAnnotate to automate radiology report labeling using LLMs and RAG.",
+      "llm_tldr_cn": "开发RadAnnotate框架，利用大模型和检索增强技术实现放射报告的自动标注。",
+      "llm_tldr": "开发RadAnnotate框架，利用大模型和检索增强技术实现放射报告的自动标注。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Natural language processing for medical records and texts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.16372v1",
+      "title": "InViC: Intent-aware Visual Cues for Medical Visual Question Answering",
+      "abstract": "Medical visual question answering (Med-VQA) aims to answer clinically relevant questions grounded in medical images. However, existing multimodal large language models (MLLMs) often exhibit shortcut answering, producing plausible responses by exploiting language priors or dataset biases while insufficiently attending to visual evidence. This behavior undermines clinical reliability, especially when subtle imaging findings are decisive. We propose a lightweight plug-in framework, termed Intent-aware Visual Cues (InViC), to explicitly enhance image-based answer generation in medical VQA. InViC introduces a Cue Tokens Extraction (CTE) module that distills dense visual tokens into a compact set of K question-conditioned cue tokens, which serve as structured visual intermediaries injected into the LLM decoder to promote intent-aligned visual evidence. To discourage bypassing of visual information, we further design a two-stage fine-tuning strategy with a cue-bottleneck attention mask. In Stage I, we employ an attention mask to block the LLM's direct view of raw visual features, thereby funneling all visual evidence through the cue pathway. In Stage II, standard causal attention is restored to train the LLM to jointly exploit the visual and cue tokens. We evaluate InViC on three public Med-VQA benchmarks (VQA-RAD, SLAKE, and ImageCLEF VQA-Med 2019) across multiple representative MLLMs. InViC consistently improves over zero-shot inference and standard LoRA fine-tuning, demonstrating that intent-aware visual cues with bottlenecked training is a practical and effective strategy for improving trustworthy Med-VQA.",
+      "authors": [
+        "Zhisong Wang",
+        "Ziyang Chen",
+        "Zanting Ye",
+        "Hongze Zhu",
+        "Yefeng Zheng",
+        "Yong Xia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-17T10:59:48+00:00",
+      "link": "https://arxiv.org/pdf/2603.16372v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Enhancing medical visual question answering in multimodal large language models",
+      "llm_evidence_cn": "增强多模态大语言模型中的医学视觉问答",
+      "llm_evidence": "增强多模态大语言模型中的医学视觉问答",
+      "canonical_evidence": "增强多模态大语言模型中的医学视觉问答",
+      "llm_tldr_en": "Proposes InViC to improve clinical reliability of MLLMs in medical visual question answering tasks.",
+      "llm_tldr_cn": "提出InViC框架，通过意图感知视觉提示增强多模态大模型在医学问答中的可靠性。",
+      "llm_tldr": "提出InViC框架，通过意图感知视觉提示增强多模态大模型在医学问答中的可靠性。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical large language models for diagnosis and treatment",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.16738v1",
+      "title": "MedCL-Bench: Benchmarking stability-efficiency trade-offs and scaling in biomedical continual learning",
+      "abstract": "Medical language models must be updated as evidence and terminology evolve, yet sequential updating can trigger catastrophic forgetting. Although biomedical NLP has many static benchmarks, no unified, task-diverse benchmark exists for evaluating continual learning under standardized protocols, robustness to task order and compute-aware reporting. We introduce MedCL-Bench, which streams ten biomedical NLP datasets spanning five task families and evaluates eleven continual learning strategies across eight task orders, reporting retention, transfer, and GPU-hour cost. Across backbones and task orders, direct sequential fine-tuning on incoming tasks induces catastrophic forgetting, causing update-induced performance regressions on prior tasks. Continual learning methods occupy distinct retention-compute frontiers: parameter-isolation provides the best retention per GPU-hour, replay offers strong protection at higher cost, and regularization yields limited benefit. Forgetting is task-dependent, with multi-label topic classification most vulnerable and constrained-output tasks more robust. MedCL-Bench provides a reproducible framework for auditing model updates before deployment.",
+      "authors": [
+        "Min Zeng",
+        "Shuang Zhou",
+        "Zaifu Zhan",
+        "Rui Zhang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-17T16:18:41+00:00",
+      "link": "https://arxiv.org/pdf/2603.16738v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Benchmarking biomedical NLP tasks and continual learning strategies",
+      "llm_evidence_cn": "基准测试生物医学NLP任务和持续学习策略",
+      "llm_evidence": "基准测试生物医学NLP任务和持续学习策略",
+      "canonical_evidence": "基准测试生物医学NLP任务和持续学习策略",
+      "llm_tldr_en": "Introduces MedCL-Bench to evaluate stability and efficiency in biomedical continual learning for language models.",
+      "llm_tldr_cn": "引入MedCL-Bench，用于评估生物医学语言模型在持续学习中的稳定性和效率。",
+      "llm_tldr": "引入MedCL-Bench，用于评估生物医学语言模型在持续学习中的稳定性和效率。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.16822v1",
+      "title": "Surg$Σ$: A Spectrum of Large-Scale Multimodal Data and Foundation Models for Surgical Intelligence",
+      "abstract": "Surgical intelligence has the potential to improve the safety and consistency of surgical care, yet most existing surgical AI frameworks remain task-specific and struggle to generalize across procedures and institutions. Although multimodal foundation models, particularly multimodal large language models, have demonstrated strong cross-task capabilities across various medical domains, their advancement in surgery remains constrained by the lack of large-scale, systematically curated multimodal data. To address this challenge, we introduce Surg$Σ$, a spectrum of large-scale multimodal data and foundation models for surgical intelligence. At the core of this framework lies Surg$Σ$-DB, a large-scale multimodal data foundation designed to support diverse surgical tasks. Surg$Σ$-DB consolidates heterogeneous surgical data sources (including open-source datasets, curated in-house clinical collections and web-source data) into a unified schema, aiming to improve label consistency and data standardization across heterogeneous datasets. Surg$Σ$-DB spans 6 clinical specialties and diverse surgical types, providing rich image- and video-level annotations across 18 practical surgical tasks covering understanding, reasoning, planning, and generation, at an unprecedented scale (over 5.98M conversations). Beyond conventional multimodal conversations, Surg$Σ$-DB incorporates hierarchical reasoning annotations, providing richer semantic cues to support deeper contextual understanding in complex surgical scenarios. We further provide empirical evidence through recently developed surgical foundation models built upon Surg$Σ$-DB, illustrating the practical benefits of large-scale multimodal annotations, unified semantic design, and structured reasoning annotations for improving cross-task generalization and interpretability.",
+      "authors": [
+        "Zhitao Zeng",
+        "Mengya Xu",
+        "Jian Jiang",
+        "Pengfei Guo",
+        "Yunqiu Xu",
+        "Zhu Zhuo",
+        "Chang Han Low",
+        "Yufan He",
+        "Dong Yang",
+        "Chenxi Lin",
+        "Yiming Gu",
+        "Jiaxin Guo",
+        "Yutong Ban",
+        "Daguang Xu",
+        "Qi Dou",
+        "Yueming Jin"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-17T17:27:32+00:00",
+      "link": "https://arxiv.org/pdf/2603.16822v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multimodal foundation models for surgical intelligence and medical domains",
+      "llm_evidence_cn": "用于手术智能和医学领域的多模态基础模型",
+      "llm_evidence": "用于手术智能和医学领域的多模态基础模型",
+      "canonical_evidence": "用于手术智能和医学领域的多模态基础模型",
+      "llm_tldr_en": "Introduces a large-scale multimodal dataset and foundation models to advance surgical intelligence.",
+      "llm_tldr_cn": "引入大规模多模态数据集和基础模型，以推进手术智能化发展。",
+      "llm_tldr": "引入大规模多模态数据集和基础模型，以推进手术智能化发展。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.17079v1",
+      "title": "ACE-LoRA: Graph-Attentive Context Enhancement for Parameter-Efficient Adaptation of Medical Vision-Language Models",
+      "abstract": "The success of CLIP-like vision-language models (VLMs) on natural images has inspired medical counterparts, yet existing approaches largely fall into two extremes: specialist models trained on single-domain data, which capture domain-specific details but generalize poorly, and generalist medical VLMs trained on multi-domain data, which retain broad semantics but dilute fine-grained diagnostic cues. Bridging this specialization-generalization trade-off remains challenging. To address this problem, we propose ACE-LoRA, a parameter-efficient adaptation framework for generalist medical VLMs that maintains robust zero-shot generalization. ACE-LoRA integrates Low-Rank Adaptation (LoRA) modules into frozen image-text encoders and introduces an Attention-based Context Enhancement Hypergraph Neural Network (ACE-HGNN) module that captures higher-order contextual interactions beyond pairwise similarity to enrich global representations with localized diagnostic cues, addressing a key limitation of prior Parameter-Efficient Fine-Tuning (PEFT) methods that overlook fine-grained details. To further enhance cross-modal alignment, we formulate a label-guided InfoNCE loss to effectively suppress false negatives between semantically related image-text pairs. Despite adding only 0.95M trainable parameters, ACE-LoRA consistently outperforms state-of-the-art medical VLMs and PEFT baselines across zero-shot classification, segmentation, and detection benchmarks spanning multiple domains. Our code is available at https://github.com/icon-lab/ACE-LoRA.",
+      "authors": [
+        "M. Arda Aydın",
+        "Melih B. Yilmaz",
+        "Aykut Koç",
+        "Tolga Çukur"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-17T19:06:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.17079v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Parameter-efficient adaptation of medical vision-language models",
+      "llm_evidence_cn": "医学视觉语言模型的参数高效微调",
+      "llm_evidence": "医学视觉语言模型的参数高效微调",
+      "canonical_evidence": "医学视觉语言模型的参数高效微调",
+      "llm_tldr_en": "Introduces ACE-LoRA for adapting generalist medical VLMs to maintain diagnostic cues and generalization.",
+      "llm_tldr_cn": "提出ACE-LoRA框架，通过参数高效微调平衡医学视觉语言模型的专业化与泛化。",
+      "llm_tldr": "提出ACE-LoRA框架，通过参数高效微调平衡医学视觉语言模型的专业化与泛化。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.17179v1",
+      "title": "Ablation Study of a Fairness Auditing Agentic System for Bias Mitigation in Early-Onset Colorectal Cancer Detection",
+      "abstract": "Artificial intelligence (AI) is increasingly used in clinical settings, yet limited oversight and domain expertise can allow algorithmic bias and safety risks to persist. This study evaluates whether an agentic AI system can support auditing biomedical machine learning models for fairness in early-onset colorectal cancer (EO-CRC), a condition with documented demographic disparities. We implemented a two-agent architecture consisting of a Domain Expert Agent that synthesizes literature on EO-CRC disparities and a Fairness Consultant Agent that recommends sensitive attributes and fairness metrics for model evaluation. An ablation study compared three Ollama large language models (8B, 20B, and 120B parameters) across three configurations: pretrained LLM-only, Agent without Retrieval-Augmented Generation (RAG), and Agent with RAG. Across models, the Agent with RAG achieved the highest semantic similarity to expert-derived reference statements, particularly for disparity identification, suggesting agentic systems with retrieval may help scale fairness auditing in clinical AI.",
+      "authors": [
+        "Amalia Ionescu",
+        "Jose Guadalupe Hernandez",
+        "Jui-Hsuan Chang",
+        "Emily F. Wong",
+        "Paul Wang",
+        "Jason H. Moore",
+        "Tiffani J. Bright"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA"
+      ],
+      "published": "2026-03-17T22:13:22+00:00",
+      "link": "https://arxiv.org/pdf/2603.17179v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Agentic AI system using LLMs for fairness auditing in clinical cancer detection",
+      "llm_evidence_cn": "使用大模型进行癌症检测公平性审计的智能体系统",
+      "llm_evidence": "使用大模型进行癌症检测公平性审计的智能体系统",
+      "canonical_evidence": "使用大模型进行癌症检测公平性审计的智能体系统",
+      "llm_tldr_en": "Evaluates an agentic AI system using multiple LLMs to audit fairness in colorectal cancer detection models.",
+      "llm_tldr_cn": "评估了一个使用多个大模型智能体对结直肠癌检测模型进行公平性审计的系统。",
+      "llm_tldr": "评估了一个使用多个大模型智能体对结直肠癌检测模型进行公平性审计的系统。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.17191v1",
+      "title": "Tabular LLMs for Interpretable Few-Shot Alzheimer's Disease Prediction with Multimodal Biomedical Data",
+      "abstract": "Accurate diagnosis of Alzheimer's disease (AD) requires handling tabular biomarker data, yet such data are often small and incomplete, where deep learning models frequently fail to outperform classical methods. Pretrained large language models (LLMs) offer few-shot generalization, structured reasoning, and interpretable outputs, providing a powerful paradigm shift for clinical prediction. We propose TAP-GPT Tabular Alzheimer's Prediction GPT, a domain-adapted tabular LLM framework built on TableGPT2 and fine-tuned for few-shot AD classification using tabular prompts rather than plain texts. We evaluate TAP-GPT across four ADNI-derived datasets, including QT-PAD biomarkers and region-level structural MRI, amyloid PET, and tau PET for binary AD classification. Across multimodal and unimodal settings, TAP-GPT improves upon its backbone models and outperforms traditional machine learning baselines in the few-shot setting while remaining competitive with state-of-the-art general-purpose LLMs. We show that feature selection mitigates degradation in high-dimensional inputs and that TAP-GPT maintains stable performance under simulated and real-world missingness without imputation. Additionally, TAP-GPT produces structured, modality-aware reasoning aligned with established AD biology and shows greater stability under self-reflection, supporting its use in iterative multi-agent systems. To our knowledge, this is the first systematic application of a tabular-specialized LLM to multimodal biomarker-based AD prediction, demonstrating that such pretrained models can effectively address structured clinical prediction tasks and laying the foundation for tabular LLM-driven multi-agent clinical decision-support systems. The source code is publicly available on GitHub: https://github.com/sophie-kearney/TAP-GPT.",
+      "authors": [
+        "Sophie Kearney",
+        "Shu Yang",
+        "Zixuan Wen",
+        "Weimin Lyu",
+        "Bojian Hou",
+        "Duy Duong-Tran",
+        "Tianlong Chen",
+        "Jason H. Moore",
+        "Marylyn D. Ritchie",
+        "Chao Chen",
+        "Li Shen"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.LG",
+        "q-bio.QM"
+      ],
+      "published": "2026-03-17T22:43:50+00:00",
+      "link": "https://arxiv.org/pdf/2603.17191v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Fine-tuning tabular LLMs for Alzheimer's prediction",
+      "llm_evidence_cn": "微调表格大模型用于阿尔茨海默症预测",
+      "llm_evidence": "微调表格大模型用于阿尔茨海默症预测",
+      "canonical_evidence": "微调表格大模型用于阿尔茨海默症预测",
+      "llm_tldr_en": "Adapts and fine-tunes LLMs for few-shot Alzheimer's disease prediction using multimodal tabular data.",
+      "llm_tldr_cn": "针对多模态表格数据微调大语言模型，实现可解释的少样本阿尔茨海默症临床预测。",
+      "llm_tldr": "针对多模态表格数据微调大语言模型，实现可解释的少样本阿尔茨海默症临床预测。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.17356v1",
+      "title": "PACE-RAG: Patient-Aware Contextual and Evidence-based Policy RAG for Clinical Drug Recommendation",
+      "abstract": "Drug recommendation requires a deep understanding of individual patient context, especially for complex conditions like Parkinson's disease. While LLMs possess broad medical knowledge, they fail to capture the subtle nuances of actual prescribing patterns. Existing RAG methods also struggle with these complexities because guideline-based retrieval remains too generic and similar-patient retrieval often replicates majority patterns without accounting for the unique clinical nuances of individual patients. To bridge this gap, we propose PACE-RAG (Patient-Aware Contextual and Evidence-based Policy RAG), a novel framework designed to synthesize individual patient context with the prescribing tendencies of similar cases. By analyzing treatment patterns tailored to specific clinical signals, PACE-RAG identifies optimal prescriptions and generates an explainable clinical summary. Evaluated on a Parkinson's cohort and the MIMIC-IV benchmark using Llama-3.1-8B and Qwen3-8B, PACE-RAG achieved state-of-the-art performance, reaching F1 scores of 80.84% and 47.22%, respectively. These results validate PACE-RAG as a robust, clinically grounded solution for personalized decision support. Our code is available at: https://github.com/ChaeYoungHuh/PACE-RAG.",
+      "authors": [
+        "Chaeyoung Huh",
+        "Hyunmin Hwang",
+        "Jung Hwan Shin",
+        "Jinse Park",
+        "Jong Chul Ye"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-18T04:40:53+00:00",
+      "link": "https://arxiv.org/pdf/2603.17356v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based RAG framework for clinical drug recommendation",
+      "llm_evidence_cn": "基于大模型检索增强生成的临床药物推荐框架",
+      "llm_evidence": "基于大模型检索增强生成的临床药物推荐框架",
+      "canonical_evidence": "基于大模型检索增强生成的临床药物推荐框架",
+      "llm_tldr_en": "Proposes PACE-RAG to improve drug recommendations by synthesizing patient context with prescribing patterns.",
+      "llm_tldr_cn": "提出PACE-RAG框架，通过结合患者上下文与用药习惯来优化临床药物推荐。",
+      "llm_tldr": "提出PACE-RAG框架，通过结合患者上下文与用药习惯来优化临床药物推荐。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.17392v1",
+      "title": "Agentic Cognitive Profiling: Realigning Automated Alzheimer's Disease Detection with Clinical Construct Validity",
+      "abstract": "Automated Alzheimer's Disease (AD) screening has predominantly followed the inductive paradigm of pattern recognition, which directly maps the input signal to the outcome label. This paradigm sacrifices construct validity of clinical protocol for statistical shortcuts. This paper proposes Agentic Cognitive Profiling (ACP), an agentic framework that realigns automated screening with clinical protocol logic across multiple cognitive domains. Rather than learning opaque mappings from transcripts to labels, the framework decomposes standardized assessments into atomic cognitive tasks and orchestrates specialized LLM agents to extract verifiable scoring primitives. Central to our design is decoupling semantic understanding from measurement by delegating all quantification to deterministic function calling, thereby mitigating hallucination and restoring construct validity. Unlike popular datasets that typically comprise around a hundred participants under a single task, we evaluate on a clinically-annotated corpus of 402 participants across eight structured cognitive tasks spanning multiple cognitive domains. The framework achieves 90.5% score match rate in task examination and 85.3% accuracy in AD prediction, surpassing popular baselines while generating interpretable cognitive profiles grounded in behavioral evidence. This work demonstrates that construct validity and predictive performance need not be traded off, charting a path toward AD screening systems that explain rather than merely predict.",
+      "authors": [
+        "Jiawen Kang",
+        "Kun Li",
+        "Dongrui Han",
+        "Jinchao Li",
+        "Junan Li",
+        "Lingwei Meng",
+        "Xixin Wu",
+        "Helen Meng"
+      ],
+      "primary_category": "cs.MA",
+      "categories": [
+        "cs.MA",
+        "cs.IR",
+        "q-bio.NC"
+      ],
+      "published": "2026-03-18T06:15:35+00:00",
+      "link": "https://arxiv.org/pdf/2603.17392v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Agentic framework using LLM agents for automated Alzheimer's Disease detection",
+      "llm_evidence_cn": "使用大模型智能体进行自动化阿尔茨海默病检测的智能体框架",
+      "llm_evidence": "使用大模型智能体进行自动化阿尔茨海默病检测的智能体框架",
+      "canonical_evidence": "使用大模型智能体进行自动化阿尔茨海默病检测的智能体框架",
+      "llm_tldr_en": "Uses specialized LLM agents to realign automated Alzheimer's screening with clinical protocol logic.",
+      "llm_tldr_cn": "利用专门的大模型智能体将自动化阿尔茨海默病筛查与临床协议逻辑重新对齐。",
+      "llm_tldr": "利用专门的大模型智能体将自动化阿尔茨海默病筛查与临床协议逻辑重新对齐。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.09109v1",
+      "title": "VIVID-Med: LLM-Supervised Structured Pretraining for Deployable Medical ViTs",
+      "abstract": "Vision-language pretraining has driven significant progress in medical image analysis. However, current methods typically supervise visual encoders using one-hot labels or free-form text, neither of which effectively captures the complex semantic relationships among clinical findings. In this study, we introduce VIVID-Med, a novel framework that leverages a frozen large language model (LLM) as a structured semantic teacher to pretrain medical vision transformers (ViTs). VIVID-Med translates clinical findings into verifiable JSON field-state pairs via a Unified Medical Schema (UMS), utilizing answerability-aware masking to focus optimization. It then employs Structured Prediction Decomposition (SPD) to partition cross-attention into orthogonality-regularized query groups, extracting complementary visual aspects. Crucially, the LLM is discarded post-training, yielding a lightweight, deployable ViT-only backbone. We evaluated VIVID-Med across multiple settings: on CheXpert linear probing, it achieves a macro-AUC of 0.8588, outperforming BiomedCLIP by +6.65 points while using 500x less data. It also demonstrates robust zero-shot cross-domain transfer to NIH ChestX-ray14 (0.7225 macro-AUC) and strong cross-modality generalization to CT, achieving 0.8413 AUC on LIDC-IDRI lung nodule classification and 0.9969 macro-AUC on OrganAMNIST 11-organ classification. VIVID-Med offers a highly efficient, scalable alternative to deploying resource-heavy vision-language models in clinical settings.",
+      "authors": [
+        "Xiyao Wang",
+        "Xiaoyu Tan",
+        "Yang Dai",
+        "Yuxuan Fu",
+        "Shuo Li",
+        "Xihe Qiu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-10T02:42:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.09109v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-supervised structured pretraining for medical vision transformers",
+      "llm_evidence_cn": "LLM监督的医疗视觉Transformer结构化预训练",
+      "llm_evidence": "LLM监督的医疗视觉Transformer结构化预训练",
+      "canonical_evidence": "LLM监督的医疗视觉Transformer结构化预训练",
+      "llm_tldr_en": "VIVID-Med uses LLMs as semantic teachers to guide the pretraining of medical vision models.",
+      "llm_tldr_cn": "VIVID-Med利用LLM作为语义导师，指导医疗视觉模型的预训练。",
+      "llm_tldr": "VIVID-Med利用LLM作为语义导师，指导医疗视觉模型的预训练。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Large language models in medicine and healthcare",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.09416v1",
+      "title": "Investigating Gender Stereotypes in Large Language Models via Social Determinants of Health",
+      "abstract": "Large Language Models (LLMs) excel in Natural Language Processing (NLP) tasks, but they often propagate biases embedded in their training data, which is potentially impactful in sensitive domains like healthcare. While existing benchmarks evaluate biases related to individual social determinants of health (SDoH) such as gender or ethnicity, they often overlook interactions between these factors and lack context-specific assessments. This study investigates bias in LLMs by probing the relationships between gender and other SDoH in French patient records. Through a series of experiments, we found that embedded stereotypes can be probed using SDoH input and that LLMs rely on embedded stereotypes to make gendered decisions, suggesting that evaluating interactions among SDoH factors could usefully complement existing approaches to assessing LLM performance and bias.",
+      "authors": [
+        "Trung Hieu Ngo",
+        "Adrien Bazoge",
+        "Solen Quiniou",
+        "Pierre-Antoine Gourraud",
+        "Emmanuel Morin"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-10T09:30:10+00:00",
+      "link": "https://arxiv.org/pdf/2603.09416v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Investigating bias in LLMs using patient records",
+      "llm_evidence_cn": "利用患者记录研究大语言模型中的偏见",
+      "llm_evidence": "利用患者记录研究大语言模型中的偏见",
+      "canonical_evidence": "利用患者记录研究大语言模型中的偏见",
+      "llm_tldr_en": "Probes gender stereotypes and social determinants of health in LLMs using French patient records.",
+      "llm_tldr_cn": "利用法国患者记录研究大语言模型在处理健康社会决定因素时存在的性别刻板印象与偏见。",
+      "llm_tldr": "利用法国患者记录研究大语言模型在处理健康社会决定因素时存在的性别刻板印象与偏见。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.09108v1",
+      "title": "Composed Vision-Language Retrieval for Skin Cancer Case Search via Joint Alignment of Global and Local Representations",
+      "abstract": "Medical image retrieval aims to identify clinically relevant lesion cases to support diagnostic decision making, education, and quality control. In practice, retrieval queries often combine a reference lesion image with textual descriptors such as dermoscopic features. We study composed vision-language retrieval for skin cancer, where each query consists of an image to text pair and the database contains biopsy-confirmed, multi-class disease cases. We propose a transformer based framework that learns hierarchical composed query representations and performs joint global-local alignment between queries and candidate images. Local alignment aggregates discriminative regions via multiple spatial attention masks, while global alignment provides holistic semantic supervision. The final similarity is computed through a convex, domain-informed weighting that emphasizes clinically salient local evidence while preserving global consistency. Experiments on the public Derm7pt dataset demonstrate consistent improvements over state-of-the-art methods. The proposed framework enables efficient access to relevant medical records and supports practical clinical deployment.",
+      "authors": [
+        "Yuheng Wang",
+        "Yuji Lin",
+        "Dongrun Zhu",
+        "Jiayue Cai",
+        "Sunil Kalia",
+        "Harvey Lui",
+        "Chunqi Chang",
+        "Z. Jane Wang",
+        "Tim K. Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-10T02:42:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.09108v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Vision-language retrieval for skin cancer diagnostic decision making",
+      "llm_evidence_cn": "用于皮肤癌诊断决策的视觉语言检索",
+      "llm_evidence": "用于皮肤癌诊断决策的视觉语言检索",
+      "canonical_evidence": "用于皮肤癌诊断决策的视觉语言检索",
+      "llm_tldr_en": "Proposes a vision-language retrieval framework for skin cancer cases to support clinical diagnostic decisions.",
+      "llm_tldr_cn": "提出了一种皮肤癌病例的视觉语言检索框架，旨在支持临床诊断决策。",
+      "llm_tldr": "提出了一种皮肤癌病例的视觉语言检索框架，旨在支持临床诊断决策。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.09109v2",
+      "title": "VIVID-Med: LLM-Supervised Structured Pretraining for Deployable Medical ViTs",
+      "abstract": "Vision-language pretraining has driven significant progress in medical image analysis. However, current methods typically supervise visual encoders using one-hot labels or free-form text, neither of which effectively captures the complex semantic relationships among clinical findings. In this study, we introduce VIVID-Med, a novel framework that leverages a frozen large language model (LLM) as a structured semantic teacher to pretrain medical vision transformers (ViTs). VIVID-Med translates clinical findings into verifiable JSON field-state pairs via a Unified Medical Schema (UMS), utilizing answerability-aware masking to focus optimization. It then employs Structured Prediction Decomposition (SPD) to partition cross-attention into orthogonality-regularized query groups, extracting complementary visual aspects. Crucially, the LLM is discarded post-training, yielding a lightweight, deployable ViT-only backbone. We evaluated VIVID-Med across multiple settings: on CheXpert linear probing, it achieves a macro-AUC of 0.8588, outperforming BiomedCLIP by +6.65 points while using 500x less data. It also demonstrates robust zero-shot cross-domain transfer to NIH ChestX-ray14 (0.7225 macro-AUC) and strong cross-modality generalization to CT, achieving 0.8413 AUC on LIDC-IDRI lung nodule classification and 0.9969 macro-AUC on OrganAMNIST 11-organ classification. VIVID-Med offers a highly efficient, scalable alternative to deploying resource-heavy vision-language models in clinical settings.",
+      "authors": [
+        "Xiyao Wang",
+        "Xiaoyu Tan",
+        "Yang Dai",
+        "Yuxuan Fu",
+        "Shuo Li",
+        "Xihe Qiu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-10T02:42:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.09109v2",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-supervised pretraining for medical vision transformers",
+      "llm_evidence_cn": "利用大语言模型监督医学视觉Transformer预训练",
+      "llm_evidence": "利用大语言模型监督医学视觉Transformer预训练",
+      "canonical_evidence": "利用大语言模型监督医学视觉Transformer预训练",
+      "llm_tldr_en": "Uses LLMs as structured semantic teachers to improve medical image analysis in vision-language pretraining.",
+      "llm_tldr_cn": "利用大语言模型作为结构化语义导师，通过视觉-语言预训练提升医学图像分析性能。",
+      "llm_tldr": "利用大语言模型作为结构化语义导师，通过视觉-语言预训练提升医学图像分析性能。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Large language models in medicine and healthcare",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.09696v1",
+      "title": "TemporalDoRA: Temporal PEFT for Robust Surgical Video Question Answering",
+      "abstract": "Surgical Video Question Answering (VideoQA) requires accurate temporal grounding while remaining robust to natural variation in how clinicians phrase questions, where linguistic bias can arise. Standard Parameter Efficient Fine Tuning (PEFT) methods adapt pretrained projections without explicitly modeling frame-to-frame interactions within the adaptation pathway, limiting their ability to exploit sparse temporal evidence. We introduce TemporalDoRA, a video-specific PEFT formulation that extends Weight-Decomposed Low-Rank Adaptation by (i) inserting lightweight temporal Multi-Head Attention (MHA) inside the low-rank bottleneck of the vision encoder and (ii) selectively applying weight decomposition only to the trainable low-rank branch rather than the full adapted weight. This design enables temporally-aware updates while preserving a frozen backbone and stable scaling. By mixing information across frames within the adaptation subspace, TemporalDoRA steers updates toward temporally consistent visual cues and improves robustness with minimal parameter overhead. To benchmark this setting, we present REAL-Colon-VQA, a colonoscopy VideoQA dataset with 6,424 clip--question pairs, including paired rephrased Out-of-Template questions to evaluate sensitivity to linguistic variation. TemporalDoRA improves Out-of-Template performance, and ablation studies confirm that temporal mixing inside the low-rank branch is the primary driver of these gains. We also validate on EndoVis18-VQA adapted to short clips and observe consistent improvements on the Out-of-Template split. Code and dataset available at~\\href{https://anonymous.4open.science/r/TemporalDoRA-BFC8/}{Anonymous GitHub}.",
+      "authors": [
+        "Luca Carlini",
+        "Chiara Lena",
+        "Cesare Hassan",
+        "Danail Stoyanov",
+        "Elena De Momi",
+        "Sophia Bano",
+        "Mobarak I. Hoque"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-10T14:03:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.09696v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Temporal PEFT for surgical video question answering",
+      "llm_evidence_cn": "用于手术视频问答的时间参数高效微调",
+      "llm_evidence": "用于手术视频问答的时间参数高效微调",
+      "canonical_evidence": "用于手术视频问答的时间参数高效微调",
+      "llm_tldr_en": "TemporalDoRA improves surgical video QA by integrating temporal attention into PEFT.",
+      "llm_tldr_cn": "TemporalDoRA通过在PEFT中集成时间注意力机制，提升了手术视频问答性能。",
+      "llm_tldr": "TemporalDoRA通过在PEFT中集成时间注意力机制，提升了手术视频问答性能。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.11679v1",
+      "title": "LLMs can construct powerful representations and streamline sample-efficient supervised learning",
+      "abstract": "As real-world datasets become increasingly complex and heterogeneous, supervised learning is often bottlenecked by input representation design. Modeling multimodal data for downstream tasks, such as time-series, free text, and structured records, often requires non-trivial domain-specific engineering. We propose an agentic pipeline to streamline this process. First, an LLM analyzes a small but diverse subset of text-serialized input examples in-context to synthesize a global rubric, which acts as a programmatic specification for extracting and organizing evidence. This rubric is then used to transform naive text-serializations of inputs into a more standardized format for downstream models. We also describe local rubrics, which are task-conditioned summaries generated by an LLM. Across 15 clinical tasks from the EHRSHOT benchmark, our rubric-based approaches significantly outperform traditional count-feature models, naive text-serialization-based LLM baselines, and a clinical foundation model, which is pretrained on orders of magnitude more data. Beyond performance, rubrics offer several advantages for operational healthcare settings such as being easy to audit, cost-effectiveness to deploy at scale, and they can be converted to tabular representations that unlock a swath of machine learning techniques.",
+      "authors": [
+        "Ilker Demirel",
+        "Larry Shi",
+        "Zeshan Hussain",
+        "David Sontag"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-12T08:44:06+00:00",
+      "link": "https://arxiv.org/pdf/2603.11679v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLM-driven agentic pipeline for processing complex heterogeneous datasets including free text",
+      "llm_evidence_cn": "LLM驱动的智能体流水线，用于处理包括自由文本在内的复杂异构数据集",
+      "llm_evidence": "LLM驱动的智能体流水线，用于处理包括自由文本在内的复杂异构数据集",
+      "canonical_evidence": "LLM驱动的智能体流水线，用于处理包括自由文本在内的复杂异构数据集",
+      "llm_tldr_en": "Uses LLMs to synthesize rubrics for standardizing complex input representations in supervised learning.",
+      "llm_tldr_cn": "利用LLM合成准则，为监督学习标准化复杂的输入表示。",
+      "llm_tldr": "利用LLM合成准则，为监督学习标准化复杂的输入表示。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.09217v1",
+      "title": "TubeMLLM: A Foundation Model for Topology Knowledge Exploration in Vessel-like Anatomy",
+      "abstract": "Modeling medical vessel-like anatomy is challenging due to its intricate topology and sensitivity to dataset shifts. Consequently, task-specific models often suffer from topological inconsistencies, including artificial disconnections and spurious merges. Motivated by the promise of multimodal large language models (MLLMs) for zero-shot generalization, we propose TubeMLLM, a unified foundation model that couples structured understanding with controllable generation for medical vessel-like anatomy. By integrating topological priors through explicit natural language prompting and aligning them with visual representations in a shared-attention architecture, TubeMLLM significantly enhances topology-aware perception. Furthermore, we construct TubeMData, a pionner multimodal benchmark comprising comprehensive topology-centric tasks, and introduce an adaptive loss weighting strategy to emphasize topology-critical regions during training. Extensive experiments on fifteen diverse datasets demonstrate our superiority. Quantitatively, TubeMLLM achieves state-of-the-art out-of-distribution performance, substantially reducing global topological discrepancies on color fundus photography (decreasing the $β_{0}$ number error from 37.42 to 8.58 compared to baselines). Notably, TubeMLLM exhibits exceptional zero-shot cross-modality transferring ability on unseen X-ray angiography, achieving a Dice score of 67.50% while significantly reducing the $β_{0}$ error to 1.21. TubeMLLM also maintains robustness against degradations such as blur, noise, and low resolution. Furthermore, in topology-aware understanding tasks, the model achieves 97.38% accuracy in evaluating mask topological quality, significantly outperforming standard vision-language baselines.",
+      "authors": [
+        "Yaoyu Liu",
+        "Minghui Zhang",
+        "Xin You",
+        "Hanxiao Zhang",
+        "Yun Gu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-10T05:39:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.09217v1",
+      "tags": [
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Multimodal LLM foundation model for medical anatomy",
+      "llm_evidence_cn": "用于医学解剖的多模态大模型基础模型",
+      "llm_evidence": "用于医学解剖的多模态大模型基础模型",
+      "canonical_evidence": "用于医学解剖的多模态大模型基础模型",
+      "llm_tldr_en": "Proposes TubeMLLM, a foundation model integrating topological priors for vessel-like anatomy understanding.",
+      "llm_tldr_cn": "提出TubeMLLM基础模型，通过整合拓扑先验增强对血管类解剖结构的理解与生成。",
+      "llm_tldr": "提出TubeMLLM基础模型，通过整合拓扑先验增强对血管类解剖结构的理解与生成。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.10143v1",
+      "title": "Reason and Verify: A Framework for Faithful Retrieval-Augmented Generation",
+      "abstract": "Retrieval-Augmented Generation (RAG) significantly improves the factuality of Large Language Models (LLMs), yet standard pipelines often lack mechanisms to verify inter- mediate reasoning, leaving them vulnerable to hallucinations in high-stakes domains. To address this, we propose a domain-specific RAG framework that integrates explicit rea- soning and faithfulness verification. Our architecture augments standard retrieval with neural query rewriting, BGE-based cross-encoder reranking, and a rationale generation module that grounds sub-claims in specific evidence spans. We further introduce an eight-category verification taxonomy that enables fine-grained assessment of rationale faithfulness, distinguishing between explicit and implicit support patterns to facilitate structured error diagnosis. We evaluate this framework on the BioASQ and PubMedQA benchmarks, specifically analyzing the impact of dynamic in-context learning and rerank- ing under constrained token budgets. Experiments demonstrate that explicit rationale generation improves accuracy over vanilla RAG baselines, while dynamic demonstration selection combined with robust reranking yields further gains in few-shot settings. Using Llama-3-8B-Instruct, our approach achieves 89.1% on BioASQ-Y/N and 73.0% on Pub- MedQA, competitive with systems using significantly larger models. Additionally, we perform a pilot study combining human expert assessment with LLM-based verification to explore how explicit rationale generation improves system transparency and enables more detailed diagnosis of retrieval failures in biomedical question answering.",
+      "authors": [
+        "Eeham Khan",
+        "Luis Rodriguez",
+        "Marc Queudot"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-10T18:25:07+00:00",
+      "link": "https://arxiv.org/pdf/2603.10143v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "faithful RAG for high-stakes domains with rationale generation",
+      "llm_evidence_cn": "高风险领域的可信RAG与推理生成",
+      "llm_evidence": "高风险领域的可信RAG与推理生成",
+      "canonical_evidence": "高风险领域的可信RAG与推理生成",
+      "llm_tldr_en": "A RAG framework that improves factuality through explicit reasoning and verification in high-stakes domains.",
+      "llm_tldr_cn": "一种通过显式推理和验证来提高高风险领域（如医疗）生成事实准确性的RAG框架。",
+      "llm_tldr": "一种通过显式推理和验证来提高高风险领域（如医疗）生成事实准确性的RAG框架。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.11798v1",
+      "title": "DocSage: An Information Structuring Agent for Multi-Doc Multi-Entity Question Answering",
+      "abstract": "Multi-document Multi-entity Question Answering inherently demands models to track implicit logic between multiple entities across scattered documents. However, existing Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) frameworks suffer from critical limitations: standard RAG's vector similarity-based coarse-grained retrieval often omits critical facts, graph-based RAG fails to efficiently integrate fragmented complex relationship networks, and both lack schema awareness, leading to inadequate cross-document evidence chain construction and inaccurate entity relationship deduction. To address these challenges, we propose DocSage, an end-to-end agentic framework that integrates dynamic schema discovery, structured information extraction, and schema-aware relational reasoning with error guarantees. DocSage operates through three core modules: (1) A schema discovery module dynamically infers query-specific minimal joinable schemas to capture essential entities and relationships; (2) An extraction module transforms unstructured text into semantically coherent relational tables, enhanced by error-aware correction mechanisms to reduce extraction errors; (3) A reasoning module performs multi-hop relational reasoning over structured tables, leveraging schema awareness to efficiently align cross-document entities and aggregate evidence. This agentic design offers three key advantages: precise fact localization via SQL-powered indexing, natural support for cross-document entity joins through relational tables, and mitigated LLM attention diffusion via structured representation. Evaluations on two MDMEQA benchmarks demonstrate that DocSage significantly outperforms state-of-the-art long-context LLMs and RAG systems, achieving more than 27% accuracy improvements respectively.",
+      "authors": [
+        "Teng Lin",
+        "Yizhang Zhu",
+        "Zhengxuan Zhang",
+        "Yuyu Luo",
+        "Nan Tang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-12T11:00:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.11798v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-document information structuring and entity relationship deduction",
+      "llm_evidence_cn": "多文档信息结构化与实体关系推导",
+      "llm_evidence": "多文档信息结构化与实体关系推导",
+      "canonical_evidence": "多文档信息结构化与实体关系推导",
+      "llm_tldr_en": "Proposes DocSage, an agentic framework for structured information extraction and QA across multiple documents.",
+      "llm_tldr_cn": "提出DocSage框架，用于多文档间的信息结构化提取与复杂实体关系问答。",
+      "llm_tldr": "提出DocSage框架，用于多文档间的信息结构化提取与复杂实体关系问答。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Natural language processing for medical records and texts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.09448v1",
+      "title": "A Guideline-Aware AI Agent for Zero-Shot Target Volume Auto-Delineation",
+      "abstract": "Delineating the clinical target volume (CTV) in radiotherapy involves complex margins constrained by tumor location and anatomical barriers. While deep learning models automate this process, their rigid reliance on expert-annotated data requires costly retraining whenever clinical guidelines update. To overcome this limitation, we introduce OncoAgent, a novel guideline-aware AI agent framework that seamlessly converts textual clinical guidelines into three-dimensional target contours in a training-free manner. Evaluated on esophageal cancer cases, the agent achieves a zero-shot Dice similarity coefficient of 0.842 for the CTV and 0.880 for the planning target volume, demonstrating performance highly comparable to a fully supervised nnU-Net baseline. Notably, in a blinded clinical evaluation, physicians strongly preferred OncoAgent over the supervised baseline, rating it higher in guideline compliance, modification effort, and clinical acceptability. Furthermore, the framework generalizes zero-shot to alternative esophageal guidelines and other anatomical sites (e.g., prostate) without any retraining. Beyond mere volumetric overlap, our agent-based paradigm offers near-instantaneous adaptability to alternative guidelines, providing a scalable and transparent pathway toward interpretability in radiotherapy treatment planning.",
+      "authors": [
+        "Yoon Jo Kim",
+        "Wonyoung Cho",
+        "Jongmin Lee",
+        "Han Joo Chae",
+        "Hyunki Park",
+        "Sang Hoon Seo",
+        "Noh Jae Myung",
+        "Kyungmi Yang",
+        "Dongryul Oh",
+        "Jin Sung Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-10T10:00:01+00:00",
+      "link": "https://arxiv.org/pdf/2603.09448v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "AI agent converting textual clinical guidelines into 3D target contours for radiotherapy",
+      "llm_evidence_cn": "将临床指南文本转换为放射治疗3D目标轮廓的AI智能体",
+      "llm_evidence": "将临床指南文本转换为放射治疗3D目标轮廓的AI智能体",
+      "canonical_evidence": "将临床指南文本转换为放射治疗3D目标轮廓的AI智能体",
+      "llm_tldr_en": "OncoAgent uses clinical guidelines for zero-shot radiotherapy target delineation without retraining.",
+      "llm_tldr_cn": "OncoAgent利用临床指南实现零样本放射治疗目标勾画，无需重新训练。",
+      "llm_tldr": "OncoAgent利用临床指南实现零样本放射治疗目标勾画，无需重新训练。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.10180v1",
+      "title": "DT-BEHRT: Disease Trajectory-aware Transformer for Interpretable Patient Representation Learning",
+      "abstract": "The growing adoption of electronic health record (EHR) systems has provided unprecedented opportunities for predictive modeling to guide clinical decision making. Structured EHRs contain longitudinal observations of patients across hospital visits, where each visit is represented by a set of medical codes. While sequence-based, graph-based, and graph-enhanced sequence approaches have been developed to capture rich code interactions over time or within the same visits, they often overlook the inherent heterogeneous roles of medical codes arising from distinct clinical characteristics and contexts. To this end, in this study we propose the Disease Trajectory-aware Transformer for EHR (DT-BEHRT), a graph-enhanced sequential architecture that disentangles disease trajectories by explicitly modeling diagnosis-centric interactions within organ systems and capturing asynchronous progression patterns. To further enhance the representation robustness, we design a tailored pre-training methodology that combines trajectory-level code masking with ontology-informed ancestor prediction, promoting semantic alignment across multiple modeling modules. Extensive experiments on multiple benchmark datasets demonstrate that DT-BEHRT achieves strong predictive performance and provides interpretable patient representations that align with clinicians' disease-centered reasoning. The source code is publicly accessible at https://github.com/GatorAIM/DT-BEHRT.git.",
+      "authors": [
+        "Deyi Li",
+        "Zijun Yao",
+        "Qi Xu",
+        "Muxuan Liang",
+        "Lingyao Li",
+        "Zijian Xu",
+        "Mei Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-10T19:21:40+00:00",
+      "link": "https://arxiv.org/pdf/2603.10180v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Predictive modeling for clinical decision making using EHRs",
+      "llm_evidence_cn": "利用电子健康档案进行临床决策的预测建模",
+      "llm_evidence": "利用电子健康档案进行临床决策的预测建模",
+      "canonical_evidence": "利用电子健康档案进行临床决策的预测建模",
+      "llm_tldr_en": "Proposes a Transformer-based architecture for interpretable patient representation and disease trajectory modeling.",
+      "llm_tldr_cn": "提出一种基于Transformer的架构，用于可解释的患者表示和疾病轨迹建模。",
+      "llm_tldr": "提出一种基于Transformer的架构，用于可解释的患者表示和疾病轨迹建模。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

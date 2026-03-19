@@ -1,0 +1,1559 @@
+Title: TubeMLLM: A Foundation Model for Topology Knowledge Exploration in Vessel-like Anatomy
+
+URL Source: https://arxiv.org/pdf/2603.09217v1
+
+Published Time: Wed, 11 Mar 2026 00:35:19 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# TubeMLLM: A Foundation Model for Topology Knowledge Exploration in Vessel-like Anatomy 
+
+Yaoyu Liu *1,2 , Minghui Zhang *1,2 , Xin You 1,2 , Hanxiao Zhang 1 and Yun Gu 1,2, †
+
+> 1
+
+Institute of Medical Robotics, Shanghai Jiao Tong University, Shanghai, China, 2Department of Automation, Shanghai Jiao Tong University, Shanghai, China 
+
+Modeling medical vessel-like anatomy is challenging due to its intricate topology and sensitivity to dataset shifts. Consequently, task-specific models often suffer from topological inconsistencies, including artificial disconnections and spurious merges. Motivated by the promise of multimodal large language models (MLLMs) for zero-shot generalization, we propose TubeMLLM , a unified foundation model that couples structured understanding with controllable generation for medical vessel-like anatomy. By integrating topological priors through explicit natural language prompting and aligning them with visual represen-tations in a shared-attention architecture, TubeMLLM significantly enhances topology-aware perception. Furthermore, we construct TubeMData, a pionner multimodal benchmark comprising comprehensive topology-centric tasks, and introduce an adaptive loss weighting strategy to emphasize topology-critical regions during training. Extensive experiments on fifteen diverse datasets demonstrate our superiority. Quantitatively, TubeMLLM achieves state-of-the-art out-of-distribution performance, substantially reduc-ing global topological discrepancies on color fundus photography (decreasing the β0 number error from 37.42 to 8.58 compared to baselines). Notably, TubeMLLM exhibits exceptional zero-shot cross-modality transferring ability on unseen X-ray angiography, achieving a Dice score of 67.50% while significantly reducing the β0 error to 1.21. TubeMLLM also maintains robustness against degradations such as blur, noise, and low resolution. Furthermore, in topology-aware understanding tasks, the model achieves 97.38% accuracy in evaluating mask topological quality, significantly outperforming standard vision-language baselines. 
+
+1 INTRODUCTION 
+
+Modeling multi-modality medical vessel-like anatomy (e.g., color fundus retinal vasculature and X-ray coronary angiograms) with topology preserved is fundamental to downstream clinical analysis [1, 2], including vascular quantification [3], pathology screening [4], and intervention planning [2]. However, vessel-like structures are inherently difficult because they are thin and elongated, with branching and cyclic connectivity where small local mistakes can cause global topological failures. This challenge is further amplified by dataset shift and modality variations [5, 6]. Consequently, existing methods often fail to achieve both high topological fidelity and strong cross-modality transferability. Specifically, task-specific image-to-image (I2I) segmentation models (e.g., nnUNet [7]), illustrated on the left of Fig. 1(a), predict masks solely from visual features extracted by an image encoder. To enable topology-preservation in predicted segmentations, substantial efforts have been taken for visual feature enhancement, including architectural design [7 –9] and loss functions tailored for tubular structures [10 – 13]. Despite these advances, these approaches still exhibit limited generalization under distribution shifts and modality variations, as shown in the top and middle rows of Fig. 1(b). Recent promptable image-to-image models (I2I w/ prompts) [14 –16] introduce an independent text encoder to inject language guidance during segmentation, as illustrated in the center of Fig. 1(a). However, the input language prompts are typically limited to short phrases such as clinical concepts (e.g., “retinal vessels” in MedicalSAM3 [16]), which is insufficient to encode complex topology priors such as the definition of connectivity or loops. Furthermore, these models typically output only pixel-level masks. This restricts training primarily to segmentation objectives and prevents the models from leveraging the rich supervision   
+
+> ∗Yaoyu Liu and Minghui Zhang contributed equally to this work.
+> †Corresponding author: Yun Gu. Email addresses: yungu@ieee.org
+> arXiv:2603.09217v1 [cs.CV] 10 Mar 2026
+
+I2I 
+
+e.g., nnUNet 
+
+I2I w/ prompts 
+
+e.g., SAM3 
+
+Encoder 
+
+Decoder 
+
+Encoder 
+
+Decoder 
+
+> Latent Codes
+
+Encoder 
+
+Decoder 
+
+> Latent Codes
+> Image output
+> Image input
+
+TubeMLLM 
+
+(Unified Model) ...          
+
+> ...
+> Text Image 1 Image 2 Text Image 1 Image 2
+> ...
+> Text Image 1 Image 2 ...
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention Shared -attention
+
+LLM Layer  
+
+> Text output Image output
+
+TubeMLLM 
+
+(Unified Model) ...   
+
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention
+
+LLM Layer  
+
+> Text output Image output
+> Image output
+> Image Tokens
+
+Text 
+
+Encoder 
+
+Image 
+
+Encoder 
+
+> Text Tokens
+> Cross -attention
+
+Image 
+
+Decoder 
+
+Text 
+
+Encoder 
+
+Image 
+
+Encoder 
+
+> Text Tokens
+> Cross -attention
+
+Image 
+
+Decoder 
+
+Text 
+
+Encoder 
+
+Image 
+
+Encoder 
+
+> Text Tokens
+> Cross -attention
+
+Image 
+
+Decoder 
+
+> Image Tokens
+
+Text 
+
+Encoder 
+
+Image 
+
+Encoder 
+
+> Text Tokens
+> Cross -attention
+
+Image 
+
+Decoder 
+
+> Image input Text prompt
+> Image Tokens
+
+Text 
+
+Encoder 
+
+Image 
+
+Encoder 
+
+> Text Tokens
+> Cross -attention
+
+Image 
+
+Decoder 
+
+> Image input Text prompt
+> Image output
+> Image Tokens
+
+Text 
+
+Encoder 
+
+Image 
+
+Encoder 
+
+> Text Tokens
+> Cross -attention
+
+Image 
+
+Decoder 
+
+> Image input Text prompt
+
+a) Paradigm Shift: Unified Modeling Text and Image (TubeMLLM)  b) TubeMLLM enables better topology/zero -shot/text guid ance 
+
+TubeMLLM 
+
+I2I 
+
+nnUNet 
+
+vs. 
+
+Input 
+
+(Color Fundus ) 
+
+I2I 
+
+> Weight
+> Sharing
+
+Input 
+
+(X -ray A ngiography )
+
+TubeMLLM 
+
+(zer o-shot )
+
+nnUNet 
+
+vs. 
+
+vs. 
+
+Input 
+
+(Color Fundus ) 
+
+I2I w/ 
+
+prompts 
+
+`` Retinal blood 
+
+vesse l`` 
+
+Medical SAM3  TubeMLLM 
+
+c.1) TubeMLLM focuses on Topology Understanding  c.2) TubeMLLM focuses on Topology -preserv ing  Generation 
+
+"< Image  1> Here is a color fundus 
+
+photography image.  A connected 
+
+component is a maximal group of 
+
+pixels , where each pixel is reachable 
+
+from any other via  8-connected 
+
+neighbors . Your task is to  count the 
+
+number of connected components 
+
+of vessel . Provide your answer in one 
+
+INTEGER number." 
+
+Text 
+
+Text Output 
+
+"The number of 
+
+connected 
+
+components is 4"
+
+Image 1       
+
+> ...
+> ...
+> Text Image 1 Image 2 Text Image 1 Image 2
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention Shared -attention
+
+LLM Layer    
+
+> Text output Image output
+> ...
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention
+
+LLM Layer    
+
+> Text output Image output
+> ...
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention
+
+LLM Layer        
+
+> Text output Image output
+> ...
+> ...
+> Text Image 1 Image 2 Text Image 1 Image 2
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention Shared -attention
+
+LLM Layer    
+
+> Text output Image output
+> ...
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention
+
+LLM Layer    
+
+> Text output Image output
+> ...
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention
+
+LLM Layer    
+
+> Text output Image output
+> ...
+> ...
+> Text Image 1 Image 2
+
+LLM Layer              
+
+> T11 T12 I11 I12 I21 I22 I23 T..
+> T11 T12 I11 I12 I21 I22 I23
+> T11  T12  I11  I12  I21  I22  I23
+> Shared -attention
+
+LLM Layer  
+
+> Text output Image output
+
+Text Text 
+
+"Refine < Image 2 > into a high -quality 
+
+binary vessel mask for < Image 1 >.  Preserve 
+
+true vessel topology (connections/loops) 
+
+without breaks or merges , follow vessel 
+
+geometry with  locally consistent thickness ,
+
+include all visible vessels (no F alse Negatives ), 
+
+and exclude non -vessel structures ( no False 
+
+Positives )." 
+
+Image 1 Image 1  Image 2 Image 2  Image Output Image Output Figure 1 | Unified modeling paradigm of the proposed TubeMLLM. (a) Compared with task-specific I2I models and promptable I2I baselines, TubeMLLM unifies text and image tokens in an MLLM with shared-attention and supports both text and image outputs. (b) TubeMLLM enables better topology, stronger zero-shot cross-modality transfer, and more reliable text guidance. (c.1) Example of topology-aware visual understanding task. (c.2) Example of topology-preserving generation task. 
+
+available in language-based understanding tasks [17 –19]. Consequently, textual guidance for vessel-like structures segmentation is often insufficient. For instance, the bottom row of Fig. 1(b) shows a failure case where the optic disc is misclassified as retinal vessels. To address these limitations, we move beyond the conventional rigid mapping between images, fixed text labels, and pixel-level masks. Inspired by recent MLLM works [20, 21], we propose TubeMLLM, a unified framework that couples structured understanding with controllable generation for medical vessel-like anatomy. Rather than relying on simple conceptual mappings, TubeMLLM injects explicit topological knowledge through rich, descriptive text prompts, as illustrated in Fig. 1(c.1) and Fig. 1(c.2) . TubeMLLM simultaneously reasons about the complex topology of vessel-like structures and employs this deep topological understanding to generate faithful outputs. As illustrated on the right of Fig. 1(a), TubeMLLM accepts interleaved image and text tokens as input, projects them into a shared feature space, and aligns them through shared-attention within LLM layers. This unified modeling paradigm enables the model to internalize tubular topological priors expressed in rich natural language and associate them with visual features, thereby fundamentally strengthening topology-aware perception. Building on this unified modeling paradigm, we introduce TubeMData , a pioneer benchmark for topology-aware multimodal medical anatomy learning. As shown in Fig. 1(c), TubeMData is a multimodal dataset comprising two synergistic tasks: (i) topological understanding, which analyzes structural properties like connectivity and loops and is formulated as visual question answering; and (ii) topology-preserving generation, 
+
+|2which refines or generates vessel-like anatomy with topological consistency and is formulated as image generation. As illustrated in Fig. 1(c.1) and Fig. 1(c.2), unlike existing promptable image-to-image models, TubeMLLM incorporates both pixel-level mask output and language output. TubeMLLM also replaces short phrases with longer prompts. By explicitly stating imaging modalities as well as topology-related definitions and instructions in the prompts, TubeMLLM is provided with sufficient topology prior guidance. Further, inspired by recent works that perform additional region-level supervision in image generation [22, 23] we incorporate an adaptive loss weighting strategy during training. Specifically, TubeMLLM first establishes spatial correspondence between output pixels and visual tokens, then assigns adaptive weights to each token based on the discrepancy between decoded predictions and ground truth, thereby emphasizing topology-critical and error-prone regions for improved generation performance. The proposed TubeMLLM is evaluated on fifteen vessel-like datasets spanning two imaging modalities. The experimental results demonstrate the significant improvement in both topological fidelity and segmentation accuracy, effectively reducing topological errors while maintaining robustness against degradations. 
+
+2 RELATED WORKS 
+
+Medical task-specific segmentation models . Task-specific segmentation models often adopt an image-to-image (I2I) paradigm [7 –9, 24], where visual features extracted from vision encoders are directly used for mask prediction. However, this I2I paradigm is inherently sensitive to dataset distributions, including variations in imaging modalities [6] and anatomical structures [5]. This limitation becomes particularly evident in vessel-like anatomy segmentation, where thin, elongated tubular structures requires accurate preservation of connectivity and branching patterns. To address this limitation, additional mechanisms are introduced into task-specific models to encourage topology preservation. One line of work focuses on architectural design, enhancing visual representations through specialized network modules [8, 9] or dataset-adaptive network configurations [7, 24]. Another line of research addresses this issue through loss function engineering, incorporating skeletal structures [10 –13] or persistent homology [25, 26] into training objectives as priors for topology-aware segmentation. However, these mechanisms still rely on implicit constraints or regularization terms in training, which indirectly enforce topological correctness and therefore provide limited guarantees of topology preservation. 
+
+Medical foundation segmentation models . Foundation segmentation models aim to achieve strong generalization across dataset shifts and often incorporate visual hints (bounding boxes, points) and text prompts as object-level guidance [14, 17, 27, 28]. Built upon text encoders [29] or large language models (LLM) [30, 31] that are pretrained with vision-language alignment, descriptive linguistic features can be integrated with dense visual features, enabling robust performance across diverse segmentation benchmarks. Bulit on these advances, medical foundation segmentation models [15, 16, 32 –37] haved been developed. Visual hints or texts are encoded with separate prompt encoders, then fused with visual features using multiplication [35, 36] or attention computation [15, 16, 34], to improve the generality of segmentations for various anatomical structures across multiple imaging modalities. However, the mask prediction process remains heavily dominated by visual representations, with explicit language guidance either entirely absent [33, 34] or severely constrained to short, rigid phrases [15, 16, 35]. This superficial linguistic guidance precludes the use of rich, descriptive text prompts, significantly limiting its effectiveness in complex anatomical tasks. This limitation is particularly evident in vessel-like anatomy modeling, where maintaining intricate topology (e.g., connectivity and branching) demands strong, explicit topological priors [25,38,39]. Furthermore, these models typically rely solely on visual decoders for mask prediction, which restricts training primarily to segmentation objectives. Consequently, they cannot leverage the rich supervision available in language-based understanding tasks [17 –19], further increasing their reliance on visual representations. 
+
+> |3
+
+VAE Encoder  ViT Encoder  Text 
+
+Tokenizer 
+
+Text Prompt 
+
+Understanding Branch Generation Branch 
+
+VAE Decoder 
+
+decoded 
+
+…
+
+… … …
+
+error map 
+
+…
+
+patchify 
+
+token -wise weights 
+
+Vision Token 
+
+Text Token 
+
+Noise Token 
+
+Token Weight 
+
+Vision Token 
+
+Text Token 
+
+Noise Token 
+
+Token Weight 
+
+Shared -
+
+attention 
+
+a)  TubeMLLM architecture 
+
+one -step estimation 
+
+…
+
+> …
+> …
+> …
+
+…
+
+error map patches 
+
+… patch -wise 
+
+normalized errors 
+
+Multimodal Input = += −= −
+
+TubeMData 
+
+CFP Datasets 
+
+Topology -preserving Generation 
+
+2501 Samples       
+
+> Tr: 14748 Ts: 2824
+> Tr: 6491 Ts: 1021
+> Tr: 4248 Ts: 3228
+> Tr: 14748 Ts: 1795
+> Tr: 2142 Ts: 359
+> Training
+> Samples
+> Testing
+> Samples
+
+b)  TubeMData distribution across different tasks 
+
+Images Images = ,= , ,= ,= , , ,= , ,
+
+> Training
+> Samples
+> Testing
+> Samples
+
+Figure 2 | Detailed TubeMLLM architecture and TubeMData. (a) TubeMLLM adopts a Mixture-of-Transformers design with coupled generation transformer branch and understanding transformer branch. Adaptive loss weights are derived from error maps. (b) TubeMData CFP training and testing sample distribution across different topology-centric tasks. b) Example of Topology -aware Understanding 
+
+Input Images 
+
+Instruction 
+
+Expected Output 
+
+“< image_1> is a  color fundus photography  image.<image_2> is binary 
+
+segmentation A  of vessels in the image. The foreground is white. The background is 
+
+black.<image_3> is binary  segmentation B  of vessels in the image. The foreground is 
+
+white. The background is black. A good vessel segmentation must  preserve true 
+
+vessel topology, including true connections and loops, without artificial 
+
+breaks or merges . The segmentation shape should follow vessel geometry with 
+
+locally consistent thickness . All visible vessel must be included (no false negatives), 
+
+and non -vessel structures must be excluded (no false positives). Answer the following 
+
+question: 
+
+Which binary segmentation is better? Your answer can ONLY be either 'A' or 'B'. ”
+
+“A”, ,
+
+a) Example of Topology -refinement 
+
+Input Images 
+
+Expected Output 
+
+Instruction 
+
+“A color fundus photograph  is shown in <image_1> and its vessel binary 
+
+segmentation in <image_2>. A good vessel segmentation must  preserve true 
+
+vessel topology  in <image_1> , including true connections and loops, 
+
+without artificial breaks or merges . The segmentation shape should follow 
+
+vessel geometry with  locally consistent thickness . All visible vessel must be 
+
+included (no false negatives), and non -vessel structures must be excluded (no false 
+
+positives). Refine <image_2> into a high -quality binary vessel segmentation for 
+
+<image_1>. ”,
+
+Figure 3 | Topology-centric tasks. Bold texts highlight the image modalities and topology priors encoded in language prompts. (a) Topology-refinement generation task. (b) Topology-aware understanding task that select the mask with better topology. 
+
+3 METHOD 
+
+3.1 Problem Formulation and Overall Framework 
+
+The overall architecture of TubeMLLM is illustrated in Fig. 2(a). TubeMLLM takes a multimodal input 
+
+X =  {Ik}Kk=1 , T , where {Ik}Kk=1 denotes the input image set and T is the text prompt, and produces both an image output and a text output, Y =  Yimg , Y text 
+
+:
+
+Y = M(X ) (1) 
+
+|4where M denotes TubeMLLM model. Specifically, Yimg is first synthesized in VAE latent space then decoded as: 
+
+Yimg = D(ˆ z0) (2) where D is a frozen VAE decoder and ˆz0 is the predicted clean latent. The text output Ytext is generated autoregressively conditioned on X . To support both generation and understanding within a unified framework, TubeMLLM adopts a Mixture-of-Transformers design [21, 40] with two coupled branches, M = {G θ , Pϕ}. The two branches share joint attention at each layer to enable cross-branch information exchange. 
+
+Generation branch. Gθ operates on tokenized VAE latents [41] and generates images via rectified flow [41,42]. Image synthesis is formulated as velocity prediction in latent space: 
+
+dzτ
+
+dτ = Gθ (zτ , τ, X ) , (3) where zτ denotes the VAE latent at time τ ∈ [0 , 1] .
+
+Understanding branch. Pϕ processes visual tokens extracted by a ViT [43] together with text tokens, and models the conditional distribution of the text output as: 
+
+p(Ytext |X ) = Pϕ (X ) (4) 
+
+3.2 Adaptive Loss Weighting 
+
+The generative branch Gθ is trained using the flow-matching objective [42], where the predicted velocity 
+
+Gθ (zτ , τ, X ) is aligned with the target velocity vtarget via a mean-squared error (MSE) loss in latent space. To emphasize topology-critical and error-prone regions, we further derive adaptive loss weights from pixel space, as shown in Fig. 2(a). Specifically, the predicted clean latent ˆz0 is calculated as: 
+
+ˆz0 = zτ + (1 − τ )Gθ (zτ , τ, X ) , (5) where zτ denotes the noisy latent at time τ . The predicted clean latent ˆz0 is then decoded into Yimg by the frozen VAE decoder D following Eq. (2) . Given the ground truth image Y , the pixel-wise error map is derived as: 
+
+E = Y − Yimg (6) As illustrated in Fig. 2(a), E is patchified based on the spatial correspondence between visual tokens and image patches in Yimg . For the i-th visual token ( i = 1 , 2, . . . , N ), we compute within its corresponding patch 
+
+Ei for the normalized mean error intensity ei:
+
+ei = 1
+
+|Ei|
+
+X
+
+> j∈Ei
+
+Ei(j)
+
+Emax 
+
+(7) where Emax is the maximum possible error intensity within patch Ei. The token-level weight w can be derived from the normalized error intensities as: 
+
+wi = 1 + λe i (8) 
+
+w = {wi}Ni=1 (9) 
+
+λ is set to 10 in all experiments. With token-level weight, the flow-matching loss for generative branch training is formulated as 
+
+LFlow = Eτ, zτ ,ϵ
+
+h
+
+w ⊙  Gθ (zτ , τ, X ) − vtarget 
+
+ 2i
+
+. (10) This adaptive loss weight formulation emphasizes visual tokens associated with pixel errors and further enhances generation quality with flow matching. 
+
+> |5
+
+3.3 Topology-centric Task Design and TubeMData 
+
+To equip TubeMLLM with topology-preserving generation and topology-aware understanding capabilities, we design a set of topology-centric tasks that explicitly focus on tubular structures. As illustrated in Fig. 3, these tasks target key topological properties of vessel-like anatomy, including connected components, loops, and the overall topological fidelity of a predicted mask. Based on these topology-centric tasks, we construct TubeMData dataset, part of which is illustrated in Fig. 2(b). 
+
+Topology-preserving Generation . For topology-preserving generation, we introduce topology-refinement task, as shown in Fig. 3(a). X = {I, I MPre , T } includes the original image I and a preliminary prediction 
+
+IMPre with imperfect topology. Conditioned on the topology constraints specified in the instruction T , the model M generates a refined mask Yimg that better preserves topological consistency. 
+
+Topology-aware Understanding . For topology-aware understanding, we design VQA tasks and encode topology priors through query prompts T , as illustrated in Fig. 1(c). These tasks operate at two input granularities. In the first setting, the input is either X = {I, I MA , I MB , T } with two candidate masks IMA , I MB 
+
+(Fig. 3(b)), or X = {I, I M, T } with a single mask IM. The model produces Ytext to (i) select the mask with better topology, or (ii) judge whether the mask satisfies topology requirements. In the second setting, 
+
+X = {I, T } contains only the image I, and the model M predicts in Ytext the existence or the number of certain topological structures (e.g., connected components, loops). These topology-centric tasks take advantage of the shared-attention design in TubeMLLM via interleaved image-text inputs and provide supervision from both image generation ( Yimg ) and textual prediction ( Ytext ), thereby strengthening topology-aware representation learning. 
+
+TubeMData Construction . Fig. 2(b) illustrates the distribution of TubeMData color fundus photography (CFP) samples with different generation and understanding tasks, as well as the training and test split within each task. Specifically, ten public CFP datasets as well as five public X-ray angiography (XRA) datasets are included in TubeMData 1. To assess cross-domain generalization, the test split is strictly out-of-distribution from the training split. The aggregated corpus contains approximately 3.5K images with heterogeneous spatial resolutions and domain distributions. Topological-imperfect predictions used in the topology-centric tasks are generated using nnUNet [7] models trained with different loss functions [10 –13]. For topology-aware understanding tasks, ground-truth answers are automatically derived via rule-based verification of topological structures in both manual labels and imperfect masks. Overall, TubeMData contains approximately 52K samples. 
+
+4 EXPERIMENTS 
+
+4.1 Implementation Details 
+
+During training, TubeMLLM was finetuned on TubeMData from the pretrained model [21]. For evaluating the generation branch, we reported β0 number error ( β0 Num ) and β0 matching error [39] ( β0 Mat ) to quantify global and local topological discrepancies. For understanding evaluation, we used mean absolute error for topological-structure counting, and classification accuracy for the remaining tasks. 
+
+4.2 Topology-preserving Generation 
+
+Tab. 1 evaluates segmentation performance across three distinct paradigms: topology-enhanced nnUNet variants [7, 10 –13], specialized vessel architectures [8, 9], and promptable foundation models [14, 16, 21]. It can be observed that TubeMLLM outperforms all baselines in Dice, clDice, and topological metrics. Specifically, TubeMLLM reduces the β0 number error to 8.58 and the β0 matching error to 18.99, a substantial improvement over the ∼30 error range typical of nnUNet-based variants. This gap underscores the efficacy of our topology-explicit prompting in enforcing structural consistency. While foundation models like SAM3 and MedicalSAM3 achieve competitive β0 counts, their markedly lower Dice and clDice indicate that they fail to capture the    
+
+> 1CFP : FIVES [44], RETA [45], RVD [46], STARE [47] for training; AFIO [48], ARIA [49], CHASEDB1 [50], DRIVE [51], IOSTAR [52], LES-AV [53] for testing. XRA : DCA1 [54], Dr-SAM [55], FS-CAD [56], XCAV [57] for training; XCAD [58] for testing. |6Table 1 |Results on CFP OOD datasets. T-T denotes topology-centric tasks.
+
+Methods Dice ↑ clDice ↑ β0 Num ↓ β0 Mat ↓
+
+nnUNet [7] 74.44 78.48 37.42 36.56 nnUNet w/ clDice [10] 75.19 79.83 25.98 27.62 nnUNet w/ SR [11] 74.76 79.68 34.49 30.52 nnUNet w/ cbDice [12] 74.94 79.34 25.46 30.11 nnUNet w/ CAL [13] 72.63 77.85 56.91 29.79 FR-UNet [8] 71.59 76.76 40.13 27.94 AFN [9] 60.35 59.62 24.29 34.65 SAM3 [14] 0.33 0.27 11.08 29.11 MedicalSAM3 [16] 12.14 10.46 10.33 30.74 Bagel [21] 30.68 38.01 307.14 178.09 TubeMLLM w/o T-T 75.73 80.43 8.47 26.57 
+
+TubeMLLM 76.09 80.59 8.58 18.99   
+
+> Table 2 |Comprehensive quantitative results including refinement, cross-dataset, and low quality input settings. ZS denotes zero-shot setting, FS denotes from sratch setting. GB, GN, LR denotes Gaussian Blur, Gaussian Noise, and Low Resolution.
+
+Task Method Dice ↑ clDice ↑ β0 Num ↓ β0 Mat ↓
+
+Task: Single Step Refinement(SSR) 
+
+SSR nnUNet [7] 74.44 78.48 37.42 36.56 w/ TubeMLLM 76.05 80.43 8.49 26.51 
+
+Task: Cross Dataset 
+
+ZS nnUNet [7] 9.07 11.74 238.26 5.29 TubeMLLM 67.50 69.17 1.21 7.69 
+
+FS nnUNet [7] 77.08 75.43 12.06 0.81 TubeMLLM 77.51 78.67 1.31 0.69 
+
+Task: Low Quality Image Input Setting 
+
+GB nnUNet [7] 78.04 81.98 26.57 21.44 TubeMLLM 81.13 84.91 1.93 12.34 
+
+GN nnUNet [7] 74.77 71.82 18.36 24.10 TubeMLLM 77.30 73.51 1.68 13.90 
+
+LR nnUNet [7] 77.92 81.17 23.61 21.43 TubeMLLM 80.25 83.53 1.68 12.32 
+
+overall structure of vessel-like anatomy. Fig. 4 provides qualitative visual comparisons where TubeMLLM generates fewer topological errors as highlighted in red boxes. In addition, we evaluated TubeMLLM on topology-refinement, cross-modality transfer, and zero-shot robustness under low-quality inputs, as summarized in Tab. 2. The results show that TubeMLLM substantially enhances the topological fidelity of imperfect segmentation masks, reducing the β0 number error from 37.42 to 8.49. Notably, TubeMLLM also exhibits strong zero-shot generalization to the XRA modality, achieving a Dice score of 67.50 while decreasing the β0 number error from 238.26 to 1.21. Fig. 5(b) and Fig. A5 in the appendix further illustrate this improvement. Under low-quality input settings, Tab. 2 indicates that TubeMLLM remains robust in terms of topological fidelity, outperforming nnUNet by approximately 3% in Dice and reducing the β0 number error by more than 20 across all three degradation scenarios. 
+
+> |7
+
+Image  GT  nnUNet  FR -UNet  Medical -SAM3 clDice  TubeMLLM                         
+
+> CHASEDB1
+> IOSTAR
+> ARIA
+> DRIVE
+> AFIO
+> LES -AV
+> 80.97
+> 75.19
+> 61.77
+> 78.07
+> 82.30
+> 69.29
+> 83.28
+> 79.56
+> 63.12
+> 81.53
+> 68.86
+> 84.35
+> 79.71
+> 77.99
+> 59.01
+> 73.24
+> 62.84
+> 82.17
+> 19.73
+> 0.33
+> 25.12
+> 11.52
+> 23.72
+> 48.00
+> 85.91
+> 80.65
+> 63.78
+> 80.27
+> 70.07
+> 84.75
+> 17 18 69 54 4
+> 15 24 15 11 10
+> 33 28 43 38
+> 27 31 32 83
+> 18 31 62 32
+> 3218 34
+
+Dice  Num 
+
+Dice  Num 
+
+Dice  Num 
+
+Dice  Num 
+
+Dice  Num 
+
+Dice  Num 
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+β0
+
+> XCAD
+
+Dice  Num 
+
+β0 84.19  84.73  68.72  60.05  86.90 40  5 23  15  3
+
+> XCAD
+
+Dice  Num 
+
+β0 71.08  70.18  57.44  55.66  75.67 18  11  57  9 0Figure 4 | Qualitative results on CFP and XRA OOD test datasets. β0 Num denotes the β0 number error. Regions inside red boxes are highlighted to demonstrate the topological accuracy of TubeMLLM. 
+
+4.3 Topology-aware Understanding 
+
+Fig. 6(a-d) and Fig. 7 present qualitative results of topology understanding tasks. It can be seen that TubeMLLM has a better understanding of vessel topology after finetuning on TubeMData. Specifically, TubeMLLM makes accurate judgement on the existence of connected components and loops and correctly counts the number of these structures in OOD CFP images, as shown in Fig. 6(a,b) and Fig. 7(a,b). In Fig. 6(c,d) and Fig. 7(c,d), TubeMLLM also demonstrates the capability of evaluating segmentation mask quality based on topology. Fig. 6(e) further shows that TubeMLLM quantitatively improves the ability to count and classify topological structures. Moreover, TubeMLLM achieves 97.38% accuracy in distinguishing good 
+
+|8Image 
+
+GT 
+
+nnUNet 
+
+w/ TubeMLLM 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+79.00 
+
+24 
+
+21.17 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+83.05 
+
+5
+
+17.15 
+
+> (+4.05)
+> (-19)
+> (-4.02)
+
+Image 
+
+GT 
+
+nnUNet ZS  TubeMLLM ZS 
+
+Dice: 13.09 
+
+Image  Gaussian Blur 
+
+Gaussian Noise 
+
+Low Resolution 
+
+TubeMLLM 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+78.07 
+
+27 
+
+34.91 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+81.83 
+
+3
+
+13.50 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+74.82 
+
+14 
+
+30.12 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+78.07 
+
+4
+
+22.40 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+77.86 
+
+21 
+
+35.27 
+
+> Dice:
+
+
+
+0
+
+> Num:
+
+
+
+0Num: 
+
+> Mat:
+
+
+
+0Mat: 
+
+0
+
+81.23 
+
+3
+
+10.99 
+
+GT  nnUNet 
+
+Image  TubeMLLM GT  nnUNet 
+
+Image  TubeMLLM GT  nnUNet 
+
+Dice: 77.76 
+
+nnUNet FS  TubeMLLM FS 
+
+Dice: 84.19  Dice: 86.90 
+
+> (+3.76)
+> (-24)
+> (-21.41)
+> (+3.25)
+> (-10)
+> (-7.72)
+> (+3.37)
+> (-18)
+> (-24.28)
+
+(a)  (b) 
+
+(c)  
+
+> clDice:
+
+84.75  
+
+> clDice:
+
+90.22  (+5.47)  
+
+> clDice:
+
+80.98  clDice:  84.08  (+3.10)  
+
+> clDice:
+
+67.73  clDice:  70.49  (+2.76)  
+
+> clDice:
+
+79.78  clDice:  82.06  (+2.28) Figure 5 | Qualitative performance on (a) topology-refinement, (b) zero-shot transfer to XRA dataset and (c) degraded input of CFP datasets. Text colored in green demonstrates superior results or improved performance. Task A  Task B  Task C  Task D 
+
+43.09 
+
+63.99 
+
+15.30 
+
+51.45 
+
+12.55 
+
+94.02 
+
+48.94 
+
+97.38 
+
+TubeMLLM 
+
+Score 
+
+Task A 
+
+Topological -structure Judgement 
+
+Task B 
+
+Topological -structure Counting 
+
+Task C 
+
+Segmentation Quality Judgement 
+
+Task D 
+
+Better Segmentation Choosing 
+
+> BAGEL
+
+BAGEL 
+
+> TubeMLLM
+
+Prompt 
+
+“Are there any  loop s in 
+
+the vessel? ”
+
+“Yes ”
+
+“No ”
+
+“Count the number of 
+
+connected components  in 
+
+the vessel. ”
+
+> BAGEL  TubeMLLM
+
+“4” 
+
+“1” 
+
+> BAGEL  TubeMLLM
+
+“No ”
+
+“Yes ”
+
+“Is this segmentation 
+
+topologically accurate ?”
+
+A B
+
+> BAGEL  TubeMLLM
+
+“A”
+
+“B”
+
+“Which segmentation is 
+
+topologically better ?”
+
+a)  b) 
+
+c)  d) 
+
+e) 
+
+Prompt 
+
+Prompt  Prompt 
+
+Image Image 
+
+Images  Images 
+
+TubeMLLM enables better topology understanding 
+
+Figure 6 | Qualitative and quantitative performance on four understanding tasks. (a-d) Qualitative comparisons between BAGEL and our TubeMLLM on (a) Topological-structure Judgement, (b) Topological-structure Counting, (c) Segmentation Quality Judgement, and (d) Better Segmentation Choosing. (e) Quantitative results demonstrating that TubeMLLM significantly outperforms the baseline across all four tasks. 
+
+from poor topological quality, a substantial gain over the baseline (48.94%), demonstrating its effectiveness in 
+
+|9Images  Question 
+
+Answer  “A”TubeMLLM:  Bagel:  “B” 
+
+> “< image_1> is a
+
+color fundus photography  image.  
+
+> <image_2> is
+
+binary segmentation A  ... <image_3>  
+
+> is
+
+binary segmentation B  ...  A good vessel 
+
+segmentation must preserve true vessel 
+
+topology ... Answer the following question: Which 
+
+> binary segmentation is better? Your answer can ONLY
+> be either 'A' or 'B'. ”
+
+Images  Question 
+
+Answer  “A”TubeMLLM:  Bagel:  “B” 
+
+> “< image_1> is a
+
+color fundus photography  image.  
+
+> <image_2> is
+
+binary segmentation A  ... <image_3>  
+
+> is
+
+binary segmentation B  ...  A good vessel 
+
+segmentation must preserve true vessel 
+
+topology ... Answer the following question: Which 
+
+> binary segmentation is better? Your answer can ONLY
+> be either 'A' or 'B'. ”
+
+Images  “< image_1> is a  color fundus photography  
+
+> image. <image_2> is a
+
+binary segmentation  ...  A 
+
+> good vessel segmentation must preserve true
+> vessel topology ... Answer the following question:
+> Is the binary segmentation a good segmentation?
+> Your answer can ONLY be either 'Yes' or 'No'. ”
+
+Question 
+
+Answer  “No ”TubeMLLM:  Bagel:  “Yes ”
+
+Images  Question 
+
+Answer  “No ”TubeMLLM:  Bagel:  “Yes ” 
+
+> “< image_1> is a
+
+color fundus photography  
+
+> image. <image_2> is a
+
+binary segmentation  ...  A 
+
+> good vessel segmentation must preserve true
+> vessel topology ... Answer the following question:
+> Is the binary segmentation a good segmentation?
+> Your answer can ONLY be either 'Yes' or 'No'. ”
+
+Image 
+
+“Here is a  color fundus photography  image. A 
+
+connected component is  ... count the number of 
+
+connected components of vessel in this image. Provide your 
+
+answer in one INTEGER number. ”
+
+Question 
+
+Answer  “4” TubeMLLM:  Bagel:  “1” 
+
+Image 
+
+“Here is a  color fundus photography  image. A  loop 
+
+is ... count the number of loops of vessel in this image. 
+
+Provide your answer in one INTEGER number. ”
+
+Question 
+
+Answer  “8” TubeMLLM:  Bagel:  “1” 
+
+Image 
+
+“Here is a  color fundus photography  image. A 
+
+connected component is  a... answer the 
+
+following question: Is the number of connected 
+
+components more than 3? Your answer can ONLY 
+
+be either 'Yes' or 'No'. ”
+
+Question 
+
+Answer  “Yes ”TubeMLLM:  Bagel:  “No ”
+
+Image 
+
+“Here is a  color fundus photography  image. A 
+
+loop is  a … answer the following question: Are 
+
+there any loops of vessel in this image? Your 
+
+answer can ONLY be either 'Yes' or 'No'. ”
+
+Question 
+
+Answer  “Yes ”TubeMLLM:  Bagel:  “No ”
+
+a)  Topological -structure Judgement 
+
+b)  Topological -structure Counting 
+
+c)  Segmentation Quality Judgement 
+
+d)  Better Segmentation Choosing Figure 7 | Illustration of TubeMLLM performance on topology-aware understanding tasks. Texts colored in green represent correct answers. Texts colored in red represent incorrect answers. Bold texts highlight the image modalities and topology priors encoded in language prompts. 
+
+assessing overall topological quality. 
+
+5 CONCLUSION 
+
+We propose TubeMLLM, a unified foundation model that integrates vessel-like anatomical priors through language and aligns them with visual representations to enhance topology-preserving perception. Trained on the comprehensive TubeMData with a topology-centric task design and adaptive loss weighting, TubeMLLM substantially improves both topological fidelity and segmentation accuracy, while demonstrating robust generalization to out-of-distribution datasets. Overall, TubeMLLM opens new possibilities for modeling vessel-like anatomy with topological fidelity in a unified multimodal framework. 
+
+|10 References 
+
+[1] Yandan Wang, Weihua Yang, and Yan Li. Research advances on artificial intelligence assisted diagnosis and risk assessment in cardiovascular disease using retinal imaging. Frontiers in Cardiovascular Medicine ,12:1615857, 2025. 1 [2] Francesco Antonio Veneziano, Nino Cocco, and Roberta Veneziano. Artificial intelligence in interventional cardiology: current applications and future clinical integration. Vessel Plus , 9:N–A, 2025. 1 [3] Georgios Sianos, Marie-Angèle Morel, Arie Pieter Kappetein, et al. The syntax score: an angiographic tool grading the complexity of coronary artery disease. EuroIntervention , 1(2):219–227, 2005. 1 [4] Hongjie Yu and Xingbo Dong. Ensemble-based eye disease detection system utilizing fundus and vascular structures. Scientific Reports , 15(1):19298, 2025. 1 [5] Geert Litjens, Thijs Kooi, Babak Ehteshami Bejnordi, et al. A survey on deep learning in medical image analysis. Medical image analysis , 42:60–88, 2017. 1, 3 [6] Hao Guan and Mingxia Liu. Domain adaptation for medical image analysis: a survey. IEEE Transactions on Biomedical Engineering , 69(3):1173–1185, 2021. 1, 3 [7] Fabian Isensee, Paul F Jaeger, Simon AA Kohl, et al. nnu-net: a self-configuring method for deep learning-based biomedical image segmentation. Nature methods , 18(2):203–211, 2021. 1, 3, 6, 7 [8] Wentao Liu, Huihua Yang, Tong Tian, et al. Full-resolution network and dual-threshold iteration for retinal vessel and coronary angiograph segmentation. IEEE journal of biomedical and health informatics ,26(9):4623–4634, 2022. 1, 3, 6, 7 [9] Tianyi Shi, Xiaohuan Ding, Wei Zhou, et al. Affinity feature strengthening for accurate, complete and robust vessel segmentation. IEEE Journal of Biomedical and Health Informatics , 27(8):4006–4017, 2023. 1, 3, 6, 7 [10] Suprosanna Shit, Johannes C Paetzold, Anjany Sekuboyina, et al. cldice-a novel topology-preserving loss function for tubular structure segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 16560–16569, 2021. 1, 3, 6, 7 [11] Yannick Kirchhoff, Maximilian R Rokuss, Saikat Roy, et al. Skeleton recall loss for connectivity conserving and resource efficient segmentation of thin tubular structures. In European Conference on Computer Vision , pages 218–234. Springer, 2024. 1, 3, 6, 7 [12] Pengcheng Shi, Jiesi Hu, Yanwu Yang, et al. Centerline boundary dice loss for vascular segmentation. In 
+
+International Conference on Medical Image Computing and Computer-Assisted Intervention , pages 46–56. Springer, 2024. 1, 3, 6, 7 [13] Minghui Zhang and Yun Gu. Towards connectivity-aware pulmonary airway segmentation. IEEE Journal of Biomedical and Health Informatics , 28(1):321–332, 2023. 1, 3, 6, 7 [14] Nicolas Carion, Laura Gustafson, Yuan-Ting Hu, et al. Sam 3: Segment anything with concepts. arXiv preprint arXiv:2511.16719 , 2025. 1, 3, 6, 7 [15] Anglin Liu, Rundong Xue, Xu R Cao, et al. Medsam3: Delving into segment anything with medical concepts. arXiv preprint arXiv:2511.19046 , 2025. 1, 3 [16] Chongcong Jiang, Tianxingjian Ding, Chuhan Song, et al. Medical sam3: A foundation model for universal prompt-driven medical image segmentation, 2026. 1, 3, 6, 7 [17] Xin Lai, Zhuotao Tian, Yukang Chen, et al. Lisa: Reasoning segmentation via large language model. In 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 9579–9589, 2024. 2, 3 
+
+> |11
+
+[18] Shengbang Tong, David Fan, Jiachen Li, et al. Metamorph: Multimodal understanding and generation via instruction tuning. In Proceedings of the IEEE/CVF International Conference on Computer Vision ,pages 17001–17012, 2025. 2, 3 [19] Xiaolong Wang, Lixiang Ru, and Ziyuan others Huang. Argenseg: Image segmentation with autoregressive image generation model. arXiv preprint arXiv:2510.20803 , 2025. 2, 3 [20] Xinlong Wang, Xiaosong Zhang, Zhengxiong Luo, et al. Emu3: Next-token prediction is all you need. 
+
+arXiv preprint arXiv:2409.18869 , 2024. 2 [21] Chaorui Deng, Deyao Zhu, Kunchang Li, et al. Emerging properties in unified multimodal pretraining, 2025. 2, 5, 6, 7 [22] Xiaohu Huang, Hao Zhou, Qiangpeng Yang, et al. Jova: Unified multimodal learning for joint video-audio generation. arXiv preprint arXiv:2512.13677 , 2025. 3 [23] Lichen Ma, Xiaolong Fu, Gaojing Zhou, et al. Um-text: A unified multimodal model for image understanding. arXiv preprint arXiv:2601.08321 , 2026. 3 [24] Fabian Isensee, Tassilo Wald, Constantin Ulrich, et al. nnu-net revisited: A call for rigorous validation in 3d medical image segmentation. In International Conference on Medical Image Computing and Computer-Assisted Intervention , pages 488–498. Springer, 2024. 3 [25] Xiaoling Hu, Fuxin Li, Dimitris Samaras, and Chao Chen. Topology-preserving deep image segmentation. 
+
+Advances in neural information processing systems , 32, 2019. 3 [26] Xiaoling Hu, Yusu Wang, Li Fuxin, Dimitris Samaras, and Chao Chen. Topology-aware segmentation using discrete morse theory. arXiv preprint arXiv:2103.09992 , 2021. 3 [27] Alexander Kirillov, Eric Mintun, Nikhila Ravi, et al. Segment anything. In Proceedings of the IEEE/CVF international conference on computer vision , pages 4015–4026, 2023. 3 [28] Xueyan Zou, Jianwei Yang, Hao Zhang, et al. Segment everything everywhere all at once. Advances in neural information processing systems , 36:19769–19782, 2023. 3 [29] Alec Radford, Jong Wook Kim, Chris Hallacy, et al. Learning transferable visual models from natural language supervision. In International conference on machine learning , pages 8748–8763. PmLR, 2021. 3 [30] Jinze Bai, Shuai Bai, Yunfei Chu, et al. Qwen technical report. arXiv preprint arXiv:2309.16609 , 2023. 3 [31] Hugo Touvron, Thibaut Lavril, Gautier Izacard, et al. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971 , 2023. 3 [32] Theodore Zhao, Yu Gu, Jianwei Yang, Naoto Usuyama, Ho Hin Lee, Sid Kiblawi, Tristan Naumann, Jianfeng Gao, Angela Crabtree, Jacob Abel, et al. A foundation model for joint segmentation, detection and recognition of biomedical objects across nine modalities. Nature methods , 22(1):166–176, 2025. 3 [33] Jun Ma, Yuting He, Feifei Li, et al. Segment anything in medical images. Nature Communications ,15(1):654, 2024. 3 [34] Jun Ma, Zongxin Yang, Sumin Kim, et al. Medsam2: Segment anything in 3d medical images and videos. 
+
+arXiv preprint arXiv:2504.03600 , 2025. 3 [35] Ziheng Zhao, Yao Zhang, Chaoyi Wu, Xiaoman Zhang, Xiao Zhou, Ya Zhang, Yanfeng Wang, and Weidi Xie. Large-vocabulary segmentation for medical images with text prompts. NPJ Digital Medicine ,8(1):566, 2025. 3 [36] Maximilian Rokuss, Moritz Langenberg, Yannick Kirchhoff, et al. Voxtell: Free-text promptable universal 3d medical image segmentation. arXiv preprint arXiv:2511.11450 , 2025. 3 
+
+> |12
+
+[37] Yu Xin, Gorkem Can Ates, and Wei Shao. Text3dsam: Text-guided 3d medical image segmentation using sam-inspired architecture. In CVPR 2025: Foundation Models for 3D Biomedical Image Segmentation ,2025. 3 [38] James R Clough, Nicholas Byrne, Ilkay Oksuz, Veronika A Zimmer, Julia A Schnabel, and Andrew P King. A topological loss function for deep-learning based image segmentation using persistent homology. 
+
+IEEE transactions on pattern analysis and machine intelligence , 44(12):8766–8778, 2020. 3 [39] Nico Stucki, Johannes C Paetzold, Suprosanna Shit, et al. Topologically faithful image segmentation via induced matching of persistence barcodes. In International Conference on Machine Learning , pages 32698–32727. PMLR, 2023. 3, 6 [40] Weixin Liang, Lili Yu, Liang Luo, et al. Mixture-of-transformers: A sparse and scalable architecture for multi-modal foundation models. arXiv preprint arXiv:2411.04996 , 2024. 5 [41] Black Forest Labs, Stephen Batifol, Andreas Blattmann, et al. Flux.1 kontext: Flow matching for in-context image generation and editing in latent space, 2025. 5 [42] Yaron Lipman, Ricky TQ Chen, Heli Ben-Hamu, et al. Flow matching for generative modeling. arXiv preprint arXiv:2210.02747 , 2022. 5 [43] Michael Tschannen, Alexey Gritsenko, Xiao Wang, et al. Siglip 2: Multilingual vision-language encoders with improved semantic understanding, localization, and dense features. arXiv preprint arXiv:2502.14786 ,2025. 5 [44] Kai Jin, Xingru Huang, Jingxing Zhou, et al. Fives: A fundus image dataset for artificial intelligence based vessel segmentation. Scientific data , 9(1):475, 2022. 6 [45] Xingzheng Lyu, Li Cheng, and Sanyuan Zhang. The reta benchmark for retinal vascular tree analysis. 
+
+Scientific Data , 9(1):397, 2022. 6 [46] MD Wahiduzzaman Khan, Hongwei Sheng, Hu Zhang, et al. Rvd: a handheld device-based fundus video dataset for retinal vessel segmentation. Advances in Neural Information Processing Systems ,36:18203–18224, 2023. 6 [47] AD Hoover, Valentina Kouznetsova, and Michael Goldbaum. Locating blood vessels in retinal images by piecewise threshold probing of a matched filter response. IEEE Transactions on Medical imaging ,19(3):203–210, 2000. 6 [48] Shahzad Akbar, Taimur Hassan, M Usman Akram, et al. Avrdb: annotated dataset for vessel segmentation and calculation of arteriovenous ratio. In Proceedings of the International Conference on Image Processing, Computer Vision, and Pattern Recognition (IPCV) , pages 129–134, 2017. 6 [49] M. Niemeijer, B. van Ginneken, J. Staal, et al. Automatic detection of red lesions in digital color fundus photographs. IEEE Transactions on Medical Imaging , 24(5):584–592, 2005. 6 [50] Muhammad Moazam Fraz, Paolo Remagnino, Andreas Hoppe, et al. An ensemble classification-based approach applied to retinal blood vessel segmentation. IEEE transactions on biomedical engineering ,59(9):2538–2548, 2012. 6 [51] Joes Staal, Michael D Abràmoff, Meindert Niemeijer, et al. Ridge-based vessel segmentation in color images of the retina. IEEE transactions on medical imaging , 23(4):501–509, 2004. 6 [52] Jiong Zhang, Behdad Dashtbozorg, Erik Bekkers, et al. Robust retinal vessel segmentation via locally adaptive derivative frames in orientation scores. IEEE transactions on medical imaging , 35(12):2631–2644, 2016. 6 [53] José Ignacio Orlando, João Barbosa Breda, Karel Van Keer, et al. Towards a glaucoma risk index based on simulated hemodynamics from fundus images. In International Conference on Medical Image Computing and Computer-Assisted Intervention , pages 65–73. Springer, 2018. 6 
+
+> |13
+
+[54] Fernando Cervantes-Sanchez, Ivan Cruz-Aceves, Arturo Hernandez-Aguirre, et al. Automatic segmentation of coronary arteries in x-ray angiograms using multiscale analysis and artificial neural networks. Applied Sciences , 9(24):5507, 2019. 6 [55] Vazgen Zohranyan, Vagner Navasardyan, Hayk Navasardyan, et al. Dr-sam: An end-to-end framework for vascular segmentation diameter estimation and anomaly detection on angiography images. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 5113–5121, 2024. 6 [56] Yunjie Zeng, Han Liu, Juan Hu, et al. Pretrained subtraction and segmentation model for coronary angiograms. Scientific Reports , 14(1):19888, 2024. 6 [57] Chun-Hung Wu, Shih-Hong Chen, Chih-Yao Hu, et al. Denver: Deformable neural vessel representations for unsupervised video vessel segmentation. In proceedings of the computer vision and pattern recognition conference , pages 15682–15692, 2025. 6 [58] Yuxin Ma, Yang Hua, Hanming Deng, et al. Self-supervised vessel segmentation via adversarial learning. In proceedings of the IEEE/CVF international conference on computer vision , pages 7536–7545, 2021. 6 
+
+> |14
+
+A APPENDIX 
+
+A.1 Details of TubeMData Benchmark 
+
+Fig. A1 to Fig. A4 illustrate an example for topology-preserving generation task, topological structure judgement, topological structure counting and segmentation quality judgement, respectively. Definitions of topological structures and criteria of good segmentation are inserted into the language prompts as topology priors. These topology-centric tasks take advantage of the shared-attention design in TubeMLLM via interleaved image-text inputs and provide supervision from both image generation ( Yimg ) and textual prediction ( Ytext ), thereby strengthening topology-aware representation learning. 
+
+A.2 TubeMLLM Generalization on XRA 
+
+Fig. A5 shows the results of TubeMLLM zero-shot generalization and finetuned adaptation to XRA modality. It is evident that TubeMLLM is capable of delineating the vessel structure in unseen XRA images even without finetuning, achieving ∼50 dice improvement compared with nnUNet models. Even after finetuning, TubeMLLM still generates XRA vessel masks with better accuracy and topology. These results further demonstrate the zero-shot generalization capability of TubeMLLM. 
+
+> |15
+
+Example of Topology -preserving Generation 
+
+Input Image 
+
+Instruction 
+
+Expected Output 
+
+“Here is a  color fundus photography image . A binary segmentation image for 
+
+vessel contains ONLY black and white pixels, where vessel pixels are white and all 
+
+other pixels are black. Your task is to generate the binary segmentation image for 
+
+vessel in this image  with true vessel topology (connections/loops). ”
+
+Example of Topology -refinement 
+
+## Input Images 
+
+## Expected Output 
+
+## Instruction 
+
+“A color fundus photograph  is shown in <image_1> and its 
+
+vessel binary segmentation in <image_2>. A good vessel segmentation 
+
+must  preserve true vessel topology  in <image_1> ,
+
+including true connections and loops, without 
+
+artificial breaks or merges . The segmentation shape should 
+
+follow vessel geometry with  locally consistent thickness . All 
+
+visible vessel must be included (no false negatives), and non -vessel 
+
+structures must be excluded (no false positives). Refine <image_2> 
+
+into a high -quality binary vessel segmentation for <image_1>. ”Figure A1 | Example of topology-preserving generation. Bold texts highlight the image modalities and topology priors encoded in language prompts. Example of Topological -structure Judgement 
+
+Input Image 
+
+Instruction 
+
+Expected Output 
+
+“Here is a  color fundus photography  image.  A loop is a continous circular path 
+
+in vessel that forms a cycle.  Answer the following question: 
+
+Are there any loops of vessel in this image? Your answer can ONLY be either 'Yes' or 
+
+'No'. ”
+
+“Yes ”
+
+Example of Topological -structure Counting 
+
+Input Image   
+
+> Figure A2 |Example of topological-structure judgement. Bold texts highlight the image modalities and topology priors encoded in language prompts. |16
+
+Expected Output 
+
+“Here is a  color fundus photography  image.  A loop is a continous circular path 
+
+in vessel that forms a cycle.  Answer the following question: 
+
+Are there any loops of vessel in this image? Your answer can ONLY be either 'Yes' or 
+
+'No'. ”
+
+“Yes ”
+
+Example of Topological -structure Counting 
+
+Input Image 
+
+Instruction 
+
+Expected Output 
+
+“Here is a  color fundus photography  image.  A connected component  is a 
+
+maximal group of pixels in vessel , where each pixel is reachable from any other 
+
+via  8-connected neighbors . Your task is to  count the number of connected 
+
+components  of vessel in this image. Provide your answer in one INTEGER number. ”
+
+“4” 
+
+Example of Segmentation Quality Judgement 
+
+Input Images 
+
+Instruction 
+
+Expected Output 
+
+“< image_1> is a  color fundus photography  image.<image_2> is a binary 
+
+segmentation of the vessels in the image. The foreground is white. The background is 
+
+black. A good vessel segmentation must  preserve true vessel topology, including 
+
+true connections and loops, without artificial breaks or merges . The 
+
+segmentation shape should follow vessel geometry with  locally consistent 
+
+thickness . All visible vessel must be included (no false negatives), and non -vessel 
+
+structures must be excluded (no false positives). Answer the following question: 
+
+Is the binary segmentation a good segmentation? Your answer can ONLY be either 
+
+'Yes' or 'No'. ”
+
+“No ”Figure A3 | Example of topological-structure counting. Bold texts highlight the image modalities and topology priors encoded in language prompts. Instruction 
+
+Expected Output 
+
+“Here is a  color fundus photography  image.  A loop is a continous circular path 
+
+in vessel that forms a cycle.  Answer the following question: 
+
+Are there any loops of vessel in this image? Your answer can ONLY be either 'Yes' or 
+
+'No'. ”
+
+“Yes ”
+
+Example of Topological -structure Counting 
+
+Input Image 
+
+Instruction 
+
+Expected Output 
+
+“Here is a  color fundus photography  image.  A connected component  is a 
+
+maximal group of pixels in vessel , where each pixel is reachable from any other 
+
+via  8-connected neighbors . Your task is to  count the number of connected 
+
+components  of vessel in this image. Provide your answer in one INTEGER number. ”
+
+“4” 
+
+Example of Segmentation Quality Judgement 
+
+Input Images 
+
+Instruction 
+
+Expected Output 
+
+“< image_1> is a  color fundus photography  image.<image_2> is a binary 
+
+segmentation of the vessels in the image. The foreground is white. The background is 
+
+black. A good vessel segmentation must  preserve true vessel topology, including 
+
+true connections and loops, without artificial breaks or merges . The 
+
+segmentation shape should follow vessel geometry with  locally consistent 
+
+thickness . All visible vessel must be included (no false negatives), and non -vessel 
+
+structures must be excluded (no false positives). Answer the following question: 
+
+Is the binary segmentation a good segmentation? Your answer can ONLY be either 
+
+'Yes' or 'No'. ”
+
+“No ”  
+
+> Figure A4 |Example of segmentation topology-quality judgement. Bold texts highlight the image modalities and topology priors encoded in language prompts. |17
+
+Image  GT  TubeMLLM ZS  nnUNet ZS  TubeMLLM FS  nnUNet FS 
+
+Dice  77.76  13.09  86.90  84.19 
+
+Dice  67.08  11.18  76.07  72.52 
+
+Dice  76.38  10.08  83.55  81.25 
+
+Dice  60.39  6.97  73.11  68.74 
+
+Dice  72.71  2.84  81.72  77.51 
+
+Dice  59.98  2.83  78.93  73.49 Figure A5 | Qualitative results of TubeMLLM zero-shot generalization on XRA. ZS denotes zero-shot setting, FS denotes from sratch setting. |18

@@ -1,0 +1,542 @@
+Title: PET-F2I: A Comprehensive Benchmark and Parameter-Efficient Fine-Tuning of LLMs for PET/CT Report Impression Generation
+
+URL Source: https://arxiv.org/pdf/2603.10560v1
+
+Published Time: Thu, 12 Mar 2026 01:03:52 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+## PET-F2I: A Comprehensive Benchmark and Parameter-Efficient Fine-Tuning of LLMs for PET/CT Report Impression Generation 
+
+Yuchen Liu ⋆, Wenbo Zhang 1,4⋆, Yinghao Zhang 1,4, Liling Peng 2, Yichi Zhang 1,4,Yu Fu 3, Xin Guo 1,4, Chao Qu 1,4†, Yuan Qi 1,4†, and Le Xue 1,4† 
+
+> 1
+
+Fudan University  
+
+> 2
+
+Shanghai Universal Medical Imaging Diagnostic Center  
+
+> 3
+
+Lanzhou University  
+
+> 4
+
+Shanghai Academy of Artificial Intelligence for Science 
+
+Abstract. PET/CT imaging is pivotal in oncology and nuclear medicine, yet summarizing complex findings into precise diagnostic impressions is labor-intensive. While LLMs have shown promise in medical text gen-eration, their capability in the highly specialized domain of PET/CT remains underexplored. We introduce PET-F2I-41K (PET Findings-to-Impression Benchmark), a large-scale benchmark for PET/CT impression generation using LLMs, constructed from over 41k real-world reports. Using PET-F2I-41K, we conduct a comprehensive evaluation of 27 mod-els across proprietary frontier LLMs, open-source generalist models, and medical-domain LLMs, and we develop a domain-adapted 7B model (PET-F2I-7B ) fine-tuned from Qwen2.5-7B-Instruct via LoRA. Beyond standard NLG metrics (e.g., BLEU-4, ROUGE-L, BERTScore), we pro-pose three clinically grounded metrics— Entity Coverage Rate (ECR), 
+
+Uncovered Entity Rate (UER), and Factual Consistency Rate (FCR)—to assess diagnostic completeness and factual reliability. Experiments reveal that neither frontier nor medical-domain LLMs perform adequately in zero-shot settings. In contrast, PET-F2I-7B achieves substantial gains (e.g., 0.708 BLEU-4) and a 3.0 × improvement in entity coverage over the strongest baseline, while offering advantages in cost, latency, and privacy. Beyond this modeling contribution, PET-F2I-41K establishes a standardized evaluation framework to accelerate the development of reliable and clinically deployable reporting systems for PET/CT. 
+
+Keywords: PET/CT · Report Generation · LLMs · Domain Adaptation 
+
+· Clinical NLP. 
+
+1 Introduction 
+
+Positron emission tomography/computed tomography (PET/CT) is an indis-pensable imaging modality in modern oncology. However, synthesizing intricate  
+
+> ⋆
+
+These authors contributed equally to this work.  
+
+> †
+
+Corresponding authors.  
+
+> arXiv:2603.10560v1 [cs.CV] 11 Mar 2026 2Yuchen Liu et al.
+
+radiological findings into concise diagnostic impressions remains a severe clin-ical bottleneck. This cognitive process is profoundly time-intensive, demands subspecialty expertise, and is highly susceptible to inter-reader variability un-der escalating clinical workloads. While Large Language Models (LLMs) show promise in medical text generation, PET/CT reporting presents unique subspe-cialty challenges [39]. It demands strict formatting and specialized terminology, such as standardized uptake value (SUV) and tumor-node-metastasis (TNM) staging. Crucially, generative errors like hallucinated or omitted malignancies di-rectly threaten patient safety. Furthermore, deploying proprietary frontier LLMs faces critical barriers: high latency, operational costs, and strict patient health information (PHI) privacy regulations render cloud-based solutions unviable for clinical workflows. A critical impediment in this domain is the absence of clinically rigorous evaluation frameworks [33]. To bridge this gap, we introduce PET-F2I-41K, the first large-scale benchmark engineered for PET/CT impression generation. Because conventional metrics (e.g., BLEU, ROUGE) fail to capture fatal clinical inaccuracies, we propose three novel, clinically grounded metrics: Entity Coverage Rate (ECR), Uncovered Entity Rate (UER), and Factual Consis-tency Rate (FCR). As outlined in Fig. 1, evaluating 27 models on PET-F2I-41K reveals a critical insight: neither massive frontier LLMs nor specialized medi-cal systems (whether broadly pre-trained or QA-tuned) can meet the rigorous structural and cognitive demands of PET/CT reporting. Instead, precise domain adaptation guarantees robust clinical efficacy. Our core contributions are: (1) 
+
+We establish PET-F2I-41K , the first large-scale benchmark (41,191 reports) for this task, alongside three novel clinical metrics (ECR, UER, FCR) to rigorously evaluate diagnostic completeness and factual consistency. (2) We comprehensively benchmark 27 LLMs, exposing the clinically unacceptable entity omission rates of massive frontier and generalized medical models in zero-shot settings. (3) 
+
+We propose PET-F2I-7B , a parameter-efficient, locally deployable architecture that sets a new state-of-the-art, delivering a 3.0 × improvement in exact entity coverage over the strongest baseline while ensuring strict PHI privacy. 
+
+2 Related Work 
+
+While LLMs excel in general clinical summarization [26, 27], radiology research pre-dominantly targets chest radiograph report generation using retrieval-augmented or vision-language models [36, 6, 5, 18, 16, 37, 20]. However, PET/CT impression generation diverges fundamentally, demanding complex multi-region integration and highly specific tracer terminology. Consequently, whether adapted via broad biomedical pretraining or medical instruction tuning, specialized medical LLMs (e.g., BioGPT [19], Meditron [4], Med-PaLM 2 [27]) exhibit limited transfer-ability and remain vulnerable to clinical hallucinations [15, 22]. Furthermore, conventional lexical metrics (e.g., BLEU, ROUGE) inadequately detect clinically severe errors like critical omissions or fabricated diagnoses. Drawing on clinical entity extraction principles [14, 28], we introduce targeted metrics to explicitly quantify diagnostic completeness and factual fidelity. To address the deployment Title Suppressed Due to Excessive Length 3 
+
+> Fig. 1. Overview of the PET-F2I-41K framework. The pipeline encompasses clini-cal task formalization, comprehensive benchmarking of 27 LLMs, and multi-dimensional evaluation, demonstrating the absolute superiority of our domain-adapted PET-F2I-7B (+138% ECR, -75% UER).
+
+barriers of massive models, we utilize parameter-efficient fine-tuning [13, 10]. By selectively adapting a compact 7B-parameter architecture, we demonstrate that targeted domain adaptation successfully overcomes the limitations of generalized and medical-domain LLMs, establishing a highly accurate, locally deployable paradigm. 
+
+3 Methods 
+
+3.1 Dataset Curation and Benchmark Construction 
+
+We introduce PET-F2I-41K, the first large-scale corpus for PET/CT impression generation, comprising 41,191 real-world reports (2013–2023). To rigorously pre-vent data leakage, we applied a strict patient-level split: 40,691 training, 500 validation, and 500 test samples. The cohort (mean age 58.3; 56.7% male) spans a diverse clinical spectrum. As illustrated in Fig. 2(a), while predominantly 
+
+> 18
+
+F-FDG, the dataset incorporates critical minority tracers for neurological and targeted molecular imaging. The extreme linguistic density ( Findings avg. 870 characters; Impressions avg. 240 characters) reflects the rigorous cognitive demands of clinical practice. To systematically evaluate this complexity, we constructed a comprehensive benchmark assessing 27 LLMs. As demonstrated in the resulting leaderboards (Fig. 2(b), (c)), proprietary frontier, large-scale open-source, and even specialized medical baselines struggle with clinical completeness, whereas our domain-adapted PET-F2I-7B establishes absolute superiority, sub-stantiating the critical need for task-specific adaptation 4 Yuchen Liu et al. 41,191                    
+
+> Total Reports
+> (a) Radiopharmaceutical Tracers
+> in PET-F2I-41K
+> ¹ F-FDG (Oncology) (92.1%)
+> ¹ F/¹¹C FP-CIT (Dopamine) (1.4%)
+> ¹¹C-CFT (DAT) (1.8%)
+> ¹ F-AV45/PIB (Amyloid) (3.4%)
+> ¹ F-AV1451 (Tau) (0.8%)
+> ¹ F-PSMA (Targeted) (0.5%)
+> 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8
+> BLEU-4
+> GLM-4-9B
+> Hunyuan-MT-7B
+> Seed-Rice-7B
+> InternLM2.5-7B
+> MiniMax-M2
+> Qwen3-235B
+> Qwen2.5-7B
+> DeepSeek-R1
+> Qwen3-8B
+> Med-PaLM-2
+> MedGemma-4B
+> PMC-LLaMA
+> GPT-5.1
+> Clinical-Camel
+> Baichuan-M3
+> Meditron
+> BioMedLM
+> BioGPT
+> GPT-4o
+> Gemini-2.0-Flash
+> GLM-4.6
+> Gemini-2.5-Pro
+> Kimi-K2
+> Claude-Sonnet-4.5
+> DeepSeek-V3.2
+> Claude-Opus-4.5
+> PET-F2I-7B (Ours)
+> 0.219
+> 0.237
+> 0.240
+> 0.253
+> 0.708
+> (b) NLG Quality (BLEU-4)
+> 0.0 0.2 0.4 0.6 0.8
+> ECR
+> 0.464
+> 0.522
+> 0.508
+> 0.527
+> 0.807
+> (c) Clinical Completeness (ECR )
+> Proprietary
+> Open-Source (Large)
+> Open-Source (7B)
+> Medical Domain
+> PET-F2I-7B (Ours)
+
+PET-F2I-41K: Dataset & Model Performance Overview 
+
+Fig. 2. (a) Tracer distribution in PET-F2I-41K (41,191 reports). (b, c) 27 models ranked by BLEU-4 and ECR; PET-F2I-7B ( ⋆) consistently outperforms the performance of frontier proprietary, large-scale open-source, and specialized medical LLMs. 
+
+3.2 Models and Optimization Strategy 
+
+We benchmark 27 LLMs across frontier proprietary (e.g., GPT-5.1 [21], Claude Opus [1], Gemini-2.5 [7]), open-source (e.g., Qwen [24], DeepSeek [9], GLM [12]), and specialized medical domains. Addressing clinical privacy and efficiency im-peratives, we propose PET-F2I-7B , a domain-adapted model fine-tuned from Qwen2.5-7B-Instruct via LoRA [13]. By applying LoRA modules ( r = 64 , α = 128 )to all linear projections, we optimize via AdamW (peak LR 1.0 × 10 −4, 3 epochs, 2048-token context) across 2 RTX 4090 GPUs. This parameter-efficient approach enables seamless local inference on one RTX 4090, intrinsically securing patient health information by preventing external server transmissions. 
+
+3.3 Evaluation Framework and Clinical Metrics 
+
+For automatic text evaluation, we compute standard metrics including BLEU [23], ROUGE [17], METEOR [2], BERTScore [38], and SBERT [25]. However, stan-dard lexical metrics inherently fail to capture clinically catastrophic errors, such as the critical omission of malignant lesions or the hallucination of non-existent diagnoses. To rigorously assess clinical viability, we constructed a comprehen-sive medical lexicon aggregating the THUOCL dictionary, extensive anatomical databases, and a manually curated repository of specialized PET/CT vernacular. Utilizing a greedy longest-match named entity recognition (NER) framework over this dictionary, we propose three novel, clinically grounded metrics. Let 
+
+Eref and Egen denote the sets of extracted clinical entities in the reference and generated impressions, respectively. We define the Entity Coverage Rate (ECR) to quantify diagnostic completeness as the proportion of reference entities Title Suppressed Due to Excessive Length 5
+
+successfully reproduced: 
+
+ECR = |Eref ∩ Egen ||Eref | (1) Conversely, to explicitly quantify the incidence of clinical hallucinations, we introduce the Unsupported Entity Rate (UER) . This metric calculates the proportion of generated entities absent from the source findings, serving as a strict proxy for diagnostic fabrication: 
+
+U ER = |Egen \ Eref ||Egen | (2) Finally, practical clinical utility demands strict adherence to institutional report-ing structures. We define the Format Compliance Rate (FCR) to evaluate the structural integrity of the generated output. Let C = {c1, . . . , c N } represent 
+
+N = 5 predefined formatting criteria (e.g., numerical sectioning, anatomical markers, terminology density). For each criterion ci, we compute a rule-based compliance score si ∈ { 0, 0.5, 1}. The FCR is formally defined as the average compliance score: 
+
+F CR = 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+si (3) Through the integration of ECR, UER, and FCR, alongside tracer-stratified analyses, our benchmark establishes a multi-dimensional paradigm that strictly measures genuine diagnostic utility over superficial textual overlap. 
+
+4 Results 
+
+4.1 Comprehensive Benchmark Analysis 
+
+Table 1 details the evaluation of 27 models on the PET-F2I-41K benchmark. These zero-shot evaluations reveal three critical insights: First, model scale does not guarantee clinical efficacy. Frontier systems like GPT-5.1 and Claude Opus 4.5 yield suboptimal Entity Coverage Rates (ECR of 0.46 and 0.53, respec-tively), demonstrating that massive parameter counts cannot inherently resolve PET/CT’s terminological complexities. Second, generalized medical knowledge offers negligible advantages. Specialized medical LLMs (whether broadly pre-trained or instruction-tuned) perform comparably to generic baselines, proving that broad biomedical exposure fails to transfer to nuanced subspecialty reporting. Third, the structural proficiency of baseline models is highly deceptive. Despite maintaining FCRs > 0.90 by mimicking standard report formats, this superficial accuracy masks profound diagnostic errors. Specifically, these models systemati-cally omit critical findings (low ECR) and fabricate unsupported diagnoses (high UER), rendering them clinically unsafe without targeted adaptation. Ultimately, our domain-adapted PET-F2I-7B fundamentally significantly outperforms these baselines (Fig. 3), achieving absolute superiority and remarkable clinical stability across diverse patient samples. 6 Yuchen Liu et al. 
+
+Table 1. Quantitative evaluation of 27 LLMs on the PET-F2I-41K benchmark. Bold and underline denote the best overall and best-in-category scores, respectively. The domain-adapted PET-F2I-7B demonstrates absolute superiority across all standard NLG and proposed clinical metrics, particularly maximizing exact entity coverage (ECR). 
+
+Category Model BLEU-4 ↑ ROUGE-L ↑ METEOR ↑ BERTScore ↑ SBERT ↑ ECR ↑ UER ↓ FCR ↑
+
+Proprietary Claude Opus 4.5 [1] 0.2532 0.3520 0.5692 0.7590 0.6433 0.5268 0.5417 0.9814 Claude Sonnet 4.5 [1] 0.2374 0.3587 0.5369 0.7562 0.6286 0.5222 0.5434 0.9734 Gemini 2.5 Pro [7] 0.2112 0.4193 0.5127 0.7643 0.6597 0.4379 0.5152 0.9618 Gemini 2.0 Flash [11] 0.1897 0.4792 0.4653 0.7516 0.6401 0.4153 0.4947 0.9628 GPT-4o [21] 0.1876 0.3248 0.4577 0.7344 0.5990 0.4346 0.5883 0.9756 GPT-5.1 [21] 0.1681 0.2963 0.4768 0.7327 0.5888 0.4622 0.6250 0.9898 
+
+Open-Source (Large) DeepSeek V3.2 [9] 0.2401 0.3822 0.5296 0.7566 0.6339 0.5080 0.5704 0.9778 Kimi-K2 [29] 0.2190 0.3398 0.5052 0.7557 0.6152 0.4638 0.5062 0.9548 GLM-4.6 [12] 0.2067 0.3639 0.4872 0.7529 0.6139 0.4381 0.5329 0.9714 DeepSeek R1 [9] 0.1517 0.2334 0.3805 0.7003 0.5489 0.3686 0.6120 0.9024 Qwen3-235B [34] 0.1480 0.2827 0.4201 0.7322 0.6194 0.5612 0.6709 0.9702 MiniMax-M2 0.1332 0.2323 0.3588 0.6875 0.5697 0.3292 0.6681 0.8590 Open-Source (7B) Qwen3-8B [34] 0.1552 0.3365 0.3840 0.7076 0.7457 0.3349 0.6464 0.9368 Qwen2.5-7B [24] 0.1495 0.3152 0.3739 0.7234 0.5854 0.3387 0.6567 0.9522 InternLM2.5-7B 0.1280 0.2887 0.2618 0.7029 0.5854 0.3271 0.6833 0.9452 Seed-Rice-7B [35] 0.1225 0.2987 0.2371 0.7010 0.6076 0.3477 0.7207 0.9727 Hunyuan-MT-7B [40] 0.1045 0.2603 0.2688 0.6889 0.5860 0.2487 0.6836 0.8214 GLM-4-9B [12] 0.0733 0.2189 0.2865 0.6929 0.6286 0.2110 0.5898 0.7178 Medical Domain BioGPT [19] 0.1761 0.3294 0.4323 0.7348 0.6061 0.3857 0.5609 0.9470 BioMedLM [3] 0.1750 0.3305 0.4295 0.7365 0.6027 0.3834 0.5578 0.9530 Meditron [4] 0.1728 0.3299 0.4253 0.7364 0.6039 0.3879 0.5504 0.9482 Baichuan-M3 [31] 0.1705 0.3359 0.4248 0.7359 0.6080 0.3719 0.5491 0.9400 Clinical Camel [30] 0.1685 0.3227 0.4201 0.7346 0.6006 0.3631 0.5583 0.9404 PMC-LLaMA [32] 0.1643 0.3310 0.4187 0.7332 0.5964 0.3653 0.5542 0.9360 MedGemma-4B [8] 0.1626 0.3345 0.4133 0.7348 0.5967 0.3597 0.5481 0.9328 Med-PaLM 2 [26] 0.1563 0.3222 0.4032 0.7298 0.5854 0.3544 0.5484 0.9268 
+
+Ours PET-F2I-7B 0.7075 0.8673 0.8942 0.9103 0.9649 0.8074 0.1649 0.9420 
+
+4.2 Clinical Alignment and Generalization Capability 
+
+PET-F2I addresses the fundamental inadequacy of conventional NLG metrics as proxies for clinical safety. While macro-level correlations exist (e.g., ECR vs. BERTScore-F1: r = 0 .889 ), substantial intra-distribution variance reveals that models with high lexical overlap still critically omit diagnostic entities (Fig. 4). More alarmingly, NLG metrics are entirely blind to structural formatting (e.g., BLEU-4 vs. FCR: r = 0 .28 ; Fig. 5(b)). Sample-level analysis (Fig. 5(a)) further confirms that entity coverage (ECR) and factual compliance (FCR) are mathematically orthogonal ( r = 0 .075 ). This independence rigorously validates our tripartite design: capturing all findings (ECR), preventing fabrications (UER), and enforcing structural reporting formats (FCR). Beyond metric alignment, we evaluated model robustness across radiopharmaceutical tracer groups (Fig. 6). Notably, despite an FDG-dominated training corpus, PET-F2I-7B maintains high diagnostic accuracy on out-of-distribution minority scans (e.g., dopamine, amyloid, and tau imaging). This zero-shot generalization demonstrates that PET-F2I-7B internalizes fundamental radiological reasoning rather than merely memorizing common terminological distributions. Title Suppressed Due to Excessive Length 7Proprietary (Large) (7B) Medical PET-F2I-7B                         
+
+> (Ours)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Score
+> BLEU-4
+> Proprietary (Large) (7B) Medical PET-F2I-7B
+> (Ours)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Score
+> ROUGE-L
+> Proprietary (Large) (7B) Medical PET-F2I-7B
+> (Ours)
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0
+> Score
+> BERTScore
+> Proprietary (Large) (7B) Medical PET-F2I-7B
+> (Ours)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Score
+> ECR
+> Proprietary (Large) (7B) Medical PET-F2I-7B
+> (Ours)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Score
+> UER
+> Proprietary (Large) (7B) Medical PET-F2I-7B
+> (Ours)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Score
+> FCR
+> Score Distribution by Category (27 Models × 500 Test Samples)
+> Proprietary Open-Source (Large) Open-Source (7B) Medical Domain PET-F2I-7B (Ours)
+
+Fig. 3. Score distributions across model categories ( N = 500 ). Beyond superior averages, PET-F2I-7B demonstrates exceptional clinical stability. Crucially, PET-F2I-7B’s lowest quartile for exact entity coverage (ECR) strictly dominates the highest quartiles of all zero-shot baselines, underscoring its superior reliability for real-world deployment. 
+
+5 Conclusion 
+
+We introduce PET-F2I-41K, the first comprehensive benchmark and clinical evaluation framework for PET/CT impression generation. Evaluating 27 LLMs reveals that zero-shot generalization frequently fails in specialized radiology, suffering from severe entity omissions and hallucinations. To resolve this, our domain-adapted PET-F2I-7B achieves a 3.0 × improvement in exact entity cover-age over the strongest zero-shot baseline while enabling secure, privacy-preserving local deployment. Ultimately, precise domain adaptation delivers significantly higher diagnostic safety than arbitrary model scaling or generalized medical pretraining. Future work will address current limitations by expanding to multi-centric, multilingual cohorts, developing multimodal architectures that fuse raw PET/CT images with text, and integrating radiologist preference alignment (e.g., RLHF) to further fortify real-world clinical safety. 8 Yuchen Liu et al. 0.2 0.3 0.4 0.5 0.6 0.7 0.8 
+
+ECR 
+
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> ROUGE-L
+
+r = 0.784 
+
+ECR vs. ROUGE-L       
+
+> 0.2 0.3 0.4 0.5 0.6 0.7 0.8
+
+ECR 
+
+> 0.70
+> 0.75
+> 0.80
+> 0.85
+> 0.90
+> BERTScore-F1
+
+r = 0.889 
+
+ECR vs. BERTScore-F1      
+
+> 0.2 0.3 0.4 0.5 0.6 0.7
+
+UER 
+
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> BLEU-4
+
+r = -0.891 
+
+UER vs. BLEU-4 
+
+Correlation: Clinical Consistency vs. NLG Metrics     
+
+> Proprietary Open-Source (Large) Open-Source (7B) Medical Domain PET-F2I-7B (Ours)
+
+Fig. 4. Correlation between NLG and clinical metrics. Despite strong macro-level correlations (e.g., ECR vs. BERTScore-F1: r = 0 .889 ), substantial intra-distribution variance reveals that high lexical overlap does not guarantee clinical accuracy. Models with identical NLG scores frequently exhibit drastically different entity omission rates, proving traditional metrics are insufficient proxies for diagnostic safety and highlighting the necessity of the PET-F2I framework. 0.2 0.4 0.6 0.8 1.0 
+
+ECR (Entity Coverage Recall) 
+
+> 0.60
+> 0.65
+> 0.70
+> 0.75
+> 0.80
+> 0.85
+> 0.90
+> 0.95
+> 1.00
+> FCR  (Format Compliance Rate)
+
+Pearson r = 0.075 
+
+> FCR is discrete (0.0 1.0 in 0.1 steps).
+> Density shown via transparency.
+
+(a) ECR vs FCR per Sample 
+
+(PET-F2I-7B, colored by UER)                                
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> UER  (lower = better)
+> ROUGE-L
+> BERTScore
+> BLEU-4
+> ECR
+> UER
+> FCR
+> ROUGE-L
+> BERTScore
+> BLEU-4
+> ECR
+> UER
+> FCR
+> 1.00 0.95 0.95 0.78 -0.89 0.30
+> 0.95 1.00 0.96 0.89 -0.93 0.38
+> 0.95 0.96 1.00 0.87 -0.89 0.28
+> 0.78 0.89 0.87 1.00 -0.71 0.56
+> -0.89 -0.93 -0.89 -0.71 1.00 -0.15
+> 0.30 0.38 0.28 0.56 -0.15 1.00
+> NLG Clinical
+
+(b) Metric Correlation Matrix 
+
+(6 metrics × 27 models) 
+
+> 1.00
+> 0.75
+> 0.50
+> 0.25
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> Pearson r
+
+Clinical Metrics Correlation Analysis 
+
+Fig. 5. Independence of clinical metrics and divergence from NLG scores. (a) Sample-level analysis demonstrates that entity coverage (ECR) and formatting compliance (FCR) are fundamentally orthogonal ( r = 0 .075 ). (b) The correlation matrix reveals that standard lexical metrics exhibit near-zero correlation with clinical factuality (e.g., BLEU-4 vs. FCR: r = 0 .28 ), highlighting their inadequacy for safety evaluation. Title Suppressed Due to Excessive Length 9FDG 
+
+Metabolism 
+
+Dopamine 
+
+Imaging 
+
+Amyloid 
+
+Imaging 
+
+Tau 
+
+Imaging 
+
+Tumor-Specific 
+
+Imaging 
+
+Claude-Opus-4.5 
+
+Qwen3-235B 
+
+Seed-Rice-7B 
+
+Meditron 
+
+PET-F2I-7B (Ours) 
+
+0.495 0.804 0.642 0.535 0.578 
+
+0.531 0.815 0.702 0.605 0.480 
+
+0.323 0.525 0.475 0.387 0.490 
+
+0.362 0.605 0.471 0.421 0.474 
+
+0.800 0.874 0.877 0.790 0.658 
+
+(a) ECR 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> Score
+
+FDG 
+
+Metabolism 
+
+Dopamine 
+
+Imaging 
+
+Amyloid 
+
+Imaging 
+
+Tau 
+
+Imaging 
+
+Tumor-Specific 
+
+Imaging 
+
+0.529 0.622 0.577 0.684 0.540 
+
+0.663 0.731 0.685 0.721 0.675 
+
+0.716 0.767 0.717 0.753 0.673 
+
+0.533 0.657 0.622 0.697 0.575 
+
+0.179 0.069 0.095 0.039 0.224 
+
+(b) UER 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> Score
+
+FDG 
+
+Metabolism 
+
+Dopamine 
+
+Imaging 
+
+Amyloid 
+
+Imaging 
+
+Tau 
+
+Imaging 
+
+Tumor-Specific 
+
+Imaging 
+
+0.985 0.966 0.911 1.000 1.000 
+
+0.986 0.907 0.811 0.820 1.000 
+
+0.978 0.946 0.906 0.960 1.000 
+
+0.956 0.890 0.894 0.950 0.975 
+
+0.956 0.866 0.844 0.850 0.950 
+
+(c) FCR 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> Score
+
+Clinical Metrics by Tracer Group (Best per Category) 
+
+Best Model per Category 
+
+Proprietary [Claude-Opus-4.5] 
+
+Open-Source (Large) [Qwen3-235B] 
+
+Open-Source (7B) [Seed-Rice-7B] 
+
+Medical Domain [Meditron] 
+
+PET-F2I-7B (Ours) 
+
+Fig. 6. Robustness across radiopharmaceutical tracers. Heatmaps of clinical metrics (rows: models, columns: tracers) reveal that PET-F2I-7B generalizes exception-ally well, maintaining high diagnostic accuracy even on minority tracer profiles. 10 Yuchen Liu et al. 
+
+References 
+
+1. Anthropic: The claude 3 model family: A new standard for intelligence. Anthropic Technical Report (2024) 2. Banerjee, S., Lavie, A.: METEOR: An automatic metric for MT evaluation with improved correlation with human judgments. In: Proceedings of the ACL Workshop on Intrinsic and Extrinsic Evaluation Measures for Machine Translation and/or Summarization. pp. 65–72 (2005) 3. Bolton, E., et al.: BioMedLM: A 2.7b parameter language model trained on biomed-ical text. arXiv preprint (2024), arXiv:2403.18421, Stanford CRFM 4. Chen, Z., Hernández Cano, A., Romanou, A., Bonnet, A., Matoba, K., Salvi, F., Pagliardini, M., Fan, S., Köpf, A., Mohtashami, A., Sallinen, A., Sakhaeirad, A., Swamy, V., Krawczuk, I., Bayazit, D., Marmet, A., Montariol, S., Hartley, M.A., Jaggi, M., Bosselut, A.: MEDITRON-70b: Scaling medical pretraining for large language models. arXiv preprint (2023), arXiv:2311.16079 5. Chen, Z., Shen, Y., Song, Y., Wan, X.: Cross-modal memory networks for radiology report generation. In: Proceedings of the 59th annual meeting of the association for computational linguistics and the 11th international joint conference on natural language processing (volume 1: long papers). pp. 5904–5914 (2021) 6. Chen, Z., Song, Y., Chang, T.H., Wan, X.: Generating radiology reports via memory-driven transformer. In: Proceedings of the 2020 conference on empirical methods in natural language processing (EMNLP). pp. 1439–1449 (2020) 7. Comanici, G., Bieber, E., Schaekermann, M., Pasupat, I., Sachdeva, N., Dhillon, I., Blistein, M., Ram, O., Zhang, D., Rosen, E., et al.: Gemini 2.5: Pushing the frontier with advanced reasoning, multimodality, long context, and next generation agentic capabilities. arXiv preprint arXiv:2507.06261 (2025) 8. DeepMind, G.: MedGemma: Medical large language models. https://ai.google. dev/gemma/docs/medgemma (2024), accessed: 2024 9. DeepSeek-AI: DeepSeek-V2: A strong, economical, and efficient mixture-of-experts language model. arXiv preprint (2024), arXiv:2405.04434 10. Dettmers, T., Pagnoni, A., Holtzman, A., Zettlemoyer, L.: Qlora: Efficient finetuning of quantized llms. Advances in neural information processing systems 36 , 10088– 10115 (2023) 11. Gemini Team, Google: Gemini: A family of highly capable multimodal models. arXiv preprint (2023), arXiv:2312.11805 12. GLM Team, Zhipu AI: ChatGLM: A family of large language models from GLM-130B to GLM-4 all tools. arXiv preprint (2024), arXiv:2406.12793 13. Hu, E.J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., Wang, L., Chen, W.: LoRA: Low-rank adaptation of large language models. In: International Conference on Learning Representations (2022) 14. Jain, S., Agrawal, A., Saporta, A., Truong, S., Duong, D.N.D.N., Bui, T., Chambon, P., Zhang, Y., Lungren, M., Ng, A., Langlotz, C., Rajpurkar, P., Rajpurkar, P.: Radgraph: Extracting clinical entities and relations from radiology reports. In: Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks. vol. 1. Curran (2021) 15. Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y.J., Madotto, A., Fung, P.: Survey of hallucination in natural language generation. ACM computing surveys 55 (12), 1–38 (2023) 16. Li, C., Wong, C., Zhang, S., Usuyama, N., Liu, H., Yang, J., Naumann, T., Poon, H., Gao, J.: Llava-med: Training a large language-and-vision assistant for biomedicine Title Suppressed Due to Excessive Length 11 in one day. Advances in Neural Information Processing Systems 36 , 28541–28564 (2023) 17. Lin, C.Y.: ROUGE: A package for automatic evaluation of summaries. In: Text Summarization Branches Out: Proceedings of the ACL-04 Workshop. pp. 74–81 (2004) 18. Liu, C., et al.: A systematic review of deep learning-based research on radiology report generation. arXiv preprint (2023), arXiv:231 19. Luo, R., Sun, L., Xia, Y., Qin, T., Zhang, S., Poon, H., Liu, T.Y.: BioGPT: Gener-ative pre-trained transformer for biomedical text generation and mining. Briefings in Bioinformatics 23 (6), bbac409 (2022). https://doi.org/10.1093/bib/bbac409 20. Moor, M., Huang, Q., Wu, S., Yasunaga, M., Dalmia, Y., Leskovec, J., Zakka, C., Reis, E.P., Rajpurkar, P.: Med-flamingo: a multimodal medical few-shot learner. In: Machine learning for health (ML4H). pp. 353–367. PMLR (2023) 21. OpenAI: GPT-4 technical report. arXiv preprint (2023), arXiv:2303.08774 22. Pal, A., Umapathi, L.K., Sankarasubbu, M.: Med-halt: Medical domain halluci-nation test for large language models. In: Proceedings of the 27th Conference on Computational Natural Language Learning (CoNLL). pp. 314–334 (2023) 23. Papineni, K., Roukos, S., Ward, T., Zhu, W.J.: Bleu: a method for automatic evaluation of machine translation. In: Proceedings of the 40th annual meeting of the Association for Computational Linguistics. pp. 311–318 (2002) 24. Qwen Team: Qwen2 technical report. arXiv preprint (2024), arXiv:2407.10671 25. Reimers, N., Gurevych, I.: Sentence-bert: Sentence embeddings using siamese bert-networks. In: Proceedings of the 2019 conference on empirical methods in natural language processing and the 9th international joint conference on natural language processing (EMNLP-IJCNLP). pp. 3982–3992 (2019) 26. Singhal, K., Azizi, S., Tu, T., Mahdavi, S.S., Wei, J., Chung, H.W., et al.: Large language models encode clinical knowledge. Nature 620 , 172–180 (2023). https://doi.org/10.1038/s41586-023-06291-2 27. Singhal, K., Tu, T., Gottweis, J., Sayres, R., Wulczyn, E., Amin, M., Hou, L., Clark, K., Pfohl, S.R., Cole-Lewis, H., et al.: Toward expert-level medical question answering with large language models. Nature medicine 31 (3), 943–950 (2025) 28. Smit, A., Jain, S., Rajpurkar, P., Pareek, A., Ng, A.Y., Lungren, M.P.: CheXbert: Combining automatic labelers and expert annotations for accurate radiology report labeling using BERT (2020) 29. Team, K., Bai, Y., Bao, Y., Chen, G., Chen, J., Chen, N., Chen, R., Chen, Y., Chen, Y., Chen, Y., et al.: Kimi k2: Open agentic intelligence. arXiv preprint arXiv:2507.20534 (2025) 30. Toma, A., Lawler, P.R., Ba, J., Krishnan, R.G., Rubin, B.B., Wang, B.: Clinical camel: An open expert-level medical language model with dialogue-based knowledge encoding. arXiv preprint (2023), arXiv:2305.12031 31. Wang, Y., et al.: Baichuan-m1: Pushing the medical capabilities of large language models. arXiv preprint (2024), baichuan Medical LLM series 32. Wu, C., Lin, W., Zhang, X., Zhang, Y., Xie, W., Wang, Y.: PMC-LLaMA: toward building open-source language models for medicine. Journal of the American Medical Informatics Association 31 (9), 1833–1843 (2024) 33. Xue, L., Feng, G., Zhang, W., Zhang, Y., Li, L., Wang, S., Peng, L., Peng, S., Gao, X.: Petwb-rep: A multi-cancer whole-body fdg pet/ct and radiology report dataset for medical imaging research. arXiv preprint arXiv:2511.03194 (2025) 34. Yang, A., Li, A., Yang, B., Zhang, B., Hui, B., Zheng, B., Yu, B., Gao, C., Huang, C., Lv, C., et al.: Qwen3 technical report. arXiv preprint arXiv:2505.09388 (2025) 12 Yuchen Liu et al. 35. Yang, F., Kong, H., Ying, J., Chen, Z., Luo, T., Jiang, W., Yuan, Z., Wang, Z., Ma, Z., Wang, S., et al.: Seedllm · rice: A large language model integrated with rice biological knowledge graph. Molecular Plant 18 (7), 1118–1129 (2025) 36. Yu, F., Endo, M., Krishnan, R., Pan, I., Tsai, A., Reis, E.P., Fonseca, E.K.U.N., Lee, H.M.H., Abad, Z.S.H., Ng, A.Y., et al.: Evaluating progress in automatic chest x-ray radiology report generation. Patterns 4(9) (2023) 37. Zhang, S., Xu, Y., Usuyama, N., Xu, H., Bagga, J., Tinn, R., Preston, S., Rao, R., Wei, M., Valluri, N., et al.: Biomedclip: a multimodal biomedical foundation model pretrained from fifteen million scientific image-text pairs. arXiv preprint arXiv:2303.00915 (2023) 38. Zhang, T., Kishore, V., Wu, F., Weinberger, K.Q., Artzi, Y.: BERTScore: Evaluating text generation with BERT. In: International Conference on Learning Representa-tions (2020) 39. Zhang, Y., Zhang, W., Ling, Z., Feng, G., Peng, S., Chen, D., Liu, Y., Zhang, H., Wang, S., Li, L., et al.: PET2Rep: Towards vision-language model-drived automated radiology report generation for positron emission tomography. In: Proceedings of the AAAI Conference on Artificial Intelligence (2026) 40. Zheng, M., Li, Z., Qu, B., Song, M., Du, Y., Sun, M., Wang, D.: Hunyuan-mt technical report. arXiv preprint arXiv:2509.05209 (2025)
