@@ -65,3 +65,39 @@ subscriptions:
           source: manual
           note: ''
       updated_at: '2026-03-19T08:28:20.159Z'
+    - tag: RLCHEM
+      description: 强化学习用于化学描述到SMILES表达式
+      enabled: true
+      keywords:
+        - keyword: Reinforcement Learning
+          keyword_cn: 强化学习
+          query: Reinforcement learning applications in chemistry
+        - keyword: SMILES generation
+          keyword_cn: SMILES生成
+          query: Generating SMILES strings from chemical descriptions
+        - keyword: Chemical description
+          keyword_cn: 化学描述
+          query: Natural language chemical property descriptions
+        - keyword: Molecular representation
+          keyword_cn: 分子表示
+          query: Molecular representation learning and SMILES
+        - keyword: De novo design
+          keyword_cn: 从头分子设计
+          query: De novo molecular design using reinforcement learning
+      intent_queries:
+        - query: How to use reinforcement learning to translate chemical descriptions into SMILES strings?
+          query_cn: 如何利用强化学习将化学描述转换为SMILES表达式？
+          enabled: true
+          source: manual
+          note: ''
+        - query: Reinforcement learning frameworks for molecular structure generation from text.
+          query_cn: 基于文本生成分子结构的强化学习框架。
+          enabled: true
+          source: manual
+          note: ''
+        - query: Optimization of SMILES string validity using RL rewards.
+          query_cn: 利用强化学习奖励优化SMILES字符串的有效性。
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-03-19T08:39:31.231Z'
