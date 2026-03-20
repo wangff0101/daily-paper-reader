@@ -1,0 +1,1309 @@
+Title: Artificial intelligence-enabled single-lead ECG for non-invasive hyperkalemia detection: development, multicenter validation, and proof-of-concept deployment
+
+URL Source: https://arxiv.org/pdf/2603.14177v2
+
+Published Time: Wed, 18 Mar 2026 00:38:23 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+Artificial intelligence-enabled single-lead ECG for non-invasive hyperkalemia detection: 1
+
+development, multicenter validation, and proof-of-concept deployment 2
+
+Gongzheng Tang 1,2,#, , Qinghao Zhao 3,# , Guangkun Nie 4,# , Yujie Xiao 1,2 , Shijia Geng 5, Donglin 3
+
+Xie 1,2 , Shun Huang 2, Deyun Zhang 5, Xingchen Yao 6,7,8 , Jinwei Wang 6,7,8 , Kangyin Chen 9,* , Luxia 4
+
+Zhang 2,6,7,8,* , and Shenda Hong 1,2,10,11,*, 5
+
+> 1
+
+Institute of Medical Technology, Peking University Health Science Center, Beijing, China 6
+
+> 2
+
+National Institute of Health Data Science, Peking University, Beijing, China 7
+
+> 3
+
+Department of Cardiology, Peking University People’s Hospital, Beijing, China 8
+
+> 4
+
+School of Intelligence Science and Technology, Peking University, Beijing, China 9
+
+> 5
+
+Heart Voice Medical Technology, Hefei, China 10 
+
+> 6
+
+Renal Division, Department of Medicine, Peking University First Hospital, Beijing, China 11 
+
+> 7
+
+Institute of Nephrology, Key Laboratory of Renal Disease, Ministry of Health of China, and Key 12 
+
+Laboratory of Chronic Kidney Disease Prevention and Treatment (Peking University), Ministry of 13 
+
+Education, Beijing, China 14 
+
+> 8
+
+Research Units of Diagnosis and Treatment of Immune-mediated Kidney Diseases, Chinese 15 
+
+Academy of Medical Sciences, Beijing, China 16 
+
+> 9
+
+Tianjin Key Laboratory of Ionic-Molecular Function of Cardiovascular Disease, Department of 17 
+
+Cardiology, Tianjin Institute of Cardiology, The Second Hospital of Tianjin Medical University, 18 
+
+Tianjin, China 19 
+
+> 10
+
+State Key Laboratory of Vascular Homeostasis and Remodeling, NHC Key Laboratory of 20 
+
+Cardiovascular Molecular Biology and Regulatory Peptides, Peking University, Beijing, China 21 
+
+> 11
+
+Institute for Artificial Intelligence, Peking University, Beijing, China 22 
+
+> #
+
+These authors contributed equally 23 
+
+> *
+
+Correspondence: hongshenda@pku.edu.cn, zhanglx@bjmu.edu.cn, chenkangyin@vip.126.com 24 
+
+# ABSTRACT 25 
+
+Hyperkalemia is a life-threatening electrolyte disorder that is common in patients with chronic 26 
+
+kidney disease and heart failure, yet frequent monitoring remains difficult outside hospital settings. 27 
+
+We developed and validated Pocket-K, a single-lead AI-ECG system initialized from the ECG- 28 
+
+Founder foundation model for non-invasive hyperkalemia screening and handheld deployment. In 29 
+
+this multicentre observational study using routinely collected clinical ECG and laboratory data, 30 
+
+34,439 patients contributed 62,290 ECG–potassium pairs. Lead I data were used to fine-tune the 31 
+
+model. Data from Peking University People’s Hospital were divided into development and temporal 32 
+
+validation sets, and data from The Second Hospital of Tianjin Medical University served as an 33 
+
+independent external validation set. Hyperkalemia was defined as venous serum potassium > 5.5 34 
+
+mmol/L. Pocket-K achieved AUROCs of 0.936 in internal testing, 0.858 in temporal validation, 35 
+
+and 0.808 in external validation. For KDIGO-defined moderate-to-severe hyperkalemia (serum 36 
+
+potassium ≥ 6.0 mmol/L), AUROCs increased to 0.940 and 0.861 in the temporal and external 37 
+
+sets, respectively. External negative predictive value exceeded 99.3%. Model-predicted high risk 38 
+
+below the hyperkalemia threshold was more common in patients with chronic kidney disease 39 
+
+and heart failure. A handheld prototype enabled near-real-time inference, supporting future 40 
+
+prospective evaluation in native handheld and wearable settings. 41 
+
+1
+
+> arXiv:2603.14177v2 [cs.LG] 17 Mar 2026
+
+# INTRODUCTION 42 
+
+Hyperkalemia, defined as a venous serum potassium concentration above 5.5 mmol/L, is a 43 
+
+common and potentially fatal electrolyte abnormality and a major risk factor for malignant ar- 44 
+
+rhythmia and sudden cardiac death 1. It is particularly common in patients with chronic kidney 45 
+
+disease and heart failure, and its incidence increases substantially as renal function declines 2,3 . 46 
+
+Previous studies have reported a U-shaped association between potassium concentration and 47 
+
+mortality, with hyperkalemia linked to a higher risk of death in chronic kidney disease, heart failure, 48 
+
+and acute myocardial infarction 4–6 . Timely intervention therefore depends on rapid and reliable 49 
+
+recognition. 50 
+
+Confirmation of hyperkalemia currently relies on venous blood sampling and laboratory mea- 51 
+
+surement of potassium. Although this standard is accurate, it is invasive, intermittent, and 52 
+
+dependent on access to clinical facilities, limiting frequent monitoring between routine visits for 53 
+
+high-risk patients 7. Hyperkalemia also produces characteristic electrocardiographic changes, 54 
+
+including peaked T waves and QRS widening, which makes the electrocardiogram a plausible 55 
+
+non-invasive screening tool 8. However, visual interpretation alone has limited sensitivity, even 56 
+
+among experienced clinicians, which reduces the reliability of the electrocardiogram for screening 9 57 
+
+and leaves hyperkalemia management an ongoing clinical challenge. 58 
+
+Artificial intelligence (AI), particularly deep learning, has been increasingly applied in clinical 59 
+
+research and cardiovascular medicine 10–16 . In electrocardiography, AI-based methods can detect 60 
+
+subtle waveform features that are difficult to recognise by routine visual inspection and have 61 
+
+shown promise in identifying cardiovascular and metabolic abnormalities 17–21 . In hyperkalemia, 62 
+
+models trained on standard 12-lead ECGs have shown strong diagnostic performance and can 63 
+
+capture risk signals that are subclinical or missed by conventional interpretation 22–24 . However, 64 
+
+the workflow required to acquire a 12-lead ECG limits its use for repeated surveillance and 65 
+
+self-screening outside the hospital, where scalable monitoring may be most valuable for high-risk 66 
+
+patients. By contrast, single-lead ECG, particularly Lead I, is the dominant format used by 67 
+
+handheld recorders and smartwatches, making it well suited to home monitoring and out-of- 68 
+
+hospital screening. Small single-centre studies from the USA, Taiwan, and other settings have 69 
+
+provided early evidence that single-lead hyperkalemia detection is feasible 25–27 . However, the 70 
+
+current evidence base remains limited by modest sample size, restricted population diversity, and 71 
+
+the absence of rigorous large-scale multicentre validation. Consequently, performance across 72 
+
+heterogeneous populations, different health systems and acquisition platforms, and real-world 73 
+
+prevalence settings remains uncertain. 74 
+
+We therefore developed Pocket-K, a single-lead AI-ECG model for hyperkalemia screening, 75 
+
+initialised from a pretrained ECG foundation model. We evaluated model performance in three 76 
+
+settings: internal testing within the development set, temporally separated validation within the 77 
+
+same health system, and independent external validation in a second health system using a 78 
+
+different ECG platform. We also examined waveform-level interpretability, patient-level longitudinal 79 
+
+trajectories, clinical phenotypes associated with false-positive predictions, and the technical 80 
+
+feasibility of handheld deployment. 81 
+
+# RESULTS 82 
+
+Study Overview 83 
+
+We developed Pocket-K, a single-lead ECG model for non-invasive hyperkalemia screening that 84 
+
+was initialized from a pretrained ECG foundation model. The overall study design is shown in 85 
+
+Figure 1. The study used a multistage design. We first constructed ECG– K+ pairs by linking 86 
+
+2each ECG to a venous serum potassium measurement obtained within a ±1-hour window. We 87 
+
+then fine-tuned the pretrained foundation model, ECGFounder, to estimate the probability of 88 
+
+hyperkalemia, defined as serum K+ > 5.5 mmol/L. 89 
+
+We evaluated the model in 34,439 unique patients from two independent health systems. At the 90 
+
+primary site, Peking University People’s Hospital(PKUPH), patients were divided chronologically at 91 
+
+July 2021 to examine performance over time, yielding a development set ( N = 10 ,409 ; n = 26 ,145 92 
+
+pairs) and a temporal validation set ( N = 5 ,054 ; n = 10 ,922 pairs). We then tested the model in 93 
+
+an independent external validation set from The Second Hospital of Tianjin Medical University 94 
+
+(SHTMU) ( N = 18 ,976 ; n = 25 ,223 pairs), which included different ECG management systems, 95 
+
+hardware environments, and care settings. 96 
+
+We also conducted a proof-of-concept evaluation to assess whether the model could support 97 
+
+near-real-time, out-of-hospital screening in high-risk populations using handheld single-lead 98 
+
+devices. This study design allowed us to evaluate Pocket-K both in historical clinical datasets and 99 
+
+in a practical prototype deployment setting. 100 ECGFounder 
+
+> Pretrained
+> Foundation Model
+> 30-sec
+> Lead I ECG
+> Real-time Inference
+> Instant Risk Alert
+
+I. Development    
+
+> 26,145 ECG-K+ pairs
+> Development cohort (PKUPH)
+> Fine-tune dataset
+> Physiologically anchored ECG-K+ pairing
+> ±1h
+> Lead I ECG
+> Venous
+> serum
+> K+
+> Pocket-K
+> Fine-tuned Model
+
+II. Validation    
+
+> Temporal Validation (PKUPH)
+> Independent External Validation (SH TMU )
+> TMUSH
+> N = 18,976
+> Jan 2024-Dec 2024
+> PKUPH
+> N = 5,054
+> Aug 2021-Nov 2024
+> Internal Test (PKUPH)
+> PKUPH
+> N = 1,041
+> Jan 2016-Jul 2021
+> from Development Set
+
+III. Proof-of-concept 
+
+deployment 
+
+Figure 1: Overview of Pocket-K development, validation, and proof-of-concept deployment. In the development stage, ECG– K+ pairs were constructed by linking each ECG to the nearest eligible venous serum potassium measurement within a ±1-hour window. These paired data were used to fine-tune ECGFounder, a pretrained ECG foundation model, to develop Pocket-K. In the validation stage, model performance was assessed in three settings: an internal test set from the PKUPH development set, a temporal validation set at PKUPH, and an independent external validation set from SHTMU. In the proof-of-concept stage, a handheld device recorded a 30-s lead I ECG, which was processed through a smartphone-based workflow for near-real-time inference and generation of a hyperkalemia risk alert. 
+
+Study population and baseline characteristics 101 
+
+The final study population included 34,439 unique patients and 62,290 ECG– K+ pairs from two 102 
+
+health systems. After quality control at PKUPH, 15,463 patients contributed 37,067 eligible pairs. 103 
+
+Of these, 10,409 patients with 26,145 pairs formed the development set, and 5,054 patients with 104 
+
+310,922 pairs formed the temporal validation set after exclusion of patients who overlapped with 105 
+
+the development set. SHTMU contributed 18,976 patients with 25,223 pairs for independent 106 
+
+external validation. 107 
+
+Baseline clinical characteristics and technical specifications are summarised in Table 1. Across 108 
+
+sets, mean age ranged from 54.08 to 58.25 years, and men accounted for 53.3%–56.0% of 109 
+
+patients. Compared with the development set, the external validation set had a higher burden 110 
+
+of renal dysfunction and cardiorenal comorbidity. In all sets, the mean interval between ECG 111 
+
+acquisition and potassium measurement was less than 30 min, supporting close physiological 112 
+
+alignment between waveform acquisition and the laboratory reference. 113 
+
+Table 1: Baseline clinical characteristics, ECG–potassium pairing quality, and technical specifi-cations across study sets. Continuous variables are presented as mean (SD), and categorical variables as n (%). PKUPH: Peking University People’s Hospital; SHTMU: The Second Hospital of Tianjin Medical University; K+: serum potassium; eGFR: estimated glomerular filtration rate; ECG: electrocardiogram. 
+
+Characteristic Development Set (PKUPH) Temporal Validation Set (PKUPH) Independent External Validation Set (SHTMU) (N = 10 ,409 ; n = 26 ,145 ) (N = 5 ,054 ; n = 10 ,922 ) (N = 18 ,976 ; n = 25 ,223 )Demographics 
+
+Age, years 54.08 (15.55) 54.60 (14.70) 58.25 (17.90) Male sex, n (%) 5,642 (54.2%) 2,830 (56.0%) 9,994 (53.3%) 
+
+Laboratory measurements 
+
+Serum K+, mmol/L 4.14 (0.36) 4.19 (0.40) 4.11 (0.42) Serum creatinine, μmol/L 74.66 (95.29) 78.68 (173.15) 106.08 (380.26) eGFR, mL/min/1.73 m 2 95.80 (23.14) 93.84 (21.91) 93.92 (28.84) 
+
+eGFR-based categories, n (%) 
+
+≥90 8,757 (84.1%) 3,915 (77.5%) 12,523 (66.0%) 60–89 1,291 (12.4%) 932 (18.4%) 4,418 (23.3%) 30–59 242 (2.3%) 143 (2.8%) 1,241 (6.5%) 
+
+<30 119 (1.1%) 64 (1.3%) 794 (4.2%) 
+
+ECG–potassium pairing quality 
+
+ECG-to-K+ interval, min 28.46 (14.88) 24.44 (14.41) 22.39 (16.26) 
+
+Comorbidities, n (%) 
+
+Hypertension 2,263 (21.7%) 1,453 (28.7%) 6,778 (35.7%) Diabetes mellitus 1,041 (10.0%) 690 (13.7%) 3,137 (16.5%) Chronic kidney disease 430 (4.1%) 238 (4.7%) 2,127 (11.2%) Heart failure 68 (0.7%) 57 (1.1%) 437 (2.3%) Coronary artery disease 765 (7.3%) 556 (11.0%) 2,463 (13.1%) Stroke 444 (4.3%) 262 (5.2%) 1,357 (7.2%) 
+
+Technical specifications 
+
+ECG management system MedEx MedEx Nalong Dominant hardware GE / Philips GE / Philips Nalong / Nihon Kohden Sampling frequency, Hz 500 500 500 / 1000 
+
+N denotes the number of unique patients, and n denotes the number of ECG–potassium pairs. Technical specifications are reported at the set level rather than the patient level. 
+
+4Pocket-K generalized across internal, temporal, and independent external 114 
+
+validation sets 115 
+
+Pocket-K showed stable discrimination across the validation sets. In the internal test set, the 116 
+
+AUROC was 0.9364 (95% CI 0.9135–0.9575), with a sensitivity of 83.33% (95% CI 78.24%– 117 
+
+87.43%) and a specificity of 96.60% (95% CI 96.06%–97.07%) at the prespecified frozen threshold. 118 
+
+In the temporal validation set, despite changes in case mix over time, the AUROC was 0.8582 119 
+
+(95% CI 0.8441–0.8723), with a sensitivity of 85.05% (95% CI 81.84%–87.77%), suggesting 120 
+
+robustness to temporal drift. In the independent external set, the AUROC was 0.8076 (95% CI 121 
+
+0.7883–0.8258) despite concurrent differences in ECG platform and lower disease prevalence, as 122 
+
+shown in Figure 2. 123 
+
+Although discrimination decreased across increasingly heterogeneous evaluation settings, the 124 
+
+negative predictive value remained high and exceeded 99.3% in the external set. These findings 125 
+
+support the role of Pocket-K as a rule-out screening tool for identifying low-risk states rather than 126 
+
+a replacement for laboratory confirmation. 127 0.0 0.2 0.4 0.6 0.8 1.0 
+
+> 1 - Specificity (FPR)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Sensitivity (TPR)
+> 95% Confidence Interval
+> AUC = 0.928
+> (95% CI: 0.901-0.951)
+> Random Guess
+> Optimal Cutoff
+> (Sens: 0.87, Spec: 0.96)
+
+(a) Internal Test 0.0 0.2 0.4 0.6 0.8 1.0  
+
+> 1 - Specificity (FPR)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Sensitivity (TPR)
+> 95% Confidence Interval
+> AUC = 0.858
+> (95% CI: 0.844-0.872)
+> Random Guess
+> Optimal Cutoff
+> (Sens: 0.85, Spec: 0.86)
+
+(b) Temporal validation 0.0 0.2 0.4 0.6 0.8 1.0  
+
+> 1 - Specificity (FPR)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Sensitivity (TPR)
+> 95% Confidence Interval
+> AUC = 0.808
+> (95% CI: 0.788-0.826)
+> Random Guess
+> Optimal Cutoff
+> (Sens: 0.82, Spec: 0.67)
+
+(c) Independent external validation 
+
+Figure 2: ROC curves for model performance evaluation. (a) Internal testing ROC curve of PKUPH. (b) Temporal validation ROC curve of PKUPH. (c) Independent external ROC curve of SHTMU. 
+
+Pocket-K showed stronger discrimination for moderate-to-severe hyper- 128 
+
+kalemia 129 
+
+Model performance was better for KDIGO-defined moderate-to-severe hyperkalemia (serum 130 
+
+potassium ≥ 6.0 mmol/L). In the temporal validation set, the AUROC increased to 0.9399 (95% 131 
+
+CI 0.9160–0.9590), with a sensitivity of 89.80% (95% CI 78.24%–95.56%). In the independent 132 
+
+external validation set, the AUROC was 0.8613 (95% CI 0.8243–0.8940), with a sensitivity of 133 
+
+81.52% (95% CI 72.39%–88.13%), as shown in Figure 3. 134 
+
+In the independent external set, the negative predictive value for moderate-to-severe hy- 135 
+
+perkalemia was 99.91% (95% CI 99.86%–99.95%), indicating a very low probability of missed 136 
+
+clinically urgent events in this screening setting. These findings suggest that Pocket-K was more 137 
+
+sensitive to the more marked electrophysiological abnormalities associated with larger potassium 138 
+
+elevations. 139 
+
+50.0 0.2 0.4 0.6 0.8 1.0 
+
+> 1 - Specificity (FPR)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Sensitivity (TPR)
+> 95% Confidence Interval
+> AUC = 0.940
+> (95% CI: 0.916-0.959)
+> Random Guess
+> Optimal Cutoff
+> (Sens: 0.90, Spec: 0.96)
+
+(a) Temporal External Validation 0.0 0.2 0.4 0.6 0.8 1.0  
+
+> 1 - Specificity (FPR)
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Sensitivity (TPR)
+> 95% Confidence Interval
+> AUC = 0.861
+> (95% CI: 0.824-0.894)
+> Random Guess
+> Optimal Cutoff
+> (Sens: 0.82, Spec: 0.79)
+
+(b) Independent External Validation 
+
+Figure 3: ROC curves for detection of KDIGO-defined moderate-to-severe hyperkalemia (serum potassium 
+
+≥ 6.0 mmol/L). (a) Temporal validation ROC curve in PKUPH. (b) Independent external validation ROC curve in SHTMU. 
+
+Pocket-K captured recognizable electrophysiological features of hyper- 140 
+
+kalemia 141 
+
+To examine the waveform features underlying model predictions, we stratified samples into high- 142 
+
+risk and low-risk groups according to the predicted probability and compared the signal-averaged 143 
+
+Lead I morphology between groups. Normalized heartbeat segments were extracted from the 144 
+
+raw signals after temporal alignment and standardization, and group-level mean waveforms 145 
+
+with standard deviation bands were then calculated. The clearest differences were observed 146 
+
+in the T-wave and QRS regions, consistent with the known electrophysiological manifestations 147 
+
+of hyperkalemia (Figure 4). The low-risk group shows a more typical waveform pattern. These 148 
+
+findings suggest that high-risk predictions were driven by recognizable waveform features rather 149 
+
+than noise alone. 150 
+
+Model-predicted high risk below the hyperkalemia threshold may serve as 151 
+
+a potential marker of greater cardiorenal burden 152 
+
+To better understand model behaviour among samples below the hyperkalemia threshold, we 153 
+
+compared the clinical profiles of reference-negative samples stratified by model-predicted risk in 154 
+
+the external validation set (Figure 5). Because all samples in this analysis had serum potassium 155 
+
+values below the diagnostic threshold, the aim was to determine whether model-predicted high 156 
+
+risk reflected random error or preferential identification of a subgroup with greater underlying 157 
+
+disease burden. We found that chronic kidney disease and heart failure were more common in 158 
+
+the model high-risk group than in the model low-risk group. The prevalence of chronic kidney 159 
+
+disease increased from 1.2% in the model low-risk group to 3.2% in the model high-risk group 160 
+
+(P < 0.001 ), and the prevalence of heart failure increased from 1.3% to 4.4% ( P < 0.001 ). These 161 
+
+findings suggest that model-predicted high risk below the hyperkalemia threshold was not simply 162 
+
+random error. Instead, it may identify a subgroup with greater cardiorenal burden, even when the 163 
+
+indexed serum potassium value does not exceed the diagnostic threshold. 164 
+
+6Figure 4: Signal-averaged waveform comparison. Average Lead I ECG waveforms are shown for patients correctly classified by the model as hyperkalemic (high risk, red line) and non-hyperkalemic (low risk, blue line). Shaded areas indicate standard deviation. Reference-negative, 
+
+> model low risk
+> Reference-negative,
+> model high risk
+> Comorbidity prevalence among reference-negative samples by model-predicted risk
+
+Figure 5: Clinical profiles of reference-negative samples stratified by model-predicted risk. In the external validation set, all samples shown had serum potassium values below the diagnostic threshold for hyper-kalemia. They were stratified into a model low-risk group and a model high-risk group according to model output. Chronic kidney disease and heart failure were more common in the model high-risk group. The prevalence of chronic kidney disease increased from 1.2% in the model low-risk group to 3.2% in the model high-risk group ( P < 0.001 ), and the prevalence of heart failure increased from 1.3% to 4.4% ( P < 0.001 ). 
+
+7Pocket-K tracked clinically meaningful potassium trajectories over time 165 
+
+To illustrate longitudinal tracking at the patient level, we selected four representative patients from 166 
+
+the validation sets with repeated ECG–potassium measurements over time (Figure 6). These 167 
+
+patients illustrate several clinically relevant longitudinal patterns, including progressive potassium 168 
+
+rise, early high-risk detection with subsequent recovery, recurrent severe fluctuation, and gradual 169 
+
+biochemical improvement after treatment. 170 
+
+For Patient A, serum potassium remained below the diagnostic threshold for most of follow-up, 171 
+
+while the model assigned persistently low risk. As potassium increased late in follow-up and 172 
+
+eventually crossed the hyperkalemia threshold, the predicted risk rose sharply in parallel. This 173 
+
+pattern suggests that the model was sensitive to progressive potassium elevation and may be 174 
+
+useful for identifying impending deterioration before or around threshold crossing. 175 
+
+For Patient B, an early episode of hyperkalemia was observed, during which the predicted risk 176 
+
+rose to a high level. As serum potassium subsequently declined, model output also decreased 177 
+
+and remained low during later follow-up. This pattern supports the ability of the model to detect 178 
+
+an acute high-risk state and to return to a low-risk range after biochemical recovery. 179 
+
+For Patient C, potassium fluctuated markedly over time, including severe elevation, partial 180 
+
+correction, and subsequent recurrence. Model-predicted risk changed in parallel with these 181 
+
+biochemical shifts, remaining high during severe episodes, decreasing after interim improvement, 182 
+
+and rising again when potassium rebounded. This pattern suggests that the model may capture 183 
+
+recurrent disease activity during longitudinal surveillance. 184 
+
+For Patient D, serum potassium decreased steadily over serial measurements, and the 185 
+
+predicted risk declined in parallel from an initially high level to a substantially lower range. This 186 
+
+pattern suggests that model output may track treatment response or clinical recovery over time in 187 
+
+patients with resolving hyperkalemia. 188 
+
+Pocket-K supported near-real-time inference in a handheld workflow 189 
+
+To assess potential clinical use in a handheld setting, we implemented a lightweight proof-of- 190 
+
+concept version of Pocket-K in a single-lead ECG workflow. The prototype device acquired a 191 
+
+30-s Lead I recording and transmitted the signal to a paired smartphone application through 192 
+
+Bluetooth Low Energy, where near-real-time inference was performed using a connected inference 193 
+
+pipeline (Figure 7). In representative tests, the system returned a predicted risk of 0.1% for a 194 
+
+normokalemic example with a serum potassium concentration of 4.1 mmol/L and 74.5% for a 195 
+
+severe hyperkalemia example with a serum potassium concentration of 6.9 mmol/L within seconds. 196 
+
+These results support the technical feasibility of rapid risk estimation in a handheld workflow. 197 
+
+# DISCUSSION 198 
+
+In this multicentre study, a single-lead AI-ECG system initialized from a pretrained founda- 199 
+
+tion model showed clinically useful discrimination for hyperkalemia in internal testing, temporal 200 
+
+validation, and independent external validation. Although performance declined as dataset hetero- 201 
+
+geneity increased, Pocket-K maintained a high negative predictive value, supporting its potential 202 
+
+use as a non-invasive rule-out screening tool for people at increased cardiorenal risk who require 203 
+
+repeated potassium surveillance. We also showed the technical feasibility of near-real-time 204 
+
+inference in a handheld workflow, providing an initial basis for future prospective deployment 205 
+
+studies. 206 
+
+Prior studies using 12-lead AI-ECG have reported strong discrimination for hyperkalemia and 207 
+
+suggest that deep-learning models can detect ECG signatures that are not readily captured by 208 
+
+8Longitudinal Risk Tracking     
+
+> Risk Probability Serum Potassium Threshold (5.5)
+> Patient A Patient B
+> Patient C Patient D
+
+Figure 6: Longitudinal tracking of serum potassium using single-lead AI-ECG. Representative patients showing the model’s ability to track within-patient potassium changes over time. The red line indicates laboratory serum potassium, and the blue dashed line indicates the model-predicted risk probability. Patient A shows progressive potassium rise with late threshold crossing. Patient B shows an early hyperkalemic episode followed by sustained recovery. Patient C shows recurrent severe fluctuation with corresponding changes in model output. Patient D shows gradual biochemical improvement accompanied by declining predicted risk. Overall, these examples suggest that model output tracked clinically meaningful potassium dynamics at the individual-patient level. 
+
+9A. Handheld ECG acquisition B. Smartphone-connected inference workflow    
+
+> 30-s single-lead (Lead I)
+> ECG recording
+> Pocket-K
+> AI Model
+> Near-real-time inference
+> via smartphone-connected workflow
+> C. Risk outputs
+> Risk alert
+
+Figure 7: Proof-of-concept handheld deployment workflow of Pocket-K. (A) A handheld device paired with a smartphone application records a 30-s single-lead (Lead I) ECG. (B) The recorded signal is transmitted to the smartphone through Bluetooth and processed by a connected inference pipeline for near-real-time risk estimation. (C) Representative outputs from the prototype system show a low predicted hyperkalemia risk for a normokalemic example (serum potassium 4.1 mmol/L) and a high predicted risk for a severe hyperkalemia example (serum potassium 6.9 mmol/L). 
+
+routine visual interpretation 22–24 . By contrast, evidence for single-lead detection has remained 209 
+
+limited to relatively small single-centre studies, often without rigorous external validation or 210 
+
+evaluation across acquisition platforms 25–27 . Against this background, our study extends the 211 
+
+literature by evaluating a foundation-model-based single-lead approach in a larger multicentre 212 
+
+setting, with temporal separation within one health system and external validation on a different 213 
+
+ECG platform. The lower discrimination observed in external validation relative to internal testing 214 
+
+is therefore not unexpected, but instead reflects a more realistic test of transportability for a 215 
+
+signal-limited screening model. 216 
+
+These findings also help clarify the most plausible clinical role of Pocket-K. In lower-prevalence 217 
+
+external settings, positive predictive value declined whereas negative predictive value remained 218 
+
+high, which is consistent with the expected behaviour of a rule-out screening tool under prevalence 219 
+
+shift. This pattern suggests that Pocket-K is better suited to repeated surveillance and triage 220 
+
+than to definitive diagnosis. In practice, such a tool may be most useful for identifying low-risk 221 
+
+states and for prompting confirmatory laboratory testing or clinical review in patients who require 222 
+
+ongoing potassium surveillance, particularly those with advanced chronic kidney disease, dialysis 223 
+
+dependence, or combined cardiac and renal disease. 224 
+
+The stronger discrimination observed for moderate-to-severe hyperkalemia is clinically impor- 225 
+
+tant. In our study, this endpoint corresponded to serum potassium ≥ 6.0 mmol/L and therefore 226 
+
+spanned KDIGO-defined moderate and severe hyperkalemia. This finding is biologically plau- 227 
+
+sible, because larger potassium elevations are more likely to produce overt repolarization and 228 
+
+conduction abnormalities, increasing signal detectability on ECG. From a clinical perspective, 229 
+
+improved performance in this range is especially relevant, as the main priority of a screening tool 230 
+
+in high-risk populations is to minimise missed urgent events rather than to replace biochemical 231 
+
+confirmation. 232 
+
+The interpretability and phenotype analyses further support the biological plausibility of the 233 
+
+model. Group-level waveform differences were concentrated in the T-wave and QRS regions, 234 
+
+consistent with established electrophysiological manifestations of hyperkalemia. In addition, 235 
+
+among samples below the diagnostic threshold, model-predicted high risk was more common in 236 
+
+patients with chronic kidney disease and heart failure. This observation raises the possibility that 237 
+
+model outputs may reflect broader cardiorenal electrophysiological stress rather than potassium 238 
+
+10 concentration alone at a single indexed time point. Although this interpretation remains hypothesis- 239 
+
+generating, it may help explain why some apparently discordant predictions are not clinically 240 
+
+trivial. 241 
+
+The longitudinal case analyses and handheld prototype provide complementary evidence for 242 
+
+potential clinical translation. Serial examples suggested that model-predicted risk changed in 243 
+
+parallel with within-patient potassium trajectories, supporting the possibility that Pocket-K may 244 
+
+capture evolving potassium-related electrophysiology over time. The proof-of-concept handheld 245 
+
+workflow further showed that near-real-time inference is technically feasible in a connected 246 
+
+smartphone pathway. 247 
+
+Our study also provides initial evidence of translational feasibility. A handheld single-lead ECG 248 
+
+workflow supported near-real-time inference through a connected smartphone-based pathway 249 
+
+and may allow immediate feedback without additional invasive burden. However, this part of 250 
+
+the study was designed as a proof of concept rather than an evaluation of clinical effectiveness. 251 
+
+Prospective studies using native handheld and wearable recordings are therefore needed to 252 
+
+assess usability, signal-quality failure modes, calibration, and the effect of AI-guided screening on 253 
+
+repeat testing, clinical decision-making, and health-care use. 254 
+
+This study has several limitations. First, it used historical routinely collected clinical data 255 
+
+and therefore cannot establish whether model-guided screening improves clinical outcomes or 256 
+
+workflow efficiency. Second, although we included temporal and independent external validation, 257 
+
+both health systems were located in China, and broader validation across populations, geographic 258 
+
+settings, and device form factors is still needed. Third, the single-lead input was derived from 259 
+
+clinical 12-lead ECG systems rather than trained and validated primarily on native consumer- 260 
+
+device recordings. Finally, model performance in the presence of rhythm abnormalities, motion 261 
+
+artefact, and low-quality recordings requires more systematic evaluation before large-scale real- 262 
+
+world deployment. 263 
+
+In conclusion, Pocket-K provides multicentre evidence that a foundation-model-based single- 264 
+
+lead AI-ECG approach can support hyperkalemia screening across temporally separated and 265 
+
+externally independent validation settings. Its high negative predictive value suggests potential 266 
+
+value as a scalable rule-out tool for frequent potassium surveillance in high-risk populations. 267 
+
+Prospective studies should now assess how such systems can be integrated into handheld 268 
+
+and wearable care pathways to support earlier detection while preserving safety and clinical 269 
+
+interpretability. 270 
+
+# METHODS 271 
+
+Study design and data sources 272 
+
+This multicenter observational study used routinely collected de-identified clinical ECG and labo- 273 
+
+ratory data and adhered to the TRIPOD+AI reporting guidelines for clinical artificial intelligence 28 . 274 
+
+Data were collected from two geographically independent tertiary health systems in China: Peking 275 
+
+University People’s Hospital (PKUPH, Beijing) and The Second Hospital of Tianjin Medical Univer- 276 
+
+sity (SHTMU, Tianjin). The PKUPH set was extracted from the MedEx ECG management system 277 
+
+(January 2016–November 2024), while the SHTMU set was retrieved from the Nalong system 278 
+
+(January 2024–December 2024). The study was approved by the Biomedical Ethics Committee of 279 
+
+Peking University (IRB00001052-23152), and the requirement for informed consent was waived 280 
+
+because the analysis used de-identified routinely collected clinical data. 281 
+
+11 Study population assembly and data partitioning 282 
+
+As illustrated in Figure 8, we first screened all patients with available ECG data during the study 283 
+
+periods. After exclusion of haemolysed samples, venous serum potassium measurements were 284 
+
+linked to ECG recordings using an ECG-anchored pairing strategy. Specifically, for each ECG, 285 
+
+we searched for potassium measurements obtained within ±1 h and retained the closest eligible 286 
+
+measurement to form a unique ECG–potassium pair. ECGs without any eligible potassium 287 
+
+measurement within the predefined time window were excluded. 288 
+
+The PKUPH population was partitioned chronologically at July 2021. Records before this 289 
+
+cutoff formed the development set, and records after this cutoff formed the temporal validation set. 290 
+
+To avoid information leakage, we imposed strict patient-level non-overlap: any patient appearing 291 
+
+in the development period was excluded entirely from the temporal validation set, even if later 292 
+
+records were available. Within the PKUPH development set, unique patients were further divided 293 
+
+at the patient level into a fine-tune set, a model-selection set, and an internal test set in an 8:1:1 294 
+
+ratio according to a prespecified protocol. The geographically independent SHTMU dataset was 295 
+
+reserved exclusively for external validation. 296 
+
+Because individual patients could contribute multiple ECG–potassium pairs across time, the 297 
+
+number of unique patients ( N ) differed from the number of paired records ( n). 298 
+
+Definition of clinical comorbidities 299 
+
+Chronic kidney disease and heart failure were defined a priori using structured diagnosis informa- 300 
+
+tion recorded on or before the index ECG. In the PKUPH sets, diagnoses were obtained from 301 
+
+the hospital diagnosis table (field: diagnosis name), and in the SHTMU set, from the structured 302 
+
+diagnosis string field ( clinic_diag_str ). Because the original diagnosis entries were recorded in 303 
+
+Chinese, comorbidities were identified using prespecified rule-based keyword searches applied to 304 
+
+the original diagnosis strings. The English terms reported below describe the diagnostic concepts 305 
+
+used for classification rather than the literal source strings. 306 
+
+Chronic kidney disease was defined using diagnosis strings corresponding to chronic kidney 307 
+
+disease or chronic kidney failure in the chronic setting, including chronic kidney disease, chronic 308 
+
+renal insufficiency, chronic renal failure, end-stage kidney disease, end-stage renal disease, 309 
+
+uraemia, and CKD-equivalent diagnostic expressions. Isolated non-specific terms such as renal 310 
+
+insufficiency or renal failure were not used unless they were explicitly documented as chronic. 311 
+
+Heart failure was defined using diagnosis strings corresponding to heart failure, including 312 
+
+heart failure, congestive heart failure, left heart failure, right heart failure, biventricular heart failure, 313 
+
+heart failure with preserved ejection fraction, and heart failure with reduced ejection fraction. 314 
+
+These comorbidity variables were used for baseline set description and for the analysis of 315 
+
+reference-negative samples stratified by model-predicted risk in the external validation set. 316 
+
+Reference standard and single-lead signal preprocessing 317 
+
+Venous serum potassium served as the reference standard. To improve physiological correspon- 318 
+
+dence between ECG waveforms and laboratory measurements, each ECG was paired with the 319 
+
+nearest eligible potassium result within a ±1 h window after exclusion of haemolysed samples. 320 
+
+This ECG-anchored pairing strategy was designed to reduce temporal mismatch between the 321 
+
+model input and the biochemical reference label. 322 
+
+Lead I was extracted from 12-lead ECG recordings to construct a single-lead input. All signals 323 
+
+followed a unified preprocessing pipeline. We applied a 0.5–40 Hz band-pass filter to reduce 324 
+
+12 Peking University People's                
+
+> Hospital
+> N= 77,785
+> Excluded ( N= 62,322)
+> 29,522 Missing ECG records
+> 32,542 No serum K +test within 1h
+> 258 Poor data quality (hemolysis or low SNR)
+> Peking University People's
+> Hospital
+> N = 15,463
+> (n = 37,067 pairs)
+> Chronological split into fine-tune and temporal
+> external validation datasets ( July 2021 )
+> Development Cohort
+> N= 10,409
+> (n = 26,145 pairs)
+> Temporal Validation
+> Cohort
+> N = 5,054
+> (n = 10,922 pairs)
+> The Second Hospital of
+> Tianjin Medical University
+> N= 49,415
+> Excluded ( N= 30,439)
+> 24,011 Missing ECG records
+> 6,361 No serum K +test within 1h
+> 67 Poor data quality (hemolysis or low SNR)
+> The Second Hospital of
+> Tianjin Medical University
+> N= 18,976
+> (n = 25,223 pairs)
+> Independent External
+> Validation Dataset
+> N= 18,976
+> (n = 25,223 pairs)
+
+A. PKUPH site B. TMUSH site Figure 8: STARD flowchart for study population selection and multicenter dataset partitioning. 
+
+Panel A shows set construction at PKUPH, where 77,785 patients were initially screened. A total of 62,322 patients were excluded through a multistage quality-control pipeline: 29,522 had no ECG records, 32,542 had no eligible venous serum potassium measurement within a ±1-hour window for ECG-anchored pairing, and 258 were removed because of poor data quality, including confirmed laboratory haemolysis or low signal-to-noise ratio. The remaining PKUPH population ( N = 15 , 463 ; n = 37 , 067 pairs) was partitioned chronologically at July 2021 into a development set ( N = 10 , 409 ; n = 26 , 145 pairs) and a temporal validation set ( N = 5 , 054 ; n = 10 , 922 pairs). Panel B shows independent external validation at SHTMU. Of 49,415 initially screened patients, 30,439 were excluded using the same criteria (missing ECGs: 
+
+n = 24 , 011 ; no eligible potassium measurement within ±1 hour for ECG-anchored pairing: n = 6 , 361 ;poor data quality: n = 67 ), resulting in a final independent external validation set of 18,976 patients with 25,223 ECG– K+ pairs. In all panels, N denotes the number of unique patients and n denotes the number of ECG– K+ paired records. 
+
+13 baseline drift, powerline interference, and myoelectric noise, segmented the waveform into non- 325 
+
+overlapping 10-s clips, and resampled each clip to 500 Hz by linear interpolation to match the 326 
+
+input specification of the pretrained foundation model. Each clip was then z-score normalised to 327 
+
+reduce amplitude-scale differences across acquisition systems. 328 
+
+Model development 329 
+
+Pocket-K was developed by fine-tuning ECGFounder, a pretrained ECG foundation model. ECG- 330 
+
+Founder adopts a Net1D-style architecture with stage-wise scaling inspired by RegNet and has 331 
+
+been pretrained on more than ten million ECG recordings collected across multiple countries 29–31 . 332 
+
+This large-scale pretraining enables the model to capture general representations of cardiac 333 
+
+depolarisation and repolarisation and reduces downstream dependence on sample size and data 334 
+
+homogeneity. All fine-tuning experiments were initialised from publicly available ECGFounder 335 
+
+pretrained weights. 336 
+
+The model was fine-tuned using binary cross-entropy loss and the Adam optimiser with an 337 
+
+initial learning rate of 1 × 10 −4. Training was performed for up to 30 epochs. Model selection 338 
+
+was based on AUROC in the model-selection dataset. If validation AUROC did not improve for 339 
+
+10 consecutive epochs, the learning rate was reduced by a factor of 0.1. The checkpoint with 340 
+
+the best validation AUROC was retained for subsequent evaluation on the internal test dataset, 341 
+
+temporal validation dataset, and external validation sets. 342 
+
+Performance evaluation and statistical analyses 343 
+
+The primary endpoint was discrimination for hyperkalemia, defined as venous serum potassium 344 
+
+greater than 5.5 mmol/L. A prespecified secondary endpoint was discrimination for moderate- 345 
+
+to-severe hyperkalemia (serum potassium ≥ 6.0 mmol/L). According to the KDIGO 2024 CKD 346 
+
+guideline, moderate hyperkalemia is defined as 6.0–6.4 mmol/L and severe hyperkalemia as 347 
+
+≥6.5 mmol/L 32 . Model discrimination was primarily assessed using the area under the receiver 348 
+
+operating characteristic curve (AUROC). 349 
+
+Because individual patients could contribute multiple ECG–potassium pairs, statistical un- 350 
+
+certainty was quantified using clustered bootstrap resampling at the patient level with 2000 351 
+
+resamples. This framework was used to estimate 95% confidence intervals for AUROC and 352 
+
+threshold-dependent performance metrics and to compare model performance across internal 353 
+
+test, temporal validation, and external validation sets without treating repeated paired records 354 
+
+from the same patient as independent observations. 355 
+
+Additional analyses and explainability 356 
+
+We performed additional analyses to evaluate clinically relevant model behaviour beyond binary 357 
+
+discrimination. First, moderate-to-severe hyperkalemia was analysed as a high-priority subgroup 358 
+
+because of its greater clinical urgency. Second, waveform-level explainability analysis was per- 359 
+
+formed by stratifying samples according to model-predicted risk and comparing signal-averaged 360 
+
+heartbeat morphology between high-risk and low-risk groups, with particular attention to re- 361 
+
+gions spanning the T wave and QRS complex. We also compared clinical phenotypes between 362 
+
+false-positive and true-negative samples in the external validation set to determine whether 363 
+
+false-positive predictions were enriched for cardiorenal comorbidity. 364 
+
+To assess whether model outputs tracked disease dynamics at the individual level, we exam- 365 
+
+ined representative longitudinal patients with repeated ECG–potassium pairs over time. Finally, 366 
+
+14 for proof-of-concept deployment, we evaluated inference latency and qualitative risk prompting in 367 
+
+a handheld single-lead workflow. 368 
+
+Proof-of-concept handheld deployment 369 
+
+For proof-of-concept deployment, the handheld device acquired a 30-s single-lead ECG recording. 370 
+
+To maintain consistency with the temporal scale used during model development, each recording 371 
+
+was divided into three consecutive 10-s clips for inference. Clip-level outputs were then aggre- 372 
+
+gated to generate a measurement-level risk probability. This design preserved temporal-scale 373 
+
+consistency between model development and prototype deployment. 374 
+
+# Declaration statements 375 
+
+Data Availability 376 
+
+The data that support the findings of this study are not publicly available due to restrictions 377 
+
+imposed by institutional ethics committees and data governance policies of the participating 378 
+
+hospitals. Access to the data may be considered upon reasonable request to the corresponding 379 
+
+author, subject to approval by the relevant ethics committees. 380 
+
+Code Availability 381 
+
+The code used for model development and evaluation in this study is publicly available at https: 382 
+
+//github.com/Tangoz1003/Pocket-K . 383 
+
+Acknowledgements 384 
+
+Shenda Hong is supported by the National Natural Science Foundation of China (62102008), 385 
+
+CCF-Tencent Rhino-Bird Open Research Fund (CCF-Tencent RAGR20250108), CCF-Zhipu 386 
+
+Large Model Innovation Fund (CCF-Zhipu202414), PKU-OPPO Fund (BO202301, BO202503), 387 
+
+Research Project of Peking University in the State Key Laboratory of Vascular Homeostasis 388 
+
+and Remodeling (2025-SKLVHR-YCTS-02), and the Beijing Municipal Science and Technology 389 
+
+Commission (Z251100000725008). 390 
+
+Luxia Zhang is supported by the National Natural Science Foundation of China (72125009) 391 
+
+and grant from the Noncommunicable Chronic Diseases-National Science and Technology Major 392 
+
+Project of China (No. 2025ZD0547500). 393 
+
+Kangyin Chen is supported by the National Natural Science Foundation of China (82470527) 394 
+
+and the Key Science and Technology Support Project of Tianjin Science and Technology Bureau 395 
+
+(24ZXGZSY00130). 396 
+
+The authors thank all collaborators and participating institutions for their support and contribu- 397 
+
+tions to this research. 398 
+
+Author Contributions 399 
+
+Gongzheng Tang, Qinghao Zhao, and Guangkun Nie contributed equally to this work. Gongzheng 400 
+
+Tang contributed to methodology development, model implementation, validation, formal analysis, 401 
+
+and drafting of the manuscript. Qinghao Zhao contributed to result interpretation and manuscript 402 
+
+revision. Guangkun Nie contributed to data acquisition, preprocessing, and curation. Yujie Xiao, 403 
+
+15 Shijia Geng, Donglin Xie, Shun Huang, Deyun Zhang, Xingchen Yao, and Jinwei Wang contributed 404 
+
+to data preparation and investigation. Kangyin Chen, Luxia Zhang, and Shenda Hong conceived 405 
+
+and supervised the study, provided resources, guided study design and interpretation, and revised 406 
+
+the manuscript. All authors reviewed and approved the final manuscript. Kangyin Chen, Luxia 407 
+
+Zhang, and Shenda Hong are corresponding authors and take responsibility for the integrity of 408 
+
+the work. 409 
+
+Competing Interests 410 
+
+Shenda Hong is an Associate Editor of npj Digital Medicine . Shenda Hong was not involved in 411 
+
+the journal’s review of, or decisions related to, this manuscript. The other authors declare no 412 
+
+competing financial or non-financial interests related to this study. 413 
+
+# References 414 
+
+1. Kovesdy, C.P. (2016). Epidemiology of hyperkalemia: an update. Kidney international 415 
+
+supplements 6, 3–6. 416 
+
+2. Hougen, I., Leon, S.J., Whitlock, R., Rigatto, C., Komenda, P., Bohm, C., and Tangri, N. (2021). 417 
+
+Hyperkalemia and its association with mortality, cardiovascular events, hospitalizations, 418 
+
+and intensive care unit admissions in a population-based retrospective cohort. Kidney 419 
+
+international reports 6, 1309–1316. 420 
+
+3. Mclean, A., Nath, M., and Sawhney, S. (2022). Population epidemiology of hyperkalemia: 421 
+
+cardiac and kidney long-term health outcomes. American Journal of Kidney Diseases 79 , 422 
+
+527–538. 423 
+
+4. Kovesdy, C.P., Matsushita, K., Sang, Y., Brunskill, N.J., Carrero, J.J., Chodick, G., Hasegawa, 424 
+
+T., Heerspink, H.L., Hirayama, A., Landman, G.W. et al. (2018). Serum potassium and 425 
+
+adverse outcomes across the range of kidney function: a ckd prognosis consortium meta- 426 
+
+analysis. European heart journal 39 , 1535–1542. 427 
+
+5. Goyal, A., Spertus, J.A., Gosch, K., Venkitachalam, L., Jones, P.G., Van den Berghe, G., and 428 
+
+Kosiborod, M. (2012). Serum potassium levels and mortality in acute myocardial infarction. 429 
+
+Jama 307 , 157–164. 430 
+
+6. Lin, C., Lin, C.S., Chen, S.J., Tsai, S.H., Sung, C.C., Chen, C.C., Hsu, Y.J., Hung, Y.J., and 431 
+
+Lin, S.H. (2026). Ai-enabled electrocardiogram alert for potassium imbalance treatment: a 432 
+
+pragmatic randomized controlled trial. Nature Communications 17 , 159. 433 
+
+7. Asirvatham, J.R., Moses, V., and Bjornson, L. (2013). Errors in potassium measurement: a 434 
+
+laboratory perspective for the clinician. North American journal of medical sciences 5, 255. 435 
+
+8. Campese, V.M., and Adenuga, G. (2016). Electrophysiological and clinical consequences of 436 
+
+hyperkalemia. Kidney international supplements 6, 16–19. 437 
+
+9. Lin, C., Chau, T., Lin, C.S., Shang, H.S., Fang, W.H., Lee, D.J., Lee, C.C., Tsai, S.H., Wang, 438 
+
+C.H., and Lin, S.H. (2022). Point-of-care artificial intelligence-enabled ecg for dyskalemia: a 439 
+
+retrospective cohort analysis for accuracy and outcome prediction. NPJ digital medicine 5, 8. 440 
+
+16 10. Zhao, Q., Geng, S., Wang, B., Sun, Y., Nie, W., Bai, B., Yu, C., Zhang, F., Tang, G., Zhang, D. 441 
+
+et al. (2024). Deep learning in heart sound analysis: from techniques to clinical applications. 442 
+
+Health Data Science 4, 0182. 443 
+
+11. Luo, Y., Liu, X.Y., Yang, K., Huang, K., Hong, M., Zhang, J., Wu, Y., and Nie, Z. (2024). 444 
+
+Toward unified ai drug discovery with multimodal knowledge. Health Data Science 4, 0113. 445 
+
+12. Zhang, S., Mu, W., Dong, D., Wei, J., Fang, M., Shao, L., Zhou, Y., He, B., Zhang, S., Liu, 446 
+
+Z. et al. (2023). The applications of artificial intelligence in digestive system neoplasms: a 447 
+
+review. Health Data Science 3, 0005. 448 
+
+13. Liu, X., Gao, K., Liu, B., Pan, C., Liang, K., Yan, L., Ma, J., He, F., Zhang, S., Pan, S. et al. 449 
+
+(2021). Advances in deep learning-based medical image analysis. Health Data Science 450 
+
+2021 , 8786793. 451 
+
+14. Xiao, Y., Tang, G., Liu, W., Li, J., Nie, G., Kan, Z., Zhang, D., Zhao, Q., and Hong, S. 452 
+
+(2025). Anyecg-lab: An exploration study of fine-tuning an ecg foundation model to estimate 453 
+
+laboratory values from single-lead ecg signals. arXiv preprint arXiv:2510.22301. 454 
+
+15. Nie, G., Zhu, J., Tang, G., Zhang, D., Geng, S., Zhao, Q., and Hong, S. (2024). A review of 455 
+
+deep learning methods for photoplethysmography data. arXiv preprint arXiv:2401.12783. 456 
+
+16. Shi, T., Ma, J., Yu, Z., Xu, H., Yang, R., Xiong, M., Xiao, M., Li, Y., Zhao, H., and Kong, G. 457 
+
+(2025). Large language models in critical care medicine: scoping review. JMIR Medical 458 
+
+Informatics 13 , e76326. 459 
+
+17. Poterucha, T.J., Jing, L., Ricart, R.P., Adjei-Mosi, M., Finer, J., Hartzel, D., Kelsey, C., Long, A., 460 
+
+Rocha, D., Ruhl, J.A. et al. (2025). Detecting structural heart disease from electrocardiograms 461 
+
+using ai. Nature 644 , 221–230. 462 
+
+18. Rawlani, M., Ieki, H., Binder, C., Yuan, V., Chiu, I.M., Bhatt, A., Ebinger, J.E., Sahashi, 463 
+
+Y., Ambrosy, A.P., Usuku, H. et al. (2025). Artificial intelligence prediction of age from 464 
+
+echocardiography as a marker for cardiovascular disease. npj Digital Medicine 8, 688. 465 
+
+19. Nie, G., Zhao, Q., Tang, G., Li, Y., and Hong, S. (2025). Artificial intelligence-derived 466 
+
+photoplethysmography age as a digital biomarker for cardiovascular health. Communications 467 
+
+Medicine 5, 481. 468 
+
+20. Xiao, Y., Tang, G., Zhang, D., Li, J., Nie, G., Wang, H., Huang, S., Liu, T., Zhao, Q., Chen, 469 
+
+K. et al. (2025). Fine-tuning an ecg foundation model to predict coronary ct angiography 470 
+
+outcomes. arXiv preprint arXiv:2512.05136. 471 
+
+21. Oikonomou, E.K., Vaid, A., Holste, G., Coppi, A., McNamara, R.L., Baloescu, C., Krumholz, 472 
+
+H.M., Wang, Z., Apakama, D.J., Nadkarni, G.N. et al. (2025). Artificial intelligence-guided 473 
+
+detection of under-recognised cardiomyopathies on point-of-care cardiac ultrasonography: a 474 
+
+multicentre study. The Lancet Digital Health 7, e113–e123. 475 
+
+22. Lin, C.S., Lin, C., Fang, W.H., Hsu, C.J., Chen, S.J., Huang, K.H., Lin, W.S., Tsai, C.S., Kuo, 476 
+
+C.C., Chau, T. et al. (2020). A deep-learning algorithm (ecg12net) for detecting hypokalemia 477 
+
+and hyperkalemia by electrocardiography: algorithm development. JMIR medical informatics 478 
+
+8, e15931. 479 
+
+17 23. Harmon, D.M., Heinrich, C.K., Dillon, J.J., Carter, R.E., Kashani, K.B., Attia, Z.I., Friedman, 480 
+
+P.A., and Jentzer, J.C. (2024). Mortality risk stratification utilizing artificial intelligence elec- 481 
+
+trocardiogram for hyperkalemia in cardiac intensive care unit patients. JACC: Advances 3, 482 
+
+101169. 483 
+
+24. Chen, C.C., Lin, C., Lee, D.J., Lin, C.S., Chen, S.J., Sung, C.C., Hsu, Y.J., and Lin, S.H. 484 
+
+(2025). Monitoring serum potassium concentration in patients with severe hyperkalemia: the 485 
+
+role of bloodless artificial intelligence-enabled electrocardiography. Clinical Kidney Journal 486 
+
+18 , sfaf092. 487 
+
+25. Attia, Z.I., DeSimone, C.V., Dillon, J.J., Sapir, Y., Somers, V.K., Dugan, J.L., Bruce, C.J., 488 
+
+Ackerman, M.J., Asirvatham, S.J., Striemer, B.L. et al. (2016). Novel bloodless potassium 489 
+
+determination using a signal-processed single-lead ecg. Journal of the American heart 490 
+
+Association 5, e002746. 491 
+
+26. Urtnasan, E., Lee, J.H., Moon, B., Lee, H.Y., Lee, K., and Youk, H. (2022). Noninvasive 492 
+
+screening tool for hyperkalemia using a single-lead electrocardiogram and deep learning: 493 
+
+Development and usability study. JMIR medical informatics 10 , e34724. 494 
+
+27. Chiu, I.M., Wu, P.J., Zhang, H., Hughes, J.W., Rogers, A.J., Jalilian, L., Perez, M., Lin, C.H.R., 495 
+
+Lee, C.T., Zou, J. et al. (2024). Serum potassium monitoring using ai-enabled smartwatch 496 
+
+electrocardiograms. Clinical Electrophysiology 10 , 2644–2654. 497 
+
+28. Collins, G.S., Moons, K.G., Dhiman, P., Riley, R.D., Beam, A.L., Van Calster, B., Ghassemi, 498 
+
+M., Liu, X., Reitsma, J.B., Van Smeden, M. et al. (2024). Tripod+ ai statement: updated 499 
+
+guidance for reporting clinical prediction models that use regression or machine learning 500 
+
+methods. bmj 385 . 501 
+
+29. Li, J., Aguirre, A.D., Junior, V.M., Jin, J., Liu, C., Zhong, L., Sun, C., Clifford, G., Bran- 502 
+
+don Westover, M., and Hong, S. (2025). An electrocardiogram foundation model built on over 503 
+
+10 million recordings. Nejm ai 2, AIoa2401033. 504 
+
+30. Radosavovic, I., Kosaraju, R.P., Girshick, R., He, K., and Dollár, P. (2020). Designing network 505 
+
+design spaces. In Proceedings of the IEEE/CVF conference on computer vision and pattern 506 
+
+recognition. pp. 10428–10436. 507 
+
+31. Hong, S., Xu, Y., Khare, A., Priambada, S., Maher, K., Aljiffry, A., Sun, J., and Tumanov, A. 508 
+
+(2020). Holmes: health online model ensemble serving for deep learning models in intensive 509 
+
+care units. In Proceedings of the 26th ACM SIGKDD International Conference on Knowledge 510 
+
+Discovery & Data Mining. pp. 1614–1624. 511 
+
+32. Levin, A., Ahmed, S.B., Carrero, J.J., Foster, B., Francis, A., Hall, R.K., Herrington, W.G., Hill, 512 
+
+G., Inker, L.A., Kazancıo ˘ glu, R. et al. (2024). Executive summary of the kdigo 2024 clinical 513 
+
+practice guideline for the evaluation and management of chronic kidney disease: known 514 
+
+knowns and known unknowns. Kidney international 105 , 684–701. 515 
+
+18
