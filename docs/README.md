@@ -6,31 +6,52 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-22
-- 运行时间：2026-03-22 19:14:45 UTC
+- 最新运行日期：2026-03-23
+- 运行时间：2026-03-23 20:03:12 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：1
-- 速读区：2
+- 本次总论文数：10
+- 精读区：6
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦 LLM 在医疗影像与决策支持中的前沿应用，重点解析了 CT 报告自动生成的最新突破。
-推荐关注高分论文 DiffVP，其提出的差异化视觉语义提示技术显著提升了 LLM 生成 CT 报告的专业性与准确度。
-建议读者从视觉提示工程入手，了解 AI 如何更精准地“读图”并转化为可解释的临床决策建议。
-- 详情：[/202603/22/README](/202603/22/README)
+今日深度研读 10 篇医疗 AI 论文，聚焦多模态大模型的指令遵循能力与真实场景理解。
+重点推荐无需指令微调的医疗视觉优化技术，以及针对复杂医疗影像理解的全新基准 ReXInTheWild。
+建议关注医疗视觉语言嵌入中的模态鸿沟与决策稳定性，以应对数据受限下的模型失效风险。
+- 详情：[/202603/23/README](/202603/23/README)
 
 ### 精读区论文标签
-1. [DiffVP: Differential Visual Semantic Prompting for LLM-Based CT Report Generation](/202603/22/2603.17718v1-diffvp-differential-visual-semantic-prompting-for-llm-based-ct-report-generation)  
+1. [Instruction-Free Tuning of Large Vision Language Models for Medical Instruction Following](/202603/23/2603.19482v1-instruction-free-tuning-of-large-vision-language-models-for-medical-instruction-following)  
    标签：评分：9.0/10、query:medllm
-   evidence：基于大语言模型的CT报告生成，使用视觉语义提示
+   evidence：医学领域视觉语言模型的免指令微调
+2. [ReXInTheWild: A Unified Benchmark for Medical Photograph Understanding](/202603/23/2603.19517v1-rexinthewild-a-unified-benchmark-for-medical-photograph-understanding)  
+   标签：评分：9.0/10、query:medllm
+   evidence：视觉语言模型医学照片理解基准
+3. [MedQ-Engine: A Closed-Loop Data Engine for Evolving MLLMs in Medical Image Quality Assessment](/202603/23/2603.19863v1-medq-engine-a-closed-loop-data-engine-for-evolving-mllms-in-medical-image-quality-assessment)  
+   标签：评分：9.0/10、query:medllm
+   evidence：用于医学图像质量评估中演进多模态大模型的数据引擎
+4. [From Scanning Guidelines to Action: A Robotic Ultrasound Agent with LLM-Based Reasoning](/202603/23/2603.14393v1-from-scanning-guidelines-to-action-a-robotic-ultrasound-agent-with-llm-based-reasoning)  
+   标签：评分：8.0/10、query:medllm
+   evidence：用于解释医学扫描指南和机器人超声的大模型智能体
+5. [FDARxBench: Benchmarking Regulatory and Clinical Reasoning on FDA Generic Drug Assessment](/202603/23/2603.19539v1-fdarxbench-benchmarking-regulatory-and-clinical-reasoning-on-fda-generic-drug-assessment)  
+   标签：评分：8.0/10、query:medllm
+   evidence：基于FDA药物标签文档的临床推理基准测试
+6. [MedSPOT: A Workflow-Aware Sequential Grounding Benchmark for Clinical GUI](/202603/23/2603.19993v1-medspot-a-workflow-aware-sequential-grounding-benchmark-for-clinical-gui)  
+   标签：评分：8.0/10、query:medllm
+   evidence：临床软件界面中多模态大模型的基准测试
 
 ### 速读区论文标签
-1. [Argumentation for Explainable and Globally Contestable Decision Support with LLMs](/202603/22/2603.14643v1-argumentation-for-explainable-and-globally-contestable-decision-support-with-llms)  
+1. [When Stability Fails: Hidden Failure Modes Of LLMS in Data-Constrained Scientific Decision-Making](/202603/23/2603.15840v1-when-stability-fails-hidden-failure-modes-of-llms-in-data-constrained-scientific-decision-making)  
    标签：评分：7.0/10、query:medllm
-   evidence：具有可解释推理的大模型决策支持
-2. [CTG-DB: An Ontology-Based Transformation of ClinicalTrials.gov to Enable Cross-Trial Drug Safety Analyses](/202603/22/2603.15936v1-ctg-db-an-ontology-based-transformation-of-clinicaltrialsgov-to-enable-cross-trial-drug-safety-analyses)  
+   evidence：评估大模型作为科学工作流中决策支持工具的表现
+2. [On the Cone Effect and Modality Gap in Medical Vision-Language Embeddings](/202603/23/2603.17246v1-on-the-cone-effect-and-modality-gap-in-medical-vision-language-embeddings)  
+   标签：评分：7.0/10、query:medllm
+   evidence：医学视觉语言嵌入与多模态学习
+3. [On the Cone Effect and Modality Gap in Medical Vision-Language Embeddings](/202603/23/2603.17246v2-on-the-cone-effect-and-modality-gap-in-medical-vision-language-embeddings)  
+   标签：评分：7.0/10、query:medllm
+   evidence：医学视觉语言嵌入与模态间隙
+4. [CompDiff: Hierarchical Compositional Diffusion for Fair and Zero-Shot Intersectional Medical Image Generation](/202603/23/2603.16551v1-compdiff-hierarchical-compositional-diffusion-for-fair-and-zero-shot-intersectional-medical-image-generation)  
    标签：评分：6.0/10、query:medllm
-   evidence：将临床试验文本处理为标准术语
+   evidence：用于医学影像数据集的生成模型
 
 
 <div class="dpr-home-promo-card">

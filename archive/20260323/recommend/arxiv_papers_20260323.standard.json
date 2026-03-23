@@ -1,0 +1,412 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-23T20:01:42.806185+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2603.19482v1",
+      "title": "Instruction-Free Tuning of Large Vision Language Models for Medical Instruction Following",
+      "abstract": "Large vision language models (LVLMs) have demonstrated impressive performance across a wide range of tasks. These capabilities largely stem from visual instruction tuning, which fine-tunes models on datasets consisting of curated image-instruction-output triplets. However, in the medical domain, constructing large-scale, high-quality instruction datasets is particularly challenging due to the need for specialized expert knowledge. To address this issue, we propose an instruction-free tuning approach that reduces reliance on handcrafted instructions, leveraging only image-description pairs for fine-tuning. Specifically, we introduce a momentum proxy instruction as a replacement for curated text instructions, which preserves the instruction-following capability of the pre-trained LVLM while promoting updates to parameters that remain valid during inference. Consequently, the fine-tuned LVLM can flexibly respond to domain-specific instructions, even though explicit instructions are absent during fine-tuning. Additionally, we incorporate a response shuffling strategy to mitigate the model's over-reliance on previous words, facilitating more effective fine-tuning. Our approach achieves state-of-the-art accuracy on multiple-choice visual question answering tasks across SKINCON, WBCAtt, CBIS, and MIMIC-CXR datasets, significantly enhancing the fine-tuning efficiency of LVLMs in medical domains.",
+      "authors": [
+        "Myeongkyun Kang",
+        "Soopil Kim",
+        "Xiaoxiao Li",
+        "Sang Hyun Park"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-19T21:23:56+00:00",
+      "link": "https://arxiv.org/pdf/2603.19482v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "instruction-free tuning of LVLMs for medical domain",
+      "llm_evidence_cn": "医学领域视觉语言模型的免指令微调",
+      "llm_evidence": "医学领域视觉语言模型的免指令微调",
+      "canonical_evidence": "医学领域视觉语言模型的免指令微调",
+      "llm_tldr_en": "Proposes an instruction-free tuning method to adapt vision-language models to medical tasks without expert data.",
+      "llm_tldr_cn": "提出一种免指令微调方法，降低医学领域高质量指令数据集构建的难度。",
+      "llm_tldr": "提出一种免指令微调方法，降低医学领域高质量指令数据集构建的难度。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.19517v1",
+      "title": "ReXInTheWild: A Unified Benchmark for Medical Photograph Understanding",
+      "abstract": "Everyday photographs taken with ordinary cameras are already widely used in telemedicine and other online health conversations, yet no comprehensive benchmark evaluates whether vision-language models can interpret their medical content. Analyzing these images requires both fine-grained natural image understanding and domain-specific medical reasoning, a combination that challenges both general-purpose and specialized models. We introduce ReXInTheWild, a benchmark of 955 clinician-verified multiple-choice questions spanning seven clinical topics across 484 photographs sourced from the biomedical literature. When evaluated on ReXInTheWild, leading multimodal large language models show substantial performance variation: Gemini-3 achieves 78% accuracy, followed by Claude Opus 4.5 (72%) and GPT-5 (68%), while the medical specialist model MedGemma reaches only 37%. A systematic error analysis also reveals four categories of common errors, ranging from low-level geometric errors to high-level reasoning failures and requiring different mitigation strategies. ReXInTheWild provides a challenging, clinically grounded benchmark at the intersection of natural image understanding and medical reasoning. The dataset is available on HuggingFace.",
+      "authors": [
+        "Oishi Banerjee",
+        "Sung Eun Kim",
+        "Alexandra N. Willauer",
+        "Julius M. Kernbach",
+        "Abeer Rihan Alomaish",
+        "Reema Abdulwahab S. Alghamdi",
+        "Hassan Rayhan Alomaish",
+        "Mohammed Baharoon",
+        "Xiaoman Zhang",
+        "Julian Nicolas Acosta",
+        "Christine Zhou",
+        "Pranav Rajpurkar"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-19T22:54:28+00:00",
+      "link": "https://arxiv.org/pdf/2603.19517v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Benchmark for medical photograph understanding by VLMs",
+      "llm_evidence_cn": "视觉语言模型医学照片理解基准",
+      "llm_evidence": "视觉语言模型医学照片理解基准",
+      "canonical_evidence": "视觉语言模型医学照片理解基准",
+      "llm_tldr_en": "Presents a benchmark to evaluate how well multimodal LLMs interpret medical content in everyday photographs.",
+      "llm_tldr_cn": "提出了一个基准，用于评估多模态大模型对日常照片中医学内容的理解能力。",
+      "llm_tldr": "提出了一个基准，用于评估多模态大模型对日常照片中医学内容的理解能力。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.19863v1",
+      "title": "MedQ-Engine: A Closed-Loop Data Engine for Evolving MLLMs in Medical Image Quality Assessment",
+      "abstract": "Medical image quality assessment (Med-IQA) is a prerequisite for clinical AI deployment, yet multimodal large language models (MLLMs) still fall substantially short of human experts, particularly when required to provide descriptive assessments with clinical reasoning beyond simple quality scores. However, improving them is hindered by the high cost of acquiring descriptive annotations and by the inability of one-time data collection to adapt to the model's evolving weaknesses. To address these challenges, we propose MedQ-Engine, a closed-loop data engine that iteratively evaluates the model to discover failure prototypes via data-driven clustering, explores a million-scale image pool using these prototypes as retrieval anchors with progressive human-in-the-loop annotation, and evolves through quality-assured fine-tuning, forming a self-improving cycle. Models are evaluated on complementary perception and description tasks. An entropy-guided routing mechanism triages annotations to minimize labeling cost. Experiments across five medical imaging modalities show that MedQ-Engine elevates an 8B-parameter model to surpass GPT-4o by over 13% and narrow the gap with human experts to only 4.34%, using only 10K annotations with more than 4x sample efficiency over random sampling.",
+      "authors": [
+        "Jiyao Liu",
+        "Junzhi Ning",
+        "Wanying Qu",
+        "Lihao Liu",
+        "Chenglong Ma",
+        "Junjun He",
+        "Ningsheng Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T11:29:13+00:00",
+      "link": "https://arxiv.org/pdf/2603.19863v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Data engine for evolving MLLMs in medical image quality assessment",
+      "llm_evidence_cn": "用于医学图像质量评估中演进多模态大模型的数据引擎",
+      "llm_evidence": "用于医学图像质量评估中演进多模态大模型的数据引擎",
+      "canonical_evidence": "用于医学图像质量评估中演进多模态大模型的数据引擎",
+      "llm_tldr_en": "Presents MedQ-Engine, a closed-loop system to iteratively improve medical MLLMs through targeted data collection.",
+      "llm_tldr_cn": "提出了MedQ-Engine，一个通过有针对性的数据收集迭代改进医学多模态大模型的闭环系统。",
+      "llm_tldr": "提出了MedQ-Engine，一个通过有针对性的数据收集迭代改进医学多模态大模型的闭环系统。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Fine-tuning large language models on medical domain datasets",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.14393v1",
+      "title": "From Scanning Guidelines to Action: A Robotic Ultrasound Agent with LLM-Based Reasoning",
+      "abstract": "Robotic ultrasound offers advantages over free-hand scanning, including improved reproducibility and reduced operator dependency. In clinical practice, US acquisition relies heavily on the sonographer's experience and situational judgment. When transferring this process to robotic systems, such expertise is often encoded explicitly through fixed procedures and task-specific models, yielding pipelines that can be difficult to adapt to new scanning tasks. In this work, we propose a unified framework for autonomous robotic US scanning that leverages a LLM-based agent to interpret US scanning guidelines and execute scans by dynamically invoking a set of provided software tools. Instead of encoding fixed scanning procedures, the LLM agent retrieves and reasons over guideline steps from scanning handbooks and adapts its planning decisions based on observations and the current scanning state. This enables the system to handle variable and decision-dependent workflows, such as adjusting scanning strategies, repeating steps, or selecting the appropriate next tool call in response to image quality or anatomical findings. Because the reasoning underlying tool selection is also critical for transparent and trustworthy planning, we further fine tune the LLM agent using a RL based strategy to improve both its reasoning quality and the correctness of tool selection and parameterization, while maintaining robust generalization to unseen guidelines and related tasks. We first validate the approach via verbal execution on 10 US scanning guidelines, assessing reasoning as well as tool selection and parameterization, and showing the benefit of RL fine tuning. We then demonstrate real world feasibility on robotic scanning of the gallbladder, spine, and kidney. Overall, the framework follows diverse guidelines and enables reliable autonomous scanning across multiple anatomical targets within a unified system.",
+      "authors": [
+        "Yuan Bi",
+        "Yiping Zhou",
+        "Pei Liu",
+        "Feng Li",
+        "Zhongliang Jiang",
+        "Nassir Navab"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-15T14:18:56+00:00",
+      "link": "https://arxiv.org/pdf/2603.14393v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-based agent for interpreting medical scanning guidelines and robotic ultrasound",
+      "llm_evidence_cn": "用于解释医学扫描指南和机器人超声的大模型智能体",
+      "llm_evidence": "用于解释医学扫描指南和机器人超声的大模型智能体",
+      "canonical_evidence": "用于解释医学扫描指南和机器人超声的大模型智能体",
+      "llm_tldr_en": "Develops an LLM-based robotic agent that interprets ultrasound guidelines to perform autonomous clinical scans.",
+      "llm_tldr_cn": "开发了一种基于大模型的机器人智能体，通过解释超声指南来执行自主临床扫描。",
+      "llm_tldr": "开发了一种基于大模型的机器人智能体，通过解释超声指南来执行自主临床扫描。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.19539v1",
+      "title": "FDARxBench: Benchmarking Regulatory and Clinical Reasoning on FDA Generic Drug Assessment",
+      "abstract": "We introduce an expert curated, real-world benchmark for evaluating document-grounded question-answering (QA) motivated by generic drug assessment, using the U.S. Food and Drug Administration (FDA) drug label documents. Drug labels contain rich but heterogeneous clinical and regulatory information, making accurate question answering difficult for current language models. In collaboration with FDA regulatory assessors, we introduce FDARxBench, and construct a multi-stage pipeline for generating high-quality, expert curated, QA examples spanning factual, multi-hop, and refusal tasks, and design evaluation protocols to assess both open-book and closed-book reasoning. Experiments across proprietary and open-weight models reveal substantial gaps in factual grounding, long-context retrieval, and safe refusal behavior. While motivated by FDA generic drug assessment needs, this benchmark also provides a substantial foundation for challenging regulatory-grade evaluation of label comprehension. The benchmark is designed to support evaluation of LLM behavior on drug-label questions.",
+      "authors": [
+        "Betty Xiong",
+        "Jillian Fisher",
+        "Benjamin Newman",
+        "Meng Hu",
+        "Shivangi Gupta",
+        "Yejin Choi",
+        "Lanyan Fang",
+        "Russ B Altman"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-20T00:33:58+00:00",
+      "link": "https://arxiv.org/pdf/2603.19539v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmarking clinical reasoning on FDA drug label documents",
+      "llm_evidence_cn": "基于FDA药物标签文档的临床推理基准测试",
+      "llm_evidence": "基于FDA药物标签文档的临床推理基准测试",
+      "canonical_evidence": "基于FDA药物标签文档的临床推理基准测试",
+      "llm_tldr_en": "FDARxBench evaluates LLM performance on regulatory and clinical reasoning using FDA drug labels.",
+      "llm_tldr_cn": "FDARxBench利用FDA药物标签评估大模型在监管和临床推理方面的问答表现。",
+      "llm_tldr": "FDARxBench利用FDA药物标签评估大模型在监管和临床推理方面的问答表现。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Performance evaluation of LLMs on medical benchmarks",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.19993v1",
+      "title": "MedSPOT: A Workflow-Aware Sequential Grounding Benchmark for Clinical GUI",
+      "abstract": "Despite the rapid progress of Multimodal Large Language Models (MLLMs), their ability to perform reliable visual grounding in high-stakes clinical software environments remains underexplored. Existing GUI benchmarks largely focus on isolated, single-step grounding queries, overlooking the sequential, workflow-driven reasoning required in real-world medical interfaces, where tasks evolve across independent steps and dynamic interface states. We introduce MedSPOT, a workflow-aware sequential grounding benchmark for clinical GUI environments. Unlike prior benchmarks that treat grounding as a standalone prediction task, MedSPOT models procedural interaction as a sequence of structured spatial decisions. The benchmark comprises 216 task-driven videos with 597 annotated keyframes, in which each task consists of 2 to 3 interdependent grounding steps within realistic medical workflows. This design captures interface hierarchies, contextual dependencies, and fine-grained spatial precision under evolving conditions. To evaluate procedural robustness, we propose a strict sequential evaluation protocol that terminates task assessment upon the first incorrect grounding prediction, explicitly measuring error propagation in multi-step workflows. We further introduce a comprehensive failure taxonomy, including edge bias, small-target errors, no prediction, near miss, far miss, and toolbar confusion, to enable systematic diagnosis of model behavior in clinical GUI settings. By shifting evaluation from isolated grounding to workflow-aware sequential reasoning, MedSPOT establishes a realistic and safety-critical benchmark for assessing multimodal models in medical software environments. Code and data are available at: https://github.com/Tajamul21/MedSPOT.",
+      "authors": [
+        "Rozain Shakeel",
+        "Abdul Rahman Mohammad Ali",
+        "Muneeb Mushtaq",
+        "Tausifa Jan Saleem",
+        "Tajamul Ashraf"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-20T14:43:53+00:00",
+      "link": "https://arxiv.org/pdf/2603.19993v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Benchmark for multimodal LLMs in clinical software interfaces",
+      "llm_evidence_cn": "临床软件界面中多模态大模型的基准测试",
+      "llm_evidence": "临床软件界面中多模态大模型的基准测试",
+      "canonical_evidence": "临床软件界面中多模态大模型的基准测试",
+      "llm_tldr_en": "Introduces MedSPOT, a benchmark for evaluating MLLMs on sequential grounding tasks within clinical GUI environments.",
+      "llm_tldr_cn": "推出MedSPOT基准，用于评估多模态大模型在临床软件界面中的顺序定位和工作流推理能力。",
+      "llm_tldr": "推出MedSPOT基准，用于评估多模态大模型在临床软件界面中的顺序定位和工作流推理能力。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.15840v1",
+      "title": "When Stability Fails: Hidden Failure Modes Of LLMS in Data-Constrained Scientific Decision-Making",
+      "abstract": "Large language models (LLMs) are increasingly used as decision-support tools in data-constrained scientific workflows, where correctness and validity are critical. However, evaluation practices often emphasize stability or reproducibility across repeated runs. While these properties are desirable, stability alone does not guar- antee agreement with statistical ground truth when such references are available. We introduce a controlled behavioral evaluation framework that explicitly sep- arates four dimensions of LLM decision-making: stability, correctness, prompt sensitivity, and output validity under fixed statistical inputs. We evaluate multi- ple LLMs using a statistical gene prioritization task derived from differential ex- pression analysis across prompt regimes involving strict and relaxed significance thresholds, borderline ranking scenarios, and minor wording variations. Our ex- periments show that LLMs can exhibit near-perfect run-to-run stability while sys- tematically diverging from statistical ground truth, over-selecting under relaxed thresholds, responding sharply to minor prompt wording changes, or producing syntactically plausible gene identifiers absent from the input table. Although sta- bility reflects robustness across repeated runs, it does not guarantee agreement with statistical ground truth in structured scientific decision tasks. These findings highlight the importance of explicit ground-truth validation and output validity checks when deploying LLMs in automated or semi-automated scientific work- flows.",
+      "authors": [
+        "Nazia Riasat"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL",
+        "stat.ML"
+      ],
+      "published": "2026-03-16T19:17:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.15840v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Evaluation of LLMs as decision-support tools in scientific workflows",
+      "llm_evidence_cn": "评估大模型作为科学工作流中决策支持工具的表现",
+      "llm_evidence": "评估大模型作为科学工作流中决策支持工具的表现",
+      "canonical_evidence": "评估大模型作为科学工作流中决策支持工具的表现",
+      "llm_tldr_en": "Evaluates LLM decision-making failure modes in scientific tasks like gene prioritization for clinical support.",
+      "llm_tldr_cn": "研究大模型在数据受限的科学决策（如基因优先级排序）中的失效模式，以提升临床支持可靠性。",
+      "llm_tldr": "研究大模型在数据受限的科学决策（如基因优先级排序）中的失效模式，以提升临床支持可靠性。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "AI models for medical diagnosis and clinical decision support",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.16551v1",
+      "title": "CompDiff: Hierarchical Compositional Diffusion for Fair and Zero-Shot Intersectional Medical Image Generation",
+      "abstract": "Generative models are increasingly used to augment medical imaging datasets for fairer AI. Yet a key assumption often goes unexamined: that generators themselves produce equally high-quality images across demographic groups. Models trained on imbalanced data can inherit these imbalances, yielding degraded synthesis quality for rare subgroups and struggling with demographic intersections absent from training. We refer to this as the imbalanced generator problem. Existing remedies such as loss reweighting operate at the optimization level and provide limited benefit when training signal is scarce or absent for certain combinations. We propose CompDiff, a hierarchical compositional diffusion framework that addresses this problem at the representation level. A dedicated Hierarchical Conditioner Network (HCN) decomposes demographic conditioning, producing a demographic token concatenated with CLIP embeddings as cross-attention context. This structured factorization encourages parameter sharing across subgroups and supports compositional generalization to rare or unseen demographic intersections. Experiments on chest X-rays (MIMIC-CXR) and fundus images (FairGenMed) show that CompDiff compares favorably against both standard fine-tuning and FairDiffusion across image quality (FID: 64.3 vs. 75.1), subgroup equity (ES-FID), and zero-shot intersectional generalization (up to 21% FID improvement on held-out intersections). Downstream classifiers trained on CompDiff-generated data also show improved AUROC and reduced demographic bias, suggesting that architectural design of demographic conditioning is an important and underexplored factor in fair medical image generation. Code is available at https://anonymous.4open.science/r/CompDiff-6FE6.",
+      "authors": [
+        "Mahmoud Ibrahim",
+        "Bart Elen",
+        "Chang Sun",
+        "Gokhan Ertaylan",
+        "Michel Dumontier"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-17T14:16:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.16551v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Generative models for medical imaging datasets",
+      "llm_evidence_cn": "用于医学影像数据集的生成模型",
+      "llm_evidence": "用于医学影像数据集的生成模型",
+      "canonical_evidence": "用于医学影像数据集的生成模型",
+      "llm_tldr_en": "Proposes a diffusion framework for fair and zero-shot medical image generation across demographic groups.",
+      "llm_tldr_cn": "提出了一种扩散框架，用于跨人口统计群体的公平和零样本医学图像生成。",
+      "llm_tldr": "提出了一种扩散框架，用于跨人口统计群体的公平和零样本医学图像生成。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Clinical applications of generative AI in healthcare",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.17246v1",
+      "title": "On the Cone Effect and Modality Gap in Medical Vision-Language Embeddings",
+      "abstract": "Vision-Language Models (VLMs) exhibit a characteristic \"cone effect\" in which nonlinear encoders map embeddings into highly concentrated regions of the representation space, contributing to cross-modal separation known as the modality gap. While this phenomenon has been widely observed, its practical impact on supervised multimodal learning -particularly in medical domains- remains unclear. In this work, we introduce a lightweight post-hoc mechanism that keeps pretrained VLM encoders frozen while continuously controlling cross-modal separation through a single hyperparameter {λ}. This enables systematic analysis of how the modality gap affects downstream multimodal performance without expensive retraining. We evaluate generalist (CLIP, SigLIP) and medically specialized (BioMedCLIP, MedSigLIP) models across diverse medical and natural datasets in a supervised multimodal settings. Results consistently show that reducing excessive modality gap improves downstream performance, with medical datasets exhibiting stronger sensitivity to gap modulation; however, fully collapsing the gap is not always optimal, and intermediate, task-dependent separation yields the best results. These findings position the modality gap as a tunable property of multimodal representations rather than a quantity that should be universally minimized.",
+      "authors": [
+        "David Restrepo",
+        "Miguel L Martins",
+        "Chenwei Wu",
+        "Luis Filipe Nakayama",
+        "Diego M Lopez",
+        "Stergios Christodoulidis",
+        "Maria Vakalopoulou",
+        "Enzo Ferrante"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-18T01:04:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.17246v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Medical Vision-Language Embeddings and multimodal learning",
+      "llm_evidence_cn": "医学视觉语言嵌入与多模态学习",
+      "llm_evidence": "医学视觉语言嵌入与多模态学习",
+      "canonical_evidence": "医学视觉语言嵌入与多模态学习",
+      "llm_tldr_en": "Analyzes the modality gap in medical vision-language models to improve multimodal representation learning.",
+      "llm_tldr_cn": "分析医学视觉语言模型中的模态间隙，以改进多模态表示学习。",
+      "llm_tldr": "分析医学视觉语言模型中的模态间隙，以改进多模态表示学习。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.17246v2",
+      "title": "On the Cone Effect and Modality Gap in Medical Vision-Language Embeddings",
+      "abstract": "Vision-Language Models (VLMs) exhibit a characteristic \"cone effect\" in which nonlinear encoders map embeddings into highly concentrated regions of the representation space, contributing to cross-modal separation known as the modality gap. While this phenomenon has been widely observed, its practical impact on supervised multimodal learning -- particularly in medical domains -- remains unclear. In this work, we introduce a lightweight post-hoc mechanism that keeps pretrained VLM encoders frozen while continuously controlling cross-modal separation through a single hyperparameter {λ}. This enables systematic analysis of how the modality gap affects downstream multimodal performance without expensive retraining. We evaluate generalist (CLIP, SigLIP) and medically specialized (BioMedCLIP, MedSigLIP) models across diverse medical and natural datasets in a supervised multimodal settings. Results consistently show that reducing excessive modality gap improves downstream performance, with medical datasets exhibiting stronger sensitivity to gap modulation; however, fully collapsing the gap is not always optimal, and intermediate, task-dependent separation yields the best results. These findings position the modality gap as a tunable property of multimodal representations rather than a quantity that should be universally minimized.",
+      "authors": [
+        "David Restrepo",
+        "Miguel L Martins",
+        "Chenwei Wu",
+        "Luis Filipe Nakayama",
+        "Diego M Lopez",
+        "Stergios Christodoulidis",
+        "Maria Vakalopoulou",
+        "Enzo Ferrante"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-18T01:04:21+00:00",
+      "link": "https://arxiv.org/pdf/2603.17246v2",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "medical vision-language embeddings and modality gap",
+      "llm_evidence_cn": "医学视觉语言嵌入与模态间隙",
+      "llm_evidence": "医学视觉语言嵌入与模态间隙",
+      "canonical_evidence": "医学视觉语言嵌入与模态间隙",
+      "llm_tldr_en": "Analyzes the modality gap in medical vision-language models to improve multimodal learning performance.",
+      "llm_tldr_cn": "分析医学视觉语言模型中的模态间隙，以优化多模态学习性能。",
+      "llm_tldr": "分析医学视觉语言模型中的模态间隙，以优化多模态学习性能。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
