@@ -1,6 +1,173 @@
 {
-  "generated_at": "2026-03-24T20:07:30.513554+00:00",
-  "updated_date": "20260324",
+  "generated_at": "2026-03-25T19:51:45.075106+00:00",
+  "updated_date": "20260325",
   "carryover_days": 9,
-  "items": []
+  "items": [
+    {
+      "id": "2603.22954v1",
+      "title": "Privacy-Preserving EHR Data Transformation via Geometric Operators: A Human-AI Co-Design Technical Report",
+      "abstract": "Electronic health records (EHRs) and other real-world clinical data are essential for clinical research, medical artificial intelligence, and life science, but their sharing is severely limited by privacy, governance, and interoperability constraints. These barriers create persistent data silos that hinder multi-center studies, large-scale model development, and broader biomedical discovery. Existing privacy-preserving approaches, including multi-party computation and related cryptographic techniques, provide strong protection but often introduce substantial computational overhead, reducing the efficiency of large-scale machine learning and foundation-model training. In addition, many such methods make data usable for restricted computation while leaving them effectively invisible to clinicians and researchers, limiting their value in workflows that still require direct inspection, exploratory analysis, and human interpretation. We propose a real-world-data transformation framework for privacy-preserving sharing of structured clinical records. Instead of converting data into opaque representations, our approach constructs transformed numeric views that preserve medical semantics and major statistical properties while, under a clearly specified threat model, provably breaking direct linkage between those views and protected patient-level attributes. Through collaboration between computer scientists and the AI agent \\textbf{SciencePal}, acting as a constrained tool inventor under human guidance, we design three transformation operators that are non-reversible within this threat model, together with an additional mixing strategy for high-risk scenarios, supported by theoretical analysis and empirical evaluation under reconstruction, record linkage, membership inference, and attribute inference attacks.",
+      "authors": [
+        "Maolin Wang",
+        "Beining Bao",
+        "Gan Yuan",
+        "Hongyu Chen",
+        "Bingkun Zhao",
+        "Baoshuo Kan",
+        "Jiming Xu",
+        "Qi Shi",
+        "Yinggong Zhao",
+        "Yao Wang",
+        "Wei Ying Ma",
+        "Jun Yan"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.LG"
+      ],
+      "published": "2026-03-24T08:49:22+00:00",
+      "link": "https://arxiv.org/pdf/2603.22954v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Privacy-preserving EHR data transformation for large-scale model development",
+      "llm_evidence_cn": "用于大规模模型开发的隐私保护电子健康记录数据转换",
+      "llm_evidence": "用于大规模模型开发的隐私保护电子健康记录数据转换",
+      "canonical_evidence": "用于大规模模型开发的隐私保护电子健康记录数据转换",
+      "llm_tldr_en": "Introduces a geometric operator framework for privacy-preserving EHR data sharing to support medical AI training.",
+      "llm_tldr_cn": "引入了几何算子框架，用于隐私保护下的EHR数据共享，以支持医疗AI训练。",
+      "llm_tldr": "引入了几何算子框架，用于隐私保护下的EHR数据共享，以支持医疗AI训练。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.22954v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.22642v1",
+      "title": "Multi-Method Validation of Large Language Model Medical Translation Across High- and Low-Resource Languages",
+      "abstract": "Language barriers affect 27.3 million U.S. residents with non-English language preference, yet professional medical translation remains costly and often unavailable. We evaluated four frontier large language models (GPT-5.1, Claude Opus 4.5, Gemini 3 Pro, Kimi K2) translating 22 medical documents into 8 languages spanning high-resource (Spanish, Chinese, Russian, Vietnamese), medium-resource (Korean, Arabic), and low-resource (Tagalog, Haitian Creole) categories using a five-layer validation framework. Across 704 translation pairs, all models achieved high semantic preservation (LaBSE greater than 0.92), with no significant difference between high- and low-resource languages (p = 0.066). Cross-model back-translation confirmed results were not driven by same-model circularity (delta = -0.0009). Inter-model concordance across four independently trained models was high (LaBSE: 0.946), and lexical borrowing analysis showed no correlation between English term retention and fidelity scores in low-resource languages (rho = +0.018, p = 0.82). These converging results suggest frontier LLMs preserve medical meaning across resource levels, with implications for language access in healthcare.",
+      "authors": [
+        "Chukwuebuka Anyaegbuna",
+        "Eduardo Juan Perez Guerrero",
+        "Jerry Liu",
+        "Timothy Keyes",
+        "April Liang",
+        "Natasha Steele",
+        "Stephen Ma",
+        "Jonathan Chen",
+        "Kevin Schulman"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-23T23:34:02+00:00",
+      "link": "https://arxiv.org/pdf/2603.22642v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "validation of LLM medical translation across languages",
+      "llm_evidence_cn": "大语言模型跨语言医疗翻译的验证",
+      "llm_evidence": "大语言模型跨语言医疗翻译的验证",
+      "canonical_evidence": "大语言模型跨语言医疗翻译的验证",
+      "llm_tldr_en": "Evaluates frontier LLMs on medical document translation across high- and low-resource languages.",
+      "llm_tldr_cn": "评估了前沿大模型在多种资源水平语言下的医疗文档翻译表现。",
+      "llm_tldr": "评估了前沿大模型在多种资源水平语言下的医疗文档翻译表现。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Large language models in medicine and healthcare",
+      "matched_requirement_id": "req-1",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.22642v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.22704v1",
+      "title": "Synthetic or Authentic? Building Mental Patient Simulators from Longitudinal Evidence",
+      "abstract": "Patient simulation is essential for developing and evaluating mental health dialogue systems. As most existing approaches rely on snapshot-style prompts with limited profile information, homogeneous behaviors and incoherent disease progression in multi-turn interactions have become key chellenges. In this work, we propose DEPROFILE, a data-grounded patient simulation framework that constructs unified, multi-source patient profiles by integrating demographic attributes, standardized clinical symptoms, counseling dialogues, and longitudinal life-event histories from real-world data. We further introduce a Chain-of-Change agent to transform noisy longitudinal records into structured, temporally grounded memory representations for simulation. Experiments across multiple large language model (LLM) backbones show that with more comprehensive profile constructed by DEPROFILE, the dialogue realism, behavioral diversity, and event richness have consistently improved and exceed state-of-the-art baselines, highlighting the importance of grounding patient simulation in verifiable longitudinal evidence.",
+      "authors": [
+        "Baihan Li",
+        "Bingrui Jin",
+        "Kunyao Lan",
+        "Ming Wang",
+        "Mengyue Wu"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-24T01:56:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.22704v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Processing longitudinal patient records and clinical symptoms to build patient simulators",
+      "llm_evidence_cn": "处理纵向患者记录和临床症状以构建患者模拟器",
+      "llm_evidence": "处理纵向患者记录和临床症状以构建患者模拟器",
+      "canonical_evidence": "处理纵向患者记录和临床症状以构建患者模拟器",
+      "llm_tldr_en": "Develops a framework to transform longitudinal EHR data into structured profiles for mental health patient simulation.",
+      "llm_tldr_cn": "开发了一个将纵向电子健康档案数据转化为结构化档案的框架，用于心理健康患者模拟。",
+      "llm_tldr": "开发了一个将纵向电子健康档案数据转化为结构化档案的框架，用于心理健康患者模拟。",
+      "llm_tags": [
+        "query:medllm"
+      ],
+      "matched_query_tag": "query:medllm",
+      "matched_query_text": "Processing patient data and electronic health records with LLMs",
+      "matched_requirement_id": "req-5",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.22704v1",
+      "carry_days": 1
+    },
+    {
+      "id": "2603.22633v1",
+      "title": "Graph-Aware Late Chunking for Retrieval-Augmented Generation in Biomedical Literature",
+      "abstract": "Retrieval-Augmented Generation (RAG) systems for biomedical literature are typically evaluated using ranking metrics like Mean Reciprocal Rank (MRR), which measure how well the system identifies the single most relevant chunk. We argue that for full-text scientific documents, this paradigm is incomplete: it rewards retrieval precision while ignoring retrieval breadth -- the ability to surface evidence from across a document's structural sections. We propose GraLC-RAG, a framework that unifies late chunking with graph-aware structural intelligence, introducing structure-aware chunk boundary detection, UMLS knowledge graph infusion, and graph-guided hybrid retrieval. We evaluate six strategies on 2,359 IMRaD-filtered PubMed Central articles using 2,033 cross-section questions and two metric families: standard ranking metrics (MRR, Recall@k) and structural coverage metrics (SecCov@k, CS Recall). Our results expose a sharp divergence: content-similarity methods achieve the highest MRR (0.517) but always retrieve from a single section, while structure-aware methods retrieve from up to 15.6x more sections. Generation experiments show that KG-infused retrieval narrows the answer-quality gap to delta-F1 = 0.009 while maintaining 4.6x section diversity. These findings demonstrate that standard metrics systematically undervalue structural retrieval and that closing the multi-section synthesis gap is a key open problem for biomedical RAG.",
+      "authors": [
+        "Pouria Mortezaagha",
+        "Arya Rahgozar"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.IR"
+      ],
+      "published": "2026-03-23T23:22:58+00:00",
+      "link": "https://arxiv.org/pdf/2603.22633v1",
+      "tags": [
+        "keyword:MEDLLM",
+        "query:MEDLLM"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "RAG framework for biomedical literature using UMLS knowledge and structural intelligence",
+      "llm_evidence_cn": "结合 UMLS 知识和结构化智能的生物医学文献检索增强生成框架",
+      "llm_evidence": "结合 UMLS 知识和结构化智能的生物医学文献检索增强生成框架",
+      "canonical_evidence": "结合 UMLS 知识和结构化智能的生物医学文献检索增强生成框架",
+      "llm_tldr_en": "Enhances biomedical RAG by integrating structural document intelligence and medical knowledge graphs.",
+      "llm_tldr_cn": "通过整合文档结构智能和医学知识图谱，增强了生物医学领域的检索增强生成效果。",
+      "llm_tldr": "通过整合文档结构智能和医学知识图谱，增强了生物医学领域的检索增强生成效果。",
+      "llm_tags": [
+        "query:medllm:composite"
+      ],
+      "matched_query_tag": "query:medllm:composite",
+      "matched_query_text": "Papers central to 医学大模型, especially work that connects or combines: Large language models in medicine and healthcare; Clinical large language models for diagnosis and treatment; Natural language processing for medical records and texts; AI models for medical diagnosis and clinical decision support; Processing patient data and electronic health records with LLMs; Fine-tuning large language models on medical domain datasets; State of the art in medical large language models; Clinical applications of generative AI in healthcare; Performance evaluation of LLMs on medical benchmarks.",
+      "matched_requirement_id": "req-composite-medllm",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.22633v1",
+      "carry_days": 1
+    }
+  ]
 }
