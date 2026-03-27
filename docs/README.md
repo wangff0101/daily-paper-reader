@@ -6,88 +6,82 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-26
-- 运行时间：2026-03-26 19:59:49 UTC
+- 最新运行日期：2026-03-27
+- 运行时间：2026-03-27 19:55:33 UTC
 - 运行状态：成功
-- 本次总论文数：22
-- 精读区：11
-- 速读区：11
+- 本次总论文数：20
+- 精读区：10
+- 速读区：10
 
 ### 今日简报（AI）
-今日深度解析 22 篇医疗 AI 论文，聚焦临床隐私保护与眼科专用大模型的突破性进展。
-重点推荐 PLACID 框架实现的隐私安全临床缩写推理，以及 VOLMO 这一全能开源眼科大模型。
-建议关注大模型如何通过强化学习与图感知技术，在手术视觉及生物医学检索中实现精准落地。
-- 详情：[/202603/26/README](/202603/26/README)
+今日聚焦 20 篇医疗 AI 前沿进展，重点突破小语种医疗转录与神经系统疾病的临床推理评估。
+满分研究证实了微调模型在低资源医疗场景的卓越表现，多模态技术正加速渗透手术识别与影像审计。
+建议关注垂直领域大模型的微调实战，探索如何利用非结构化数据提升特定临床任务的部署效能。
+- 详情：[/202603/27/README](/202603/27/README)
 
 ### 精读区论文标签
-1. [PLACID: Privacy-preserving Large language models for Acronym Clinical Inference and Disambiguation](/202603/26/2603.23678v1-placid-privacy-preserving-large-language-models-for-acronym-clinical-inference-and-disambiguation)  
+1. [Evaluating Fine-Tuned LLM Model For Medical Transcription With Small Low-Resource Languages Validated Dataset](/202603/27/2603.24772v1-evaluating-fine-tuned-llm-model-for-medical-transcription-with-small-low-resource-languages-validated-dataset)  
    标签：评分：10.0/10、query:medllm
-   evidence：大模型用于临床文本中的缩写消歧
-2. [VOLMO: Versatile and Open Large Models for Ophthalmology](/202603/26/2603.23953v1-volmo-versatile-and-open-large-models-for-ophthalmology)  
+   evidence：针对低资源语言的医疗转录对LLaMA 3.1进行微调
+2. [NeuroVLM-Bench: Evaluation of Vision-Enabled Large Language Models for Clinical Reasoning in Neurological Disorders](/202603/27/2603.24846v1-neurovlm-bench-evaluation-of-vision-enabled-large-language-models-for-clinical-reasoning-in-neurological-disorders)  
    标签：评分：10.0/10、query:medllm
-   evidence：眼科专用多模态大模型预训练与微调
-3. [Agentic Automation of BT-RADS Scoring: End-to-End Multi-Agent System for Standardized Brain Tumor Follow-up Assessment](/202603/26/2603.21494v2-agentic-automation-of-bt-rads-scoring-end-to-end-multi-agent-system-for-standardized-brain-tumor-follow-up-assessment)  
+   evidence：评估视觉大模型在临床推理中的表现
+3. [A Decade-Scale Benchmark Evaluating LLMs' Clinical Practice Guidelines Detection and Adherence in Multi-turn Conversations](/202603/27/2603.25196v1-a-decade-scale-benchmark-evaluating-llms-clinical-practice-guidelines-detection-and-adherence-in-multi-turn-conversations)  
+   标签：评分：10.0/10、query:medllm
+   evidence：评估大语言模型对临床实践指南遵循情况的基准
+4. [AD-CARE: A Guideline-grounded, Modality-agnostic LLM Agent for Real-world Alzheimer's Disease Diagnosis with Multi-cohort Assessment, Fairness Analysis, and Reader Study](/202603/27/2603.25322v1-ad-care-a-guideline-grounded-modality-agnostic-llm-agent-for-real-world-alzheimers-disease-diagnosis-with-multi-cohort-assessment-fairness-analysis-and-reader-study)  
+   标签：评分：10.0/10、query:medllm
+   evidence：用于阿尔茨海默病诊断和临床决策支持的大语言模型智能体
+5. [Gastric-X: A Multimodal Multi-Phase Benchmark Dataset for Advancing Vision-Language Models in Gastric Cancer Analysis](/202603/27/2603.19516v2-gastric-x-a-multimodal-multi-phase-benchmark-dataset-for-advancing-vision-language-models-in-gastric-cancer-analysis)  
    标签：评分：9.0/10、query:medllm
-   evidence：用于标准化脑肿瘤评估的多智能体大模型系统
-4. [Dialogue to Question Generation for Evidence-based Medical Guideline Agent Development](/202603/26/2603.23937v1-dialogue-to-question-generation-for-evidence-based-medical-guideline-agent-development)  
+   evidence：结合视觉语言模型与临床记录的胃癌分析多模态基准
+6. [MLLM-HWSI: A Multimodal Large Language Model for Hierarchical Whole Slide Image Understanding](/202603/27/2603.23067v2-mllm-hwsi-a-multimodal-large-language-model-for-hierarchical-whole-slide-image-understanding)  
    标签：评分：9.0/10、query:medllm
-   evidence：大语言模型作为辅助工具实现循证医学指南落地
-5. [Can we generate portable representations for clinical time series data using LLMs?](/202603/26/2603.23987v1-can-we-generate-portable-representations-for-clinical-time-series-data-using-llms)  
+   evidence：用于分层全视野数字切片理解的多模态大模型
+7. [Exploring Self-Tracking Practices of Older Adults with CVD to Inform the Design of LLM-Enabled Health Data Sensemaking](/202603/27/2603.23733v1-exploring-self-tracking-practices-of-older-adults-with-cvd-to-inform-the-design-of-llm-enabled-health-data-sensemaking)  
    标签：评分：9.0/10、query:medllm
-   evidence：利用大模型从ICU时间序列中提取患者嵌入表示
-6. [AD-Reasoning: Multimodal Guideline-Guided Reasoning for Alzheimer's Disease Diagnosis](/202603/26/2603.24059v1-ad-reasoning-multimodal-guideline-guided-reasoning-for-alzheimers-disease-diagnosis)  
+   evidence：大模型赋能的患者健康数据理解
+8. [VOLMO: Versatile and Open Large Models for Ophthalmology](/202603/27/2603.23953v2-volmo-versatile-and-open-large-models-for-ophthalmology)  
    标签：评分：9.0/10、query:medllm
-   evidence：用于阿尔茨海默病诊断的多模态推理
-7. [MedAidDialog: A Multilingual Multi-Turn Medical Dialogue Dataset for Accessible Healthcare](/202603/26/2603.24132v1-medaiddialog-a-multilingual-multi-turn-medical-dialogue-dataset-for-accessible-healthcare)  
+   evidence：眼科知识预训练与微调
+9. [OMIND: Framework for Knowledge Grounded Finetuning and Multi-Turn Dialogue Benchmark for Mental Health LLMs](/202603/27/2603.25105v1-omind-framework-for-knowledge-grounded-finetuning-and-multi-turn-dialogue-benchmark-for-mental-health-llms)  
    标签：评分：9.0/10、query:medllm
-   evidence：使用大模型构建的多语言医学对话数据集
-8. [CarePilot: A Multi-Agent Framework for Long-Horizon Computer Task Automation in Healthcare](/202603/26/2603.24157v1-carepilot-a-multi-agent-framework-for-long-horizon-computer-task-automation-in-healthcare)  
+   evidence：针对心理健康大模型的知识增强微调和SFT数据集
+10. [Knowledge-Guided Retrieval-Augmented Generation for Zero-Shot Psychiatric Data: Privacy Preserving Synthetic Data Generation](/202603/27/2603.25186v1-knowledge-guided-retrieval-augmented-generation-for-zero-shot-psychiatric-data-privacy-preserving-synthetic-data-generation)  
    标签：评分：9.0/10、query:medllm
-   evidence：用于医疗任务自动化（包括电子健康记录系统）的多智能体框架
-9. [RVLM: Recursive Vision-Language Models with Adaptive Depth](/202603/26/2603.24224v1-rvlm-recursive-vision-language-models-with-adaptive-depth)  
-   标签：评分：9.0/10、query:medllm
-   evidence：用于可审计医疗诊断声明的递归视觉语言模型
-10. [Multi-Agent Reasoning with Consistency Verification Improves Uncertainty Calibration in Medical MCQA](/202603/26/2603.24481v1-multi-agent-reasoning-with-consistency-verification-improves-uncertainty-calibration-in-medical-mcqa)  
-   标签：评分：9.0/10、query:medllm
-   evidence：用于医学问答和诊断的多智能体推理
-11. [Scaling Recurrence-aware Foundation Models for Clinical Records via Next-Visit Prediction](/202603/26/2603.24562v1-scaling-recurrence-aware-foundation-models-for-clinical-records-via-next-visit-prediction)  
-   标签：评分：9.0/10、query:medllm
-   evidence：针对序列电子健康档案的生成式预训练
+   evidence：利用RAG引导大语言模型生成隐私保护的合成精神科数据
 
 ### 速读区论文标签
-1. [Chain-of-Adaptation: Surgical Vision-Language Adaptation with Reinforcement Learning](/202603/26/2603.20116v1-chain-of-adaptation-surgical-vision-language-adaptation-with-reinforcement-learning)  
+1. [Multimodal Training to Unimodal Deployment: Leveraging Unstructured Data During Training to Optimize Structured Data Only Deployment](/202603/27/2603.22530v1-multimodal-training-to-unimodal-deployment-leveraging-unstructured-data-during-training-to-optimize-structured-data-only-deployment)  
    标签：评分：8.0/10、query:medllm
-   evidence：手术视觉语言模型适配与微调
-2. [Graph-Aware Late Chunking for Retrieval-Augmented Generation in Biomedical Literature](/202603/26/2603.22633v1-graph-aware-late-chunking-for-retrieval-augmented-generation-in-biomedical-literature)  
+   evidence：在训练中利用非结构化电子健康记录数据以优化结构化部署
+2. [CliPPER: Contextual Video-Language Pretraining on Long-form Intraoperative Surgical Procedures for Event Recognition](/202603/27/2603.24539v1-clipper-contextual-video-language-pretraining-on-long-form-intraoperative-surgical-procedures-for-event-recognition)  
    标签：评分：8.0/10、query:medllm
-   evidence：结合 UMLS 知识和结构化智能的生物医学文献检索增强生成框架
-3. [Multi-Method Validation of Large Language Model Medical Translation Across High- and Low-Resource Languages](/202603/26/2603.22642v1-multi-method-validation-of-large-language-model-medical-translation-across-high--and-low-resource-languages)  
+   evidence：用于手术事件识别的视频语言基础模型
+3. [MedOpenClaw: Auditable Medical Imaging Agents Reasoning over Uncurated Full Studies](/202603/27/2603.24649v1-medopenclaw-auditable-medical-imaging-agents-reasoning-over-uncurated-full-studies)  
    标签：评分：8.0/10、query:medllm
-   evidence：大模型在多种语言间的医学翻译
-4. [Synthetic or Authentic? Building Mental Patient Simulators from Longitudinal Evidence](/202603/26/2603.22704v1-synthetic-or-authentic-building-mental-patient-simulators-from-longitudinal-evidence)  
+   evidence：用于医学影像推理和临床决策支持的视觉语言模型智能体
+4. [Rethinking Health Agents: From Siloed AI to Collaborative Decision Mediators](/202603/27/2603.24986v1-rethinking-health-agents-from-siloed-ai-to-collaborative-decision-mediators)  
    标签：评分：8.0/10、query:medllm
-   evidence：处理纵向患者记录和临床症状以构建患者模拟器
-5. [Privacy-Preserving EHR Data Transformation via Geometric Operators: A Human-AI Co-Design Technical Report](/202603/26/2603.22954v1-privacy-preserving-ehr-data-transformation-via-geometric-operators-a-human-ai-co-design-technical-report)  
+   evidence：基于大模型的健康智能体用于协作决策
+5. [Photon: Speedup Volume Understanding with Efficient Multimodal Large Language Models](/202603/27/2603.25155v1-photon-speedup-volume-understanding-with-efficient-multimodal-large-language-models)  
    标签：评分：8.0/10、query:medllm
-   evidence：用于模型训练的隐私保护电子健康记录数据转换
-6. [Hierarchical Text-Guided Brain Tumor Segmentation via Sub-Region-Aware Prompts](/202603/26/2603.21083v1-hierarchical-text-guided-brain-tumor-segmentation-via-sub-region-aware-prompts)  
+   evidence：用于3D医学影像理解的高效多模态大模型
+6. [Colon-Bench: An Agentic Workflow for Scalable Dense Lesion Annotation in Full-Procedure Colonoscopy Videos](/202603/27/2603.25645v1-colon-bench-an-agentic-workflow-for-scalable-dense-lesion-annotation-in-full-procedure-colonoscopy-videos)  
+   标签：评分：8.0/10、query:medllm
+   evidence：用于评估结肠镜检查多模态大模型的基准测试
+7. [Reaching Beyond the Mode: RL for Distributional Reasoning in Language Models](/202603/27/2603.24844v1-reaching-beyond-the-mode-rl-for-distributional-reasoning-in-language-models)  
    标签：评分：7.0/10、query:medllm
-   evidence：利用临床特征进行文本引导的脑肿瘤分割
-7. [Sparse Autoencoders for Interpretable Medical Image Representation Learning](/202603/26/2603.23794v1-sparse-autoencoders-for-interpretable-medical-image-representation-learning)  
-   标签：评分：7.0/10、query:medllm
-   evidence：医学影像基础模型的可解释表示学习
-8. [Integrating Causal Machine Learning into Clinical Decision Support Systems: Insights from Literature and Practice](/202603/26/2603.24448v1-integrating-causal-machine-learning-into-clinical-decision-support-systems-insights-from-literature-and-practice)  
-   标签：评分：7.0/10、query:medllm
-   evidence：用于临床决策支持系统的因果机器学习
-9. [TrustFed: Enabling Trustworthy Medical AI under Data Privacy Constraints](/202603/26/2603.21656v1-trustfed-enabling-trustworthy-medical-ai-under-data-privacy-constraints)  
+   evidence：用于医学诊断分布推理的强化学习
+8. [Large Language Models for Missing Data Imputation: Understanding Behavior, Hallucination Effects, and Control Mechanisms](/202603/27/2603.22332v1-large-language-models-for-missing-data-imputation-understanding-behavior-hallucination-effects-and-control-mechanisms)  
    标签：评分：6.0/10、query:medllm
-   evidence：隐私约束下的可信医学人工智能
-10. [Vision-based Deep Learning Analysis of Unordered Biomedical Tabular Datasets via Optimal Spatial Cartography](/202603/26/2603.22675v1-vision-based-deep-learning-analysis-of-unordered-biomedical-tabular-datasets-via-optimal-spatial-cartography)  
+   evidence：基于大语言模型的表格数据填补与缺失数据处理
+9. [An Explainable AI-Driven Framework for Automated Brain Tumor Segmentation Using an Attention-Enhanced U-Net](/202603/27/2603.23344v1-an-explainable-ai-driven-framework-for-automated-brain-tumor-segmentation-using-an-attention-enhanced-u-net)  
    标签：评分：6.0/10、query:medllm
-   evidence：包括电子健康档案在内的生物医学表格数据集深度学习分析
-11. [CDMT-EHR: A Continuous-Time Diffusion Framework for Generating Mixed-Type Time-Series Electronic Health Records](/202603/26/2603.23719v1-cdmt-ehr-a-continuous-time-diffusion-framework-for-generating-mixed-type-time-series-electronic-health-records)  
+   evidence：AI驱动的脑肿瘤分割与诊断框架
+10. [CIV-DG: Conditional Instrumental Variables for Domain Generalization in Medical Imaging](/202603/27/2603.25202v1-civ-dg-conditional-instrumental-variables-for-domain-generalization-in-medical-imaging)  
    标签：评分：6.0/10、query:medllm
-   evidence：生成合成电子健康档案
+   evidence：医学影像领域泛化的因果框架
 
 
 <div class="dpr-home-promo-card">
