@@ -1,0 +1,1106 @@
+Title: FairLLaVA: Fairness-Aware Parameter-Efficient Fine-Tuning for Large Vision-Language Assistants
+
+URL Source: https://arxiv.org/pdf/2603.26008v1
+
+Published Time: Mon, 30 Mar 2026 00:20:37 GMT
+
+Number of Pages: 20
+
+Markdown Content:
+# FairLLaVA: Fairness-Aware Parameter-Efficient Fine-Tuning for Large Vision-Language Assistants 
+
+Mahesh Bhosale 1 Abdul Wasi 1* Shantam Srivastava 1* Shifa Latif 2 Tianyu Luan 3
+
+Mingchen Gao 1 David Doermann 1
+
+Xuan Gong 41University at Buffalo 2University of Kashmir 3Accenture 4Harvard Medical School 
+
+Abstract 
+
+While powerful in image-conditioned generation, multi-modal large language models (MLLMs) can display uneven performance across demographic groups, highlighting fair-ness risks. In safety-critical clinical settings, such dispari-ties risk producing unequal diagnostic narratives and erod-ing trust in AI-assisted decision-making. While fairness has been studied extensively in vision-only and language-only models, its impact on MLLMs remains largely un-derexplored. To address these biases, we introduce Fair-LLaVA, a parameter-efficient fine-tuning method that mit-igates group disparities in visual instruction tuning with-out compromising overall performance. By minimizing the mutual information between target attributes, FairLLaVA regularizes the model’s representations to be demographic-invariant. The method can be incorporated as a lightweight plug-in, maintaining efficiency with low-rank adapter fine-tuning, and provides an architecture-agnostic approach to fair visual instruction following. Extensive experi-ments on large-scale chest radiology report generation and dermoscopy visual question answering benchmarks show that FairLLaVA consistently reduces inter-group dispar-ities while improving both equity-scaled clinical perfor-mance and natural language generation quality across di-verse medical imaging modalities. Code can be accessed at https://github.com/bhosalems/FairLLaVA. 
+
+1. Introduction 
+
+Large language models (LLMs) have emerged as general-purpose engines for reasoning and text generation across many domains, driving a wave of foundation model ca-pabilities at unprecedented scale [1, 4, 39]. Multi-modal 
+
+> *Abdul Wasi and Shantam Srivastava contributed equally as joint sec-ond authors.
+
+large language models (MLLMs) build on these advances by pairing a language backbone with non-text encoders (e.g., images), enabling image-grounded understanding and generation[2, 7, 9, 17, 28, 40, 51]. Despite these advances, a growing body of work documents disparities and fairness issues in these models [8, 25, 49]. In natural-language domains, societal biases can en-ter when training datasets are not carefully curated or fil-tered [48]. For example, models often reproduce gender stereotypes in professions, such as more strongly associ-ating “nurse” with women and “engineer” with men [41, 42, 48]. However, in safety-critical medical settings, sen-sitive attributes are rarely explicitly mentioned in clini-cal reports. In particular, fairness considerations in ra-diology report generation (RRG)-an automated task that translates medical images into expert-quality textual inter-pretations [7, 53, 56]-differ fundamentally from pronoun-or sentiment-based notions in the general language do-main. Radiology reports seldom contain explicit demo-graphic markers (e.g., “he/she”), yet models can still exploit latent sensitive information embedded in medical images and acquisition pipelines [16, 30]. This renders standard word-level (polarizing-term) probes [3, 14, 29, 48] based on demographic tokens largely inapplicable. Standard fairness techniques, such as frequency-based resampling [18] and reweighting [13, 26], aim to mitigate biased performance gaps by treating disparities as mere count imbalances. However, in MLLMs, the gaps are driven by intersectional, cross-attribute dependencies that this as-sumption overlooks. Ranking-based methods [8] require re-peated inference to score and sort the entire training set, incurring substantial computational overhead. Adversarial-classifier methods [41] add a separate pretrained discrimina-tor, which, in our experiments, shows that it triggers catas-trophic forgetting of clinical knowledge, evidenced by de-graded overall performance (detailed in supplementary).                         
+
+> arXiv:2603.26008v1 [cs.CV] 27 Mar 2026 LLaVA Report
+> H(h) H(M) H(h) H(F)
+> Non -zero
+> Mutual Information Bias
+> FairLLaVA Report
+> H(h) H(M) H(h) H(F)
+> Zero
+> Mutual Information No Bias
+> Reduce
+> Mut -Info
+> M: Male F: Female F: Female M: Male
+> Entropy LLaVA Hidden States Entropy LLaVA Hidden States Entropy Male Entropy Female
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> Male Female
+> ChexBert-F1 ROUGE-L GREEN Score
+> Performance Gap
+> 0
+> 5
+> 10
+> 15
+> 20
+> 25
+> Male Female
+> ChexBert-F1 ROUGE-L GREEN Score
+> No Performance Gap
+> Debias
+
+Figure 1. FairLLaVA reduces performance disparities . LLaVA hidden states contain demographic shortcuts (non-zero Mutual In-formation (MI) between hidden states and demographic attributes) that lead to lower performance for “Female”. FairLLaVA min-imizes this MI promoting demographic-invariant representa-tion learning, therefore reducing the performance gap. 
+
+Standard fairness evaluation in discriminative tasks can-not be directly applied to MLLMs either. Typically, fair-ness can be quantified directly on calibrated scores or binary decisions (e.g., TPR/FPR gaps, demographic par-ity difference, equalized odds, calibration error), which makes disparity attribution and mitigation comparatively simpler [15, 22, 31, 33, 37, 45, 47]. By contrast, open-ended text generation allows many valid phrasings of the same finding, and clinically important omissions can be just as harmful as incorrect mentions. Fairness, therefore, must be evaluated over the entire generated text, using semantic-level metrics and representations, rather than a single cali-brated score or label. Fairness challenges in Medical MLLMs across demo-graphic groups have been documented, with systematic evaluations revealing performance gaps by age and addi-tional disparities by sex and race [49]. Notably, these dis-parities cannot be explained by sample counts alone: on MIMIC-CXR [23, 24], several MLLMs perform worse for patients labeled as “White” despite this being the largest co-hort (detailed in the supplementary material). These gaps can stem from compounding factors: (i) medical images 
+
+leak sensitive attributes , models can predict self-reported race from radiology images with high AUC, even under cor-ruptions, indicating systematically encoded demographic signal [16]; (ii) acquisition factors (e.g., projection, de-vice/site mix) correlate with demographics and mediate both predictability and downstream performance [30]; and (iii) imbalance and prevalence shifts across groups can am-plify error gaps [49]. Despite the above-mentioned concerns regarding gaps in fairness disparities across demographic groups [25, 49], fairness and bias mitigation in MLLMs remain underex-plored, threatening their trustworthy adoption in health-care. To this point, we propose FairLLaVA , a fairness-aware, parameter-efficient finetuning strategy applied dur-ing visual instruction tuning. As shown in Fig. 1, Fair-LLaVA adds a lightweight, architecture-agnostic mutual information regularizer that reduces dependence between multi-modal hidden states and sensitive attributes (age, sex, race), steering the model toward diagnostic cues instead of demographic shortcuts. FairLLaVA strikes a balance by reducing fairness gaps while preserving overall perfor-mance unlike traditional reweighting or resampling, which often improve one subgroup at the expense of others. Con-cretely, we jointly optimize standard instruction following with demographic-invariant representation learning via mutual information minimization, making the method plug-and-play with parameter-efficient finetuning (Fig. 2 and Al-gorithm 1). Our contributions are summarized as follows-• We propose FairLLaVA, a debiasing fine-tuning strategy that uses a mutual-information regularizer to remove de-mographic shortcuts from an MLLM’s hidden represen-tations. Designed for models with enormous parameter counts and prohibitive fine-tuning costs, FairLLaVA is architecture-agnostic and operates with minimal interven-tion to the base model, incurring only modest computa-tional overhead. • We extend the Equity Scaled Metric (ES-M) to generative models, allowing seamless integration with any language-based evaluation metric, enabling a balanced assessment of both overall performance and disparities across key de-mographic groups. • Extensive experiments on two large-scale chest radiol-ogy report–generation datasets and one dermoscopy QA dataset show that our method outperforms existing med-ical MLLMs (LLaVA-Rad, MedGemma, Chexagent), general-purpose MLLMs (LLaVA, Qwen, DeepSeek), and prior fairness-oriented baselines in equity scaled met-rics. 
+
+2. Related Work 
+
+Classical fairness methods can be divided into frequency-based and feature-based. Frequency-based debiasing meth-ods [13, 18, 26] attribute fairness gaps to class imbalance and mitigate them via loss re-weighting or oversampling; however, this premise does not need to hold in many set-tings. Feature-based approaches seek to mitigate biases en-coded within the model’s internal representations. [41] ad-dressing the fairness issue uses a pretrained adversarial clas-sifiers to de-bias the pretrained backbone; however, it can lead to catastrophic forgetting if hyper-parameters are not tuned carefully. [31] regularizes image-text similarity dis-tributions to align subgroup and overall scores. Both meth-ods incur extra intervention via additional pretraining or higher computational cost. FairLLaVA, by contrast, handles MLLMs’ large parameter counts and expensive fine-tuning while balancing fairness gaps and overall performance. Fairness in LLMs typically focuses on the frequency of explicit demographic phrases in generated text [3, 14, 29, 48]. [14] proposes content-conditional model that for the same content (e.g. “nurse”), forces embeddings of sensi-tive samples (e.g., “he/she”) to be equidistant from a neutral form, promoting attribute-invariant representations. [3] pro-poses an adversarial prompt-based debiasing method that adds learnable tokens to sensitive text queries and trains an adversary over image-text similarity matrices, to preserve utility so that score distributions across demographic at-tributes for the same query become indistinguishable. [48] proposes MI-based technic via importance sampling over the output distribution of LLM to reduce biases from output. However, they need extra LLM model to stabilize the debi-asing signal on volatile output distribution. [29] mitigates demographic bias via limited, content-aware interventions that minimize information flow from sensitive attributes by editing only bias-inducing tokens to preserve fluency. How-ever, all [3, 14, 29, 48] define fairness at word/ lexical level which cannot be directly applied to problem setting in this work. [38] mitigates bias by creating teacher-ranked prefer-ence pairs from prompts with demographic swaps and fine-tuning, unlike our MI-based representation debiasing with-out demographic terms in the queries and does not need cu-rating preference data. [8] proposes to train on the ranked responses from auxiliary RRG model to reduce the dispar-ities, however, it incurs high computational cost to create multiple ranking pairs on the whole training data. On the contrary, FairLLaVA only adds low computational overhead and does not need additional data augmentation. 
+
+3. Methods 
+
+3.1. Visual Language Alignment 
+
+Multi-modal LLMs [7, 28] extend text-only backbones [11] by encoding an image as visual tokens and combining them with text instruction tokens. A single LM backbone then produces next-token probabilities, enabling auto-regressive generation of responses grounded in the image and the given instruction. Formally, consider a dataset with N triplets, D =
+
+{(xi, a i, r i)}Ni=1 , where x is an image, a ∈ A is a corre-sponding demographic attribute (e.g., gender, age, race), and ri = ( ri, 1, . . . , r i,T i ) is relevant text describing im-age x. For sample i, vision encoder Eimg produces features 
+
+v = Eimg (x) which a projector ψ maps into the Language Model (LM) space ˜v = ψ(v). Let u denote instruction to-kens and define the step-t context St = concat(˜ v, u, r <t ),the language model θ maps St to logits ℓt = θ(St) with next token distribution, pθ (· | x, u, r <t ) = softmax( ℓt). Hence-forth, we use the notation x to represent encoded image to-kens in place of ˜v for simplicity. The final text sequence factorizes over T steps and is given by, 
+
+p(θ,ψ )(r | x, u ) = 
+
+> T
+
+Y
+
+> t=1
+
+p(θ,ψ )(rt | x, u, r<t ). (1) Next token prediction loss is supervised with a standard cross-entropy objective: 
+
+LLM (θ, ψ ) = −
+
+> N
+
+X
+
+> i=1
+> Ti
+
+X
+
+> t=1
+
+log p(θ,ψ )
+
+ ri,t xi, u, r i,<t 
+
+. (2) As shown in Fig. 2, to align the pretrained image encoder embeddings with the LM, we finetune the multi-modal pro-jector ψ with supervision from LLM in Eq. (2). Since text instruction u is fixed over all samples in the dataset and does not encode any demographic bias, we omit it in later sec-tions for brevity. 
+
+3.2. Performance Parity Metric 
+
+Unlike standard LLM fairness, which focuses on the pres-ence and framing of demographic terms in outputs [3, 14, 29, 48], we target performance parity across groups in tasks whose outputs do not include the demographic la-bels explicitly [49]. Inspired by existing fairness metrics [15, 22, 31, 33, 37, 45, 47] and relevant adaptations [8, 49], we redefine the performance parity metric for the text gen-eration task. For a metric M and attribute a ∈ A with group set Za (e.g. Zgender = {male, f emale }), define the per-group score: 
+
+Ma = E(x,r )∼D | a
+
+ M ˆr, r   , a ∈ Z a. (3) The fairness gap is 
+
+∆Ma = max 
+
+> a∈Z a
+
+Ma − min 
+
+> a∈Z a
+
+Ma. (4) The goal of the bias mitigation methods is to lower the 
+
+∆Ma, narrowing the gaps across groups of demographic attribute a on metric M . However, uniformly lower perfor-mance across groups could still yield a small ∆Ma, which would misleadingly suggest fairness. Thus, overall perfor-mance must also be taken into account. Consistent with previous works [22, 31, 48], we observe a tradeoff between reducing fairness and overall performance (detailed in sup-plementary). Therefore, we extend existing equity-scaled metrics[31, 43] for the image-guided language generation tasks. 
+
+ES -Ma = Mall 
+
+1 + ∆ Ma
+
+(5) where, Mall is the mean metric over all the groups of de-mographic attribute a.LM 
+
+LM 
+
+> Input
+> Image
+> Generated
+> Report
+
+LH  GT 
+
+> Report
+> Dataset
+> Input
+> Image
+
+LH          
+
+> Generated
+> Report
+> GT
+> Report
+> Stage 1: Visual Language Alignment Stage 2: Fairness -Aware Finetuning Via Mutual Information Minimization
+> LH : Language Model Head :LoRA Adapters
+> : Image Embedder
+> : Hidden State
+> : Multimodal Projector LM : Language Model : Demographic Attribute Classifier
+> : Demographic Attribute Classifier Loss : Language Model Loss
+> : Demography Information Minimization
+> Reduce Gender Mutual Information
+> Predicted
+> attribute
+> GT
+> attribute
+
+Figure 2. FairLLaVA Overview. Stage 1 : We finetune multi-modal projector ψ to align the image embeddings with Language Model (LM) by optimizing standard LM CE loss LLM . Image encoder and LM are frozen. Stage 2 : We learn attribute-invariant representations by finetuning LoRA adapters θ on the LM’s Transformer decoder blocks while freezing the LM backbone and image encoder, pooled hidden states h are fed to a mutual-information (MI) estimator with a variational demographic-attribute classifier (DAC) denoted as ϕ that predicts demography attribute from h. No pretrained classifier is required: the DAC is trained simultaneously with cross-entropy LDAC 
+
+(Eq. (8)), and during this step, gradients update only ϕ. We then minimize MI between demographic attribute and h given by LDIM (Eq. (9)), computed between pooled states h and attributes a, ϕ is frozen, and only θ and ψ are updated. This way DAC exposes where leakage in h
+
+for predicting a is coming from, LDIM suppresses this leakage making learned features demography shortcut invariant. 
+
+3.3. Fairness-Aware Finetuning 
+
+We hypothesize that model bias can arise from latent do-main gaps across demographic groups, which may lead the model to exploit spurious correlations or shortcut patterns rather than learning true causal features. To mitigate this issue, we introduce a debiasing strategy that minimizes mu-tual information between learned representations and sen-sitive demographic attributes (e.g., gender, race, and age), thereby promoting demographic-invariant feature learning and reducing potential group disparities. 
+
+Mutual Information. The mutual information between the demographic attribute a and model hidden state {hlθ } of 
+
+θ over the l-th layer is denoted as 
+
+I a, h lθ (x) (x, a) ∼ D  = E(x, a)∼D 
+
+"
+
+log PD
+
+ a, h lθ (x)
+
+PD
+
+ a PD
+
+ hlθ (x)#
+
+(6) where, PD
+
+ a, h lθ (x) is the joint distribution over a and 
+
+hlθ (x), and PD
+
+ a and PD
+
+ hlθ
+
+ are their marginals. hlθ and 
+
+I a, h lθ (x) (x, a) ∼ D  is denoted as hl and I a, h l(x)
+
+respectively for brevity in next sections. 
+
+Demographic attribute classification. Exact evalua-tion of I a, h l(x) is intractable as the joint and marginal distributions PD
+
+ a, h l(x) and PD
+
+ hl(x) are over high-dimensional, continuous hidden states that change with model parameter θ, additionally, we might not know the true data distribution. Hence, we minimize an upper-bound surrogate [10] Iu a, h l computed via a lightweight varia-tional demographic attribute classifier (DAC) denoted by ϕ
+
+mapping hidden state to demographic attribute: 
+
+Iu a, h l(x) = E(a,x )∼D 
+
+log ϕ a hl(x) 
+
+− E(a,x ), x ′i.i.d. 
+
+> ∼ D
+
+log ϕ a hl(x′) . (7) where, x′ is a negative sample independently drawn from mini-batch B ⊂ D of size B to train DAC to distinguish different demographic attributes a:
+
+LDAC (ϕ) = − E(a,x )∼D 
+
+log ϕ a | h(x) . (8) 
+
+LDAC pushes ϕ to learn representations helpful in identify-ing the demographic attribute a.
+
+Demographic information minimization. For effi-ciency of mutual information regularization, we pool over a set of tapped layers K to get a single summarized hidden representation: h(x) = 1
+
+> |K|
+
+P 
+
+> l∈K
+
+hl(x). Demographic in-formation minimization (DIM) loss LDIM is computed as, 
+
+LDIM (θ, ψ ) = 1
+
+B
+
+> B
+
+X
+
+> i=1
+
+log ϕ ai | h(xi)
+
+− 1
+
+B(B − 1) 
+
+> B
+
+X
+
+> i=1
+> B
+
+X 
+
+> j=1
+> j̸=i
+
+log ϕ ai | h(xj ).
+
+(9) where the first term averages positive pairs {(ai, x i)} and the second term averages negative pairs {(ai, x j )} with 
+
+i̸ = j, which implements the independence between x
+
+and x′ in Eq.(7). This way, LDIM updates LM backbone and MM-projector to ensure demographic-invariant repre-sentation learning, thereby reducing the shortcuts and bias against demographic attributes. Intuitively, the mutual-information penalty treats a pre-dictable link between the hidden state h(x) and the demo-graphic label a as leakage, pushing the representation to discard it. DAC is needed to expose where demographic in-formation leaks into h(x) via a probe ϕ that reliably detects those cues, making the MI bound informative. Freezing ϕ
+
+and then minimizing Iu(a, h (x)) pushes h(x) to drop these signals, reducing shortcuts and shrinking the fairness gap 
+
+∆Ma.
+
+Parameter-efficient finetuning. The final fairness loss constitutes LDAC and LDIM , and language model regres-sion loss LLM from Eq. (2) is also applied to follow the instructions and adapt the LM for the given task. The final total loss of this stage takes the form, 
+
+Ltotal = λ1LDAC + λ2LDIM + λ3LLM (10) with λ1, λ2 and λ3 controlling the fairness/utility trade-off. Algorithm 1 illustrates training stage in detail. We em-ploy parameter-efficient finetuning by adding Low-Rank Adapters (LoRA) [19] to the transformer blocks of the lan-guage model θ. Both the LM backbone and image encoder are frozen during finetuning. Projector ψ, LoRA adapters on θ and DAC ϕ are trained. Within each iteration, we first optimize LDAC and apply stop gradient on h(x), and then freeze ϕ and only update LoRA θ and projector ψ using 
+
+LDIM and LLM (Algorithm 1). 
+
+4. Experiments 
+
+4.1. Datasets 
+
+We evaluate FairLLaVA across multiple modalities, in-cluding grayscale chest X-ray report generation datasets with broad demographic diversity and an RGB skin-lesion dataset, demonstrating that the method generalizes beyond a single imaging modality. Dataset distributions and pre-processing details are given in the supplementary. We use the MIMIC-CXR dataset [23, 24] from [7], which restructures free-text radiology reports into Indica-tion , Findings , and Impression sections using GPT-4 [1]. It contains about 400,000 training images and 2,500 test im-ages from 213,365 and 3,041 studies, respectively. We use the demographic attributes Age , Race , and Gender .The original PadChest dataset [5] contains chest X-rays with radiology reports in Spanish. We use the ChatGPT-translated English version from [50] and preprocess the translated reports with OpenBioLLM-70B [35] to extract 
+
+Findings for fine-tuning. The dataset contains about 87,000 training images and 8,000 test images. We analyze fairness gaps across the demographic attributes Age and Gender .We use the HAM10000 dataset [46], a dermatoscopic RGB skin-lesion benchmark containing 10,015 images across seven diagnostic categories. The dataset provides 
+
+Algorithm 1: Parameter Efficient Finetuning For Fairness Via Mutual Information Minimization 
+
+Input: Dataset D with (x, a, r ) where a contains labels for all attributes a ∈ A ; fixed instruction u; image encoder Eimg ;projector params ψ; LM LoRA params θ;tapped layers K of LM; per-attribute head 
+
+ϕa; loss weights λ1, λ 2, λ 3
+
+for minibatch {(xi, ai, r i)}Bi=1 ∼ D do 
+
+// Obtain hidden states 
+
+{hl = θl(ψ(Eimg (xi)) , u )}|K| 
+
+> l=1
+
+// Layer summaries 
+
+hi = Pool  hl(xi)
+
+// Language Model loss 
+
+LLM (θ, ψ ) = − P 
+
+> i,t
+
+log p(θ,ψ )(ri,t |
+
+xi, u, r i,<t )
+
+// let a(a) 
+
+> i
+
+be the label for attribute a and ϕa its head 
+
+for a ∈ A do 
+
+// Demographic attribute classification 
+
+L(a) 
+
+> DAC
+
+(ϕ) = − 1
+
+> B
+
+P 
+
+> i
+
+log ϕa
+
+ a(a) 
+
+> i
+
+|
+
+stopgrad (hi)
+
+// Demographic mutual information minimization 
+
+L(a) 
+
+> DIM
+
+(θ, ψ ) = 1
+
+> B
+
+P 
+
+> i
+
+log ϕa
+
+ a(a) 
+
+> i
+
+|
+
+hi
+
+ − 1
+
+> B(B−1)
+
+P 
+
+> i,j, i ̸=j
+
+log ϕa
+
+ a(a) 
+
+> i
+
+| hj
+
+
+
+// Aggregate over attributes 
+
+LDIM = P 
+
+> a∈A
+
+L(a)
+
+> DIM
+
+LDAC = P 
+
+> a∈A
+
+L(a)
+
+> DAC
+
+// fairness-aware total loss 
+
+Ltotal = λ1LLM + λ2 LDIM + λ3 LDAC 
+
+// Update 
+
+θ ← θ − η ∇θ LDIM , θ ← θ − η ∇θ LLM ,
+
+ψ ← ψ − η ∇ψ LDIM , ψ ← ψ − η ∇ψ LLM ,
+
+ϕ ← ϕ − η ∇ϕLDAC .demographic metadata including ”Age” and ”Gender”. Fol-lowing SelfSynthX [44], we use the GPT-4-generated diag-nostic descriptions released with their setup. We split the dataset into 8000 train and rest as test respectively. 
+
+4.2. Implementation Details 
+
+We use Vicuna-7b-v1.5 [11] as our base language model and BioMedCLIP [55] as the image encoder which is trained on large-scale multimodal biomedical data ( >15M image-text pairs). For all datasets, we finetune our models for one epoch. All the models are trained on 8 NVIDIA RTX A6000 GPUs. It takes about 17 hours for training on Method Race ↑ Age Group ↑ Gender ↑                                                                                                                                              
+
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> LLaVA [28] 2.90 1.12 1.63 2.47 2.61 0.81 0.95 1.36 8.42 0.87 5.19 6.73
+> LLaVA-Rad [7] 5.29 2.14 4.14 3.97 8.28 3.51 1.42 2.00 28.06 12.53 9.24 10.88
+> MedGemma-4B [40] 2.36 0.95 1.85 5.05 3.17 1.16 1.51 3.03 14.18 1.55 7.27 7.51
+> MedGemma-27B [40] 2.01 1.72 2.82 3.92 3.98 1.17 1.55 3.35 17.80 1.82 6.64 8.92
+> Qwen2.5-7B [51] 7.52 1.47 2.78 5.59 6.16 1.37 1.58 3.27 16.92 1.73 8.28 12.27
+> DeepSeek-VL2 [17] 4.09 1.47 2.18 3.27 3.00 1.23 1.66 2.51 11.35 1.66 6.20 9.37
+> CheXagent [9] 4.70 1.05 1.73 1.49 2.21 0.73 0.89 1.37 9.11 1.04 4.17 3.46
+> Reweighting-All [26] 1.81 1.73 3.31 3.75 7.36 3.20 2.17 1.53 11.72 6.92 9.88 23.42 Resampling-All [18] 8.71 2.32 2.95 2.13 12.54 3.40 3.01 2.03 30.38 11.13 15.97 16.11
+> Adv. MLP Classifier-All [41] 3.92 1.08 2.35 2.34 6.74 1.11 4.03 0.76 14.89 1.57 6.80 7.15
+> FairLLaVA-All 13.36 8.65 6.34 3.11 21.89 6.93 4.06 2.78 24.89 9.60 19.40 12.27
+
+Table 1. Equity-Scaled metrics on MIMIC-CXR computed as Mall /(1 + ∆ M ) for Race, Age, and Gender. (All) indicates all three demographic attributes are used for debiasing. Our joint debiasing (FairLLaVA–All) yields the state-of-the-art improvements, obtaining 7 of the 12 best ES-scores across the comprehensive semantic clinical evaluations including BLEU, RadGraph-F1, and GREEN. Best scores are in bold and second best underlined. 
+
+MIMIC-CXR [24] and 4 hours on the PadChest [5] dataset. Adding the mutual information estimator (a small varia-tional MLP) is lightweight; its cost scales with the number of classes per attribute. Even on MIMIC-CXR, which has many (14) attribute categories, this overhead remains mod-est ( ∼57K parameters). Check supplementary for training stability experiments with different DAC loss contributions. 
+
+4.3. Evaluation Protocol 
+
+Baselines: For comprehensive evaluation and benchmark-ing, we include diverse baselines spanning ∼4–27B pa-rameters: Qwen-2.5-7B [51], DeepSeek-VL2-7B [17], LLaVA [28], LLaVA-Rad-7B [28], MedGemma-4B [40], MedGemma-27B [40], and CheXagent-8B [9], to assess fairness-gap reduction across compact, mid-size, and large models. We also benchmark [8], which, to the best of our knowledge, is the only approach explicitly designed to reduce the fairness gaps in MLLMs. Additionally, we include classical remedies for dataset bias arising from distributional skewness: resampling [18] and reweight-ing [13, 26]. Resampling balances the training data with re-spect to the sensitive attribute by over-sampling underrepre-sented classes and under-sampling overrepresented classes, resulting in a dataset that is uniform across the demographic attribute label. Reweighting multiplies the sample training losses by their corresponding weights, which are inversely proportional to the frequency of the samples of that demo-graphic class label in the training data. Inspired by [41], we also implement an adversarial-learning baseline that uses a pretrained MLP classifier to debias the representations, de-noted as “Adv. MLP Classifier” in Tab. 1. 
+
+Target Demographic Groups: As discussed in Sec. 4.1, for the MIMIC-CXR dataset, we consider “Age”, “Race” and “Gender”, and for PadChest and HAM10000, “Age” and “Gender”. We first clean all datasets and remove all the records for which the demographic attributes are missing. We also exclude entries that contained information refer-encing a patient’s previous clinical visit. Samples are di-vided into three Age groups based on ranges: 0-45, 45-65, 65+, that roughly mirror standard public-health and clinical strata commonly used [6]. For Gender, we consider “Male” and “Female” groups. For Race, there are originally 9 la-bels, but we only consider the 4 most occurring (“White”, “Black”, “Asian”, “Hispanic”) and club the rest as “Others”. We report metrics on the baselines with the same groups, except [8], for which we use demography setups evaluated in their paper. 
+
+Metrics: Since different evaluation metrics focus on dif-ferent aspects of the generated text [8], especially in medi-cal context [8, 31], we include diverse evaluation metrics: standard Natural Language Metrics (Bleu-1 [36], Bleu-4 [36], Rouge-L [27]), clinical efficacy metrics (RadGraph-F1 [21], CheXpert [20], GREEN score [34]). BLEU-1 measures unigram (word-level) overlap with the reference, reflecting basic lexical adequacy. BLEU-4 extends this to 4-grams, making it stricter by capturing short phrases and word order, thus better reflecting fluency. ROUGE-L measures longest-sequence overlap, capturing overall sen-tence structure and content similarity. Additionally, for the HAM10000 dataset, we extract the predicted diagno-sis from the generated report and compute classification ac-curacy, which reflects whether the MLLM correctly iden-tifies the ground-truth lesion class. RadGraph-F1 evalu-ates clinical correctness by extracting entities (e.g., find-ings, anatomy) and relations (e.g., located-at, modifies) from both the generated and reference reports and com-puting graph overlap. CheXpert-F1 compares the pres-ence/absence of common radiographic observations (e.g., cardiomegaly, edema) extracted by the CheXpert labeler, providing a multi-label clinical accuracy signal. GREEN Method Race ↑ Age Group ↑ Gender ↑                                                                                                                  
+
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> Reweighting-Race [26] 3.38 1.89 4.13 3.27 13.15 4.08 2.99 2.09 15.38 8.28 22.05 11.78
+> Resampling-Race [18] 12.53 3.81 5.00 3.40 14.09 4.08 2.81 2.15 20.62 8.97 20.33 14.26
+> FairLLaVA-Race 5.40 2.91 7.32 4.43 14.85 5.58 3.24 2.10 25.40 11.15 27.33 15.05 Reweighting-Age [26] 10.65 3.49 3.24 2.84 15.22 5.26 3.93 2.50 19.73 11.65 18.33 14.14 Resampling-Age [18] 7.43 2.80 6.26 3.29 12.52 3.92 3.31 2.18 22.28 7.68 14.09 10.91
+> FairLLaVA-Age 10.29 15.51 4.97 4.33 17.80 5.48 3.64 2.59 17.88 7.98 15.05 10.42
+> Reweighting-Gender [26] 6.58 5.60 3.24 6.02 9.62 3.16 2.71 2.03 25.78 13.19 24.21 15.92 Resampling-Gender [18] 4.45 1.80 3.12 4.01 5.58 2.35 2.04 2.06 8.29 0.04 14.46 11.47
+> FairLLaVA-Gender 7.22 2.70 8.46 5.93 13.03 4.95 3.06 2.19 25.43 9.79 23.09 11.53
+
+Table 2. Equity-Scaled metrics on MIMIC-CXR when individual demographic attributes are de-biased. Our targeted variants achieve the top ES scores on their respective attributes and show beneficial spillover to others. 
+
+is LLM based score for radiology reports that quantifies clinically-significant errors into a single metric (higher is better). RadGraph-F1 and GREEN scores are scaled into percentages. Together, these metrics balance surface-text overlap with task-specific clinical validity. 
+
+4.4. Results 
+
+MIMIC-CXR. As discussed in Sec. 3.2, we use equity-scaled metrics to evaluate the trade-off between overall performance and performance gap across demographic at-tributes. Tab. 1 reports results when debiasing jointly tar-gets all attributes, whereas Tab. 2 varies which single at-tribute is targeted (e.g., “FairLLaVA–Age” minimizes MI only for Age). Given the intersectional relationships of sub-groups [8, 31], we report fairness gaps for all attributes re-gardless of which one is used during debiasing. As shown in Tab. 2, targeting a single attribute typically improves its own equity-scaled score (i.e., a smaller gap) but de-grades the scores of the other two attributes (e.g., debiasing Age lowers the scores for Gender), indicative of a sensitive trade-off. In contrast, Tab. 1 shows that jointly debiasing all attributes yields stronger, more balanced performance across Age, Gender, and Race. Across equity-scaled text and clinical metrics, our method delivers the most consis-tent wins, achieving 7 of 12 best ES-scores, with large mar-gins on ES-BLEU and universal gains on ES-RadGraph-F1. Unlike classical reweighting/resampling, which often boosts one attribute at the expense of the others, joint debi-asing (FairLLaVA-All) yields simultaneous gains for Race, Age, and Gender equity-scaled metrics. For GREEN, some general (non-debiasing) methods appear better for Age and Race, but this is largely due to significantly worse over-all performance, coupled with smaller gaps, an artifact of the trade-off rather than genuine fairness gains. We include overall scores and raw fairness gaps in the supplementary. Even in single-attribute debiasing (Tab. 2), our vari-ants remain competitive beyond the targeted attribute. For example, FairLLaVA-Race attains the best ES-BLEU-1, ES-BLEU-4 and ES-RadGraph on both Age and Gender groups; FairLLaVA–Gender yields the strongest Age ES scores across all four metrics. Tab. 3 presents CheXpert-F1 comparisons with [8], using the same setup [8]: “Black” and “White” for Race, and “0-65” and “65+” for Age. Notably, FairLLaVA consistently outperforms [8] by a large margin on the clinically oriented CheXpert-F1 score. Since ES metric can have high vari-ance, we verify the 95% confidence intervals on-average remain high as compared to LLaVA-Rad. Please check supplementary, which in addition includes more settings of cross sectional and individual fairness gap analysis. Method Race ↑ Age Group ↑ Gender ↑       
+
+> Chen et al. [8] 24.06 23.85 24.13
+> FairLLaVA 69.21 68.70 69.38
+
+Table 3. Equity-scaled CheXpert-14 F1 (higher is better) on MIMIC-CXR compared with [8]. 
+
+PadChest. Tab. 4 compares joint debiasing methods on PadChest. FairLLaVA–All demonstrates the best bal-ance between fairness and utility, attaining state-of-the-art overall performance on all four metrics. Specifi-cally, FairLLaVA–All tops 5 of 8 Equity-Scaled cells and performs best on Age (ES-BLEU-4, ES-RadGraph-F1) and Gender (ES-BLEU-1, ES-RadGraph-F1, ES-GREEN). It also attains the highest overall scores across BLEU-1/4, RadGraph-F1, and GREEN. Notably, Fair-LLaVA–All improves clinically grounded equity, with Gen-der ES-RadGraph-F1 of 15.06 and Age ES-RadGraph-F1 of 3.52. Although DeepSeek-VL2 outperforms Age ES-GREEN, and MedGemma-27B narrowly outperforms Age ES-BLEU-1, their overall performance remains one of the lowest, consistent with observations on the MIMIC-CXR dataset. Remarkably, FairLLaVA–All both mitigates demo-graphic gaps and achieves the best overall scores. 
+
+HAM10000. Tab. 5 shows that FairLLaVA-All delivers the Method Age Group ↑ Gender ↑ Overall ↑
+
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> BLEU-1
+> BLEU-4
+> RadGraph-F1
+> GREEN
+
+LLaVA [28] 1.46 0.60 1.22 1.03 6.24 1.14 3.05 4.11 10.54 1.36 4.71 9.14 
+
+LLaVA-Rad [7] 2.31 1.51 3.13 1.22 24.52 6.57 12.90 6.91 25.01 12.02 15.35 39.78 
+
+MedGemma-4B [40] 2.62 0.64 2.41 2.01 8.99 1.19 3.87 5.65 12.31 1.27 4.37 11.52 
+
+MedGemma-27B [40] 2.70 0.86 2.35 1.79 9.11 1.61 4.61 5.21 13.94 1.79 5.03 12.67 
+
+Qwen2.5-7B [51] 2.28 1.00 1.56 1.66 7.73 1.69 4.12 4.47 12.45 1.84 5.11 11.80 
+
+DeepSeek-VL2 [17] 2.39 0.97 1.48 2.02 8.01 1.77 3.53 5.83 11.77 1.91 4.20 10.44 
+
+ChexAgent [9] 1.44 0.73 1.12 0.97 6.74 0.93 2.79 3.77 16.74 2.17 6.12 21.92 
+
+Reweighting-All [26] 0.79 0.66 1.76 1.10 4.39 4.50 4.82 5.10 14.02 7.42 14.37 37.84 
+
+Resampling-All [18] 2.09 1.31 2.86 1.14 14.12 8.60 14.20 5.49 23.72 11.26 14.34 38.67 
+
+FairLLaVA-All 2.53 1.57 3.52 1.27 24.86 6.61 15.06 7.11 25.11 12.03 15.66 40.03 
+
+Table 4. Equity-Scaled and Overall metrics on the PadChest dataset. Both “Gender” and “Age” are considered in debiasing. FairLLaVA-All achieves consistently higher ES metrics across demographic attributes and also the best overall performance.                             
+
+> Method Gender ↑Age ↑
+> ES-Acc
+> ES-BLEU4
+> ES-ROUGE-L
+> ES-Acc
+> ES-BLEU4
+> ES-ROUGE-L
+> LLaVA [44] 14.12 6.81 14.53 2.02 10.43 9.15
+> Reweighting-All [26] 11.52 6.25 12.89 1.69 2.97 6.61 Resampling-All [18] 11.83 6.24 10.37 2.19 6.55 7.03 FairLLaVA-All 19.56 7.06 16.33 2.63 12.17 9.07
+
+Table 5. Equity-Scaled metrics on the HAM10000 dataset. 
+
+Both “Gender” and “Age” are considered in debiasing. FairLLaVA-All achieves consistently higher ES metrics across de-mographic attributes.                                         
+
+> Method Race ↓Age Group ↓Gender ↓Overall ↑
+> BLEU-4
+> RadGraph-F1
+> BLEU-4
+> RadGraph-F1
+> BLEU-4
+> RadGraph-F1
+> BLEU-4
+> RadGraph-F1
+> FairLLaVA-first 3.40 4.42 2.53 8.6 1.03 1.09 13.62 29.71
+> FairLLaVA-last 4.48 3.90 2.4 3.90 1.34 0.97 13.19 29.69
+> FairLLaVA-mean 3.07 4.52 2.16 7.32 0.48 0.50 14.84 29.85 FairLLaVA-mid 0.61 3.50 1.01 5.60 0.44 0.47 14.01 28.52
+
+Table 6. Ablation on pooling hidden states from FairLLaVA. 
+
+FairLLaVA-mean pools first/middle/last hidden states. The mid-dle layer attains a strong balance between maintaining perfor-mance and reducing gaps across attributes. 
+
+best overall equity–utility balance on HAM10000, leading 5 of 6 Equity-Scaled metrics. It performs best across all Gen-der ES metrics and also achieves the top Age ES-Acc and Age ES-BLEU4, while remaining competitive on Age ES-ROUGE-L. Notably, these results verify that FairLLaVA is robust not only on grayscale radiology data but also on an RGB skin-lesion dataset, supporting claim of generalization across modalities. 
+
+Qualitative results are presented in supplementary. We ob-serve that LLaVA-Rad shows biased outputs by omitting important conditions for some subgroups. FairLLaVA, on the other hand, is able to capture key findings on both sub-groups of each demographic attribute due to robust, unbi-ased representations learned by minimizing MI. 
+
+4.5. Ablation 
+
+In MLLMs, early–mid layers handle visual grounding and reasoning, while late layers perform task-specific decod-ing. [52, 54]. Tab. 6 presents an ablation on the MIMIC-CXR dataset examining which hidden layer is used in de-biasing. We probe the first, middle (16th), last layers, and mean pooling over the three layers to assess which layer ex-hibits the greatest bias toward demographic attributes. Hid-den states from the middle layer (FairLLaVA–mid) mini-mize fairness gaps in 5/6 cells while maintaining competi-tive utility. The only exception is Age RadGraph-F1, where last-layer pooling is best (3.90) but degrades other gaps and overall text quality (Overall BLEU-4 = 13.19). Mean pool-ing (FairLLaVA–mean) gives the best overall metrics but enlarges fairness gaps, thus we debias using middle-layer states in all of our experiments. 
+
+5. Conclusion 
+
+To mitigate demographic bias in radiology report gener-ation, we propose FairLLaVA, a parameter-efficient fine-tuning method that suppresses demographic shortcuts in hidden states via mutual information regularization. It oper-ates as a lightweight loss plugin with minimal intervention in the underlying language model. We quantify the fair-ness–utility trade-off with extensive baselines and extend standard fairness metrics to an equity-scaled variant for text generation. Across benchmarks, it narrows subgroup gaps while maintaining or even improving overall report gen-eration quality, yielding higher equity-scaled metrics than strong competing methods such as reweighting, resampling, ranking, and adversarial-classifier baselines. 
+
+Limitations. Despite minimal demographic proxies, Fair-LLaVA still requires demographic labels at training and evaluation to quantify fairness gaps. Many clinical datasets have incomplete or unreliable demographics, limiting ap-plicability. FairLLaVA targets group-level disparities rather than individual-level/cross-sectional fairness, yet, as shown in the supplementary, it still yields reductions in both. FairLLaVA: Fairness-Aware Parameter-Efficient Fine-Tuning for Large Vision-Language Assistants 
+
+# Supplementary Material 
+
+A. Cross-Sectional Analysis 
+
+In the main paper, evaluation for a given demographic at-tribute is performed by aggregating over all subgroups of the remaining attributes. For example, when reporting re-sults for gender, we include samples from all age groups and all race categories. This aggregate evaluation can make the effectiveness of the attribute-specific DAC appear less di-rect. For instance, in Table 2 in the main paper, FairLLaVA trained to debias Age or Gender sometimes obtain higher ES scores on Race than the FairLLaVA explicitly trained for Race; similarly, the Race-debiased FairLLaVA can outper-form the Gender-debiased FairLLaVA on Gender ES. Re-sults in Table 2 in the main paper are not contradictory. Two factors explain why a model debiased for one attribute can sometimes obtain a higher ES score on another attribute than the model explicitly trained for that attribute: i) demo-graphic attributes in MIMIC-CXR are correlated (e.g., age distributions differ across sex and race), so mitigating one source of bias can indirectly reduce disparities in another. ii) ES reflects both fairness and utility. It increases not only when subgroup disparities decrease, but also when the un-derlying task metric remains high. Consequently, a variant may achieve a higher ES on a non-target attribute if it pre-serves overall performance better, even when another vari-ant reduces that attribute-specific gap more strongly. Thus, ES should be interpreted as a balance between gap reduc-tion and task performance, not as a direct measure of iso-lated debiasing. To isolate the effect of debiasing a specific attribute, we additionally report controlled fairness gaps by fixing the other demographic attributes. Concretely, when evaluating age-related disparities, we compare age groups only within the same race-gender subgroup slice, rather than mixing samples across different races or genders. This reduces confounding from correlated demographics and provides a cleaner view of whether the method is truly reducing bias for the intended attribute. We call this cross-sectional anal-ysis. As shown in Tab. S1 upper rows, under this analysis, the gap decreases the most when the corresponding attribute is explicitly debiased, confirming the intended effect. We also compare the FairLLaVA-All variant with the strongest baseline of LLaVA-Rad.                                          
+
+> Method Race ↓Age ↓Gender ↓
+> RG-F1 GREEN RG-F1 GREEN RG-F1 GREEN
+> FairLLaVA-Race 2.98 4.59 9.06 16.88 1.41 1.84 FairLLaVA-Age 4.12 6.37 8.17 14.88 1.61 3.03 FairLLaVA-Gender 2.89 6.01 9.29 16.04 1.18 1.81 LLaVA-Rad 3.59 6.30 10.38 17.28 1.17 3.54 FairLLaVA-All 3.26 4.78 7.33 12.89 1.08 2.74
+
+Table S1. Cross-sectional fairness analysis. RG-F1 is an abbre-viation of RadGraph-F1. To isolate the effect of debiasing each demographic attribute, subgroup gaps are computed while holding the remaining attributes fixed (e.g., comparing age groups within the same race–gender slice). The targeted-attribute variants cause most reduction in the gap as compared to other-attribute variants, as intended. FairLLaVA-All also holds strong under this analysis as compared to the strong baseline of LLaVA-Rad. 
+
+B. Individual Performance and Counter-Factual Fairness Gaps 
+
+To assess spurious demographic reliance beyond aggre-gate subgroup metrics, we perform a counterfactual fair-ness analysis at the individual level. The goal is to measure the fairness gap when the protected attribute varies while the underlying clinical evidence is kept as similar as pos-sible. Concretely, for each sample, we retrieve its nearest match from a different demographic subgroup in the la-tent feature space, subject to two constraints: (i) the pair must share the same CheXpert label set, so that the clini-cal findings are matched, and (ii) the latent similarity must exceed a threshold of 0.7, ensuring that the paired sam-ples are visually and semantically close. For example, a female study with pleural effusion is matched to the near-est male study with the same CheXpert label i.e. pleural effusion. We then compute the fairness gap across such matched pairs. Since the paired samples are aligned in clin-ical content, a large gap indicates that the model is relying on demographic cues beyond the disease evidence, whereas a smaller gap suggests reduced spurious dependence on the protected attribute. We used a BiomedCLIP-CXR [55] as feature extractor. As seen in Tab. S2, FairLLaVA consis-tently lowers these counterfactual gaps relative to LLaVA-Rad across Race, Age, and Gender, indicating improved robustness to demographic variation under matched clini-cal evidence. This analysis complements population-level ES metrics by providing an individual-level fairness signal, and can also serve as an initial signal to decide which de-Method Race ↓ Age ↓ Gender ↓                 
+
+> RG-F1 GREEN RG-F1 GREEN RG-F1 GREEN
+> LLaVA-Rad 13.71 24.45 27.44 21.44 17.93 21.60 FairLLaVA 6.65 23.08 20.34 17.65 16.92 18.90
+
+Table S2. Counterfactual fairness gaps. FairLLaVA also re-duces the individual counterfactual fairness gaps on MIMIC-CXR dataset.                                      
+
+> (λr, λ a, λ g)Race ↑Age Group ↑Gender ↑
+> RG-F1 GREEN RG-F1 GREEN RG-F1 GREEN
+> (0 .2,0.6,0.2) 2.77 3.22 3.85 3.34 18.98 12.92
+> (0 .6,0.2,0.2) 5.62 3.60 3.42 1.83 22.45 12.23
+> (0 .2,0.2,0.6) 5.30 3.18 3.24 1.85 24.74 13.77
+
+Table S3. Effect of varying attribute-specific MI weights. 
+
+(λr , λ a, λ g ) on equity-scaled performance. 
+
+mographic attributes to de-bias and choose λ weights. 
+
+C. Hyper-parameters 
+
+Sensitivity Total loss is given by eq.10 which has many hyper-parameters. Here we study their sensitivity to the fairness gap. We train the DAC using a class-frequency-weighted cross-entropy loss to mitigate class imbalance, and use λ to weight the DAC-based MI minimization term. Fig. S1 (a) shows that increasing the three DAC λ
+
+values results in only marginal changes in the equity-scaled metric (ES-M) on MIMIC-CXR. We further examine the 
+
+λ for the LM loss in Fig. S1 (b). In both cases, the over-all performance remains largely stable, indicating that the added components do not introduce significant sensitivity. 
+
+Hyper-parameter Search In Tab. S3, we vary 
+
+(λrace , λ age , λ gender ) by increasing one attribute weight at a time to study its effect on MIMIC-CXR. While all three attributes are debiased jointly, the largest ES gain for an attribute is achieved when its corresponding λ is assigned the highest value. In the main manuscript, we use (0 .2, 0.6, 0.1) to approximately reflect the relative LLaVA-Rad baseline gap ratios (∆ race : ∆ age : ∆ gender ).Similarly, we set the values for PadChest as (0.0, 0.3, 0.2) and for HAM10000 as (0.0, 0.6, 0.2). 
+
+D. Handling Missing Labels 
+
+Requiring demographic labels could be a limiting factor as we discussed in Sec. Limitations in the main paper. in this section, we show that this limitation can be effectively addressed. Recall, FairLLaVA does not need labels at in-ference time. For training, missing attributes can be pre-dicted reliably on zero-shot radiology datasets: as shown 
+
+Dataset Sex ↑ Age ↑ Race ↑
+
+> AUC
+> MAE
+> AgeGrp Acc
+> AUC
+
+MIMIC-CXR 0.9549 6.9715 0.7265 0.8901 PadChest 0.9841 6.2339 0.8023 –
+
+Table S4. Missing demographic attribute prediction on out of domain radiology datasets using TorchXRayVision [12]. 
+
+in Tab. S4, TorchXRayVision [12] demographic predic-tors, trained on CheXpert [20] and NIH ChestX-ray14 [32], achieve high AUC and low age MAE (in years) in our eval-uation on both MIMIC-CXR and PadChest datasets. 
+
+E. Variance in Equity Scaled Metric 
+
+Figure S2 reports 95% confidence intervals obtained via bootstrap resampling ( n=1000 ) on MIMIC-CXR dataset. We observe that ES scores, as well as the underlying sub-group gaps, can exhibit large variance. This is expected be-cause i) fairness gaps are calculated as difference between maximum and minimum subgroup performance, which are extreme values on both ends that inherently have high vari-ance ii) fairness metrics are computed over smaller demo-graphic subgroups, where class imbalance and limited sam-ple counts can amplify estimation noise, iii) moreover, ES depends jointly on both the subgroup gap and the overall task performance, so uncertainty in either term amplifies into the ES score. For this reason, ES should be interpreted together with its confidence interval. All the quantitative re-sults in this work, therefore, report median values. Despite this variability, on average, FairLLaVA (Fig. S2) shows con-sistently stronger performance across most demographic at-tributes. 
+
+F. Prevalence Trends 
+
+To further assess whether FairLLaVA suppresses clinically meaningful subgroup-specific disease patterns, we compare disease prevalence in ground-truth and model-generated re-ports on the test set. We obtain disease labels by apply-ing the CheXpert labeler to both the reference reports and FairLLaVA-generated reports from the test split. For each CheXpert finding and each demographic subgroup (gender, race-major, and age-group), prevalence is computed as the fraction of samples labeled positive. We then measure the prevalence shift as, 
+
+∆ = ppred − pref , (11) where pref and ppred denote the reference and generated prevalence, respectively. Weight  
+
+> (a) Performance vs Individually Debiased Demographic Attribute Weights (b) Performance vs LM CE loss Weights
+
+Figure S1. Hyper Parameters Sensitivity (a) Varying the contribution of each attribute-specific MI term to the total loss on MIMIC-CXR leads to only minor changes, indicating stable overall performance across attributes. (b) Varying the contribution of language model loss 
+
+LLM leads to minor changes in overall performance. 
+
+Figure S2. 95% Confidence Intervals of ES metric on MIMIC-CXR with bootstrap resampling ( n=1000 )
+
+To focus on clinically meaningful and statistically reli-able patterns, we retain only subgroup-finding pairs with subgroup size N > 50 and reference prevalence pref ≥ 0.7.We then rank these pairs by descending reference preva-lence in Tab. S5. As shown in Tab. S5, FairLLaVA largely preserves these strong prevalence patterns, indicating that debiasing does not simply erase important population-level disease signals. 
+
+G. Subgroup Size–Performance Correlation 
+
+In this section we present metrics for each subgroup of the demographic attributes “Age”, “Race” and “Gender” in MIMIC-CXR and “Age”, “Gender” in PadChest in Fig. S3 and Fig. S4 respectively. We detail distribution of the sam-ples across these subgroups in Fig. S5 (a) for MIMIC CXR and Fig. S5 (b) for PadChest. Datasets are quite unbalanced for some demographic attributes, especially for “Age” and “Race”. However, as pointed out in the main paper, lower sample count does not automatically mean lower perfor-mance, indicating naive classical frequency based methods might not work. For example “White” is the most frequent race in MIMIC-CXR dataset, however, it does not perform the best on any of the baselines as seen in Fig. S3. But performance for the “Black” race is almost always the best, despite it being more than double less represented in the dataset. Similar results are seen on the PadChest dataset in Fig. S4, for example in “Age” 65+ never gets highest per-formance on any baseline despite having significantly larger count of samples (on neither clinically oriented GREEN score nor classical BLEU-4 score). 
+
+H. Fairness Gaps and Overall Performance 
+
+We report Equity Scaled Metric (ES-M) in the main paper as balance between the gaps between demographic groups as well as the absolute quality of the generated reports. In Tab. S6, we show both fairness gaps and overall per-formance on the MIMIC-CXR dataset. For more general-purpose as well as medical MLLMs such as MedGemma-4B/27B [40], Qwen2.5-7B [51], DeepSeek-VL2 [17], LaVA-Rad [7], the fairness gaps are small, but this comes with substantially lower overall performance compared to the top performing models. For example, Qwen2.5-7B at-tains the lowest GREEN gaps for race and age and the second-lowest for gender, yet its overall GREEN score (16.10) is less than half of FairLLaVA’s 34.32. This illus-trates why gap-only metrics can be misleading: a model that is uniformly weak across all groups can appear “fair” while offering limited clinical utility, which motivates our use of ES-Metrics as a more comprehensive evaluation. Among classical fairness methods, reweighting and oversampling Group Finding N pref ppred ∆
+
+Age Group 
+
+0-44 Pleural Effusion 87 0.851 0.874 0.023 44-65 Pleural Effusion 899 0.790 0.810 0.020 65+ Pleural Effusion 1014 0.764 0.824 0.060 0-44 Pneumothorax 87 0.736 0.736 0.000 
+
+Gender 
+
+F Pleural Effusion 896 0.823 0.839 0.017 M Pleural Effusion 1104 0.745 0.804 0.060 
+
+Race 
+
+Hispanic or Latino Pleural Effusion 51 0.863 0.882 0.020 Black or African American Pleural Effusion 427 0.824 0.874 0.049 Hispanic or Latino Pneumothorax 51 0.784 0.804 0.020 Asian Support Devices 77 0.779 0.701 -0.078 White Pleural Effusion 1381 0.775 0.812 0.038 Asian Pleural Effusion 77 0.701 0.701 0.000                
+
+> Table S5. Prevalence preservation under FairLLaVA for subgroup-finding pairs with reference prevalence pref ≥0.7and subgroup size
+> N > 50 . We report the reference prevalence pref , generated prevalence ppred , and prevalence shift ∆ = ppred −pref . High-prevalence findings are largely preserved across demographic groups, with generally small shifts in prevalence.
+
+we see distinct tradeoffs, they reduce some gaps but either leave others relatively large or noticeably degrade overall performance. The adversarial style fairness solution [41] has significantly lower performance especially in clinically important metrics such as overall GREEN score that drops to 9.36, nearly a four-fold decrease relative to FairLLaVA (34.32), consistent with catastrophic forgetting of clinically meaningful information. In contrast, FairLLaVA substan-tially lowers disparities yet keeping comparable overall per-formance to the best performing LLaVA-Rad, yielding a more balanced fairness–utility trade-off (demonstrated in ES-Metrics tables in the main paper). Similarly, Tab. S7 on PadChest dataset shows Fair-LLaVA maintains overall performance that is comparable to, and in some cases exceeds, the best-performing LLaVA-Rad model, while substantially reducing fairness gaps. It clearly outperforms other fairness approaches in terms of demographic fairness across Age and Gender, as well as overall evaluation metrics. 
+
+I. Implementation Details 
+
+I.1. Preprocessing for HAM10000 
+
+For HAM10000, QA data were generated using a concept-grounded synthesis pipeline built on both a language model and a vision–language model using SelfSynthx [44]. We first used OpenAI GPT-4o ( gpt-4o-2024-08-06 ) to extract class-level dermoscopic concepts from the diagno-sis labels (MEL, NV, BCC, AKIEC, BKL, DF, VASC), after mapping each code to its full clinical name to re-duce ambiguity. This produced a label-to-concept bank of dermatology-relevant visual descriptors. We then gener-ated image-level candidate descriptions using LLaVA-1.5-7B ( llava-1.5-7b-hf , served via vLLM), and scored their relevance to the concept bank using e5-large-v2 
+
+embeddings with an InfoNCE-style selection step to retain the most informative concepts for each image. Using the selected concepts, we synthesized diverse question types, including short diagnostic, explanatory, and reasoning-style forms, and generated candidate answers with the same VLM, LLaVA-1.5-7B. To ensure correctness, candidate QA pairs were filtered for diagnosis consistency using exact label mention or fuzzy string matching against the ground-truth HAM10000 diagnosis; when consistency was weak, a conservative fallback answer was used. The final output for each image was a curated new QA set con-taining diagnosis-consistent, concept-supported question-answer pairs. Please refer to SelfSynthx [44] for more de-tails. 
+
+I.2. Preprocessing on PadChest 
+
+For the English translated version of the PadChest [5, 50] dataset we follow [7] to pre-process the whole report sum-mary into standard radiology report sections such as ”Find-Gender  Age Group 
+
+GREEN  BLEU -4
+
+> Race
+
+Figure S3. Sub-Group performance of baselines across “Race”, “Age” and “Gender” subgroups on MIMIC-CXR dataset on GREEN and BLEU-4 metric. We observe that the high number of counts in the train dataset does not correlate with the increased performance. Please also check Fig. S5 Gender Age Group 
+
+GREEN  BLEU -4Figure S4. Sub-Group performance of baselines across “Age” and “Gender” subgroups on PadChest dataset on GREEN and BLEU-4 metric. We observe that the high number of counts in the train dataset does not correlate with the increased performance. Please also check Fig. S5 Male   
+
+> Female
+> 0-44
+> 45-65
+> 65+
+> White
+> Black
+> Asian
+> Hispanic
+> Other
+> 0
+> 50000
+> 100000
+> 150000
+> 200000
+> 250000
+> 300000
+> 350000
+> Count
+> Gender Age Race
+
+(a) MIMIC-CXR Distribution by Demographic Sub-Groups  
+
+> Male
+> Female
+> 0-44
+> 45-65
+> 65+
+> 0
+> 10000
+> 20000
+> 30000
+> 40000
+> 50000
+> Count
+> Gender Age
+
+(b) PadChest Distribution by Demographic Sub-Groups 
+
+Figure S5. Distribution of counts of demographic subgroups in MIMIC-CXR and PadChest dataset train splits. Some demographic group counts are highly imbalanced, (a) MIMIC-CXR and (b) PadChest. F1-RG is an abbreviation of RadGraph-F1. Method Race ↓ Age Group ↓ Gender ↓ Overall ↑                                                                                                                                                
+
+> BLEU-1
+> BLEU-4
+> RadGraph-F1
+> GREEN
+> BLEU-1
+> BLEU-4
+> RadGraph-F1
+> GREEN
+> BLEU-1
+> BLEU-4
+> RadGraph-F1
+> GREEN
+> BLEU-1
+> BLEU-4
+> RadGraph-F1
+> GREEN
+> LLaVA-Rad 6.22 6.20 6.20 8.02 3.61 3.39 19.97 16.91 0.36 0.23 2.23 2.29 38.17 15.40 29.80 35.82
+> MedGemma-4B 6.21 0.69 4.70 2.96 4.37 0.39 5.98 5.61 0.20 0.04 0.45 1.67 17.02 1.61 10.54 20.02
+> MedGemma-27B 8.03 0.06 4.13 4.73 3.56 0.56 8.33 5.70 0.02 0.00 1.18 1.51 18.15 1.82 14.46 22.45
+> Qwen2.5-7B 1.43 0.22 2.66 1.88 1.97 0.31 5.44 3.92 0.08 0.04 0.23 0.32 18.29 1.80 10.18 16.098
+> DeepSeek-VL2 2.17 0.21 2.73 3.34 3.32 0.44 3.90 4.64 0.14 0.07 0.31 0.51 12.93 1.78 8.12 14.16
+> Reweighting-All 11.87 3.44 5.27 5.50 2.17 1.40 8.58 14.93 0.99 0.11 1.10 0.04 23.30 7.69 20.76 24.38
+> Resampling-All 3.22 4.90 7.66 15.25 1.93 3.03 7.49 16.05 0.21 0.23 0.60 1.15 36.75 13.69 25.55 34.61
+> Adv. MLP Classifier-All 4.37 0.74 3.51 3.00 2.12 0.70 1.63 11.32 0.41 0.20 0.56 0.31 21.04 1.88 10.61 9.36
+> FairLLaVA-All 1.61 0.61 3.50 9.97 0.59 1.01 5.60 12.29 0.40 0.45 0.47 1.80 34.85 13.92 28.52 34.32
+
+Table S6. Fairness Gaps (First three main columns across Race, Age, Gender) and Overall performance (last column) on MIMIC CXR dataset. Highlights tradeoff between Overall-Performance and Fairness-Gaps. Fairness gaps lower the better, Overall performance higher the better.                                                                                                                  
+
+> Method Age Group ↓Gender ↓Overall ↑
+> BLEU-1 BLEU-4 RadGraph-F1 GREEN BLEU-1 BLEU-4 RadGraph-F1 GREEN BLEU-1 BLEU-4 RadGraph-F1 GREEN LLaVA-Rad 9.81 6.96 3.91 31.52 0.02 0.83 0.19 4.76 25.01 12.02 15.35 39.78
+> MedGemma-4B 3.70 0.97 0.81 4.73 0.37 0.07 0.13 1.04 12.31 1.27 4.37 11.52
+> MedGemma-27B 4.16 1.07 1.14 6.06 0.53 0.11 0.09 1.43 13.94 1.79 5.03 12.67
+> Qwen2.5-7B 4.47 0.84 2.28 6.12 0.61 0.09 0.24 1.64 12.45 1.84 5.11 11.80
+> DeepSeek-VL2 3.92 0.96 1.84 4.18 0.47 0.08 0.19 0.79 11.77 1.91 4.20 10.44
+> Reweighting-All 16.71 10.29 7.15 33.50 2.19 0.65 1.98 6.42 14.02 7.42 14.37 37.84
+> Resampling-All 10.35 7.57 4.01 32.91 0.68 0.31 0.01 6.04 23.72 11.26 14.34 38.67
+> FairLLaVA-All 8.93 6.65 3.45 30.53 0.01 0.82 0.04 4.63 25.11 12.03 15.66 40.03
+
+Table S7. Fairness Gaps (First two main columns across Age, Gender) and Overall performance (last column) on PadChest dataset. Highlights tradeoff between Overall-Performance and Fairness-Gaps. 
+
+ings”, ”Indication” and ”Impression”. Indication section briefly states the reason why the study was ordered and the clinical question it aims to address (e.g., symptoms, sus-pected diagnosis). Findings section provides a description of what is observed in the images, without overall judg-ment. Impression includes interpretive summary of the key findings, likely diagnoses, and any critical recommenda-tions. This work is focused on the producing the findings section of the radiology report. We also remove mentions of dates of previous studies each report references. We prompt [35] for pre-processing. Example of such prompt is given in Fig. S6. 
+
+I.3. Implementation of Baselines 
+
+For a fair comparison, all the reweighting, resampling, Adv. classifier baselines follow exactly similar instantiation of the Language Model and in-domain Image Embedder as FairLLaVA. We use Vicuna-7b-v1.5 [11] as our base lan-guage model and BioMedCLIP [55] as the image encoder. Adv. MLP classifier uses same FairLLaVA DAC archi-tecture of 2 layer MLP and uses middle three layers (14, 16, 20) for debiasing for one epoch. Before debiasing, Adv-MLP classifier is pretrained on LLaVA-Rad for three epochs achieving overall demography classification accu-racy of 72% . All the baselines are either trained on 8 NVIDIA RTX-A6000 GPUs or 2 NVIDIA A100 with ef-fective batch size of 96 for one epoch on all datasets. We use the same seed as used in FairLLaVA to control for ran-domness in weight initialization and otherwise in the imple-mentation. 
+
+J. Additional Ablations 
+
+To characterize the effect of the proposed modules for demographic information minimization, we compare two training strategies for the DAC classifier when debias-ing with respect to the Age attribute on the MIMIC-CXR dataset: 1. Pretrained DAC only. We first pretrain the DAC clas-sifier for three epochs using only the DAC loss LDAC 
+
+while keeping the base LLaVA-Rad model frozen. In the subsequent debiasing stage, we freeze this classifier and optimize the report generator with LLM + LDIM 
+
+using the fixed DAC as an adversary. This corresponds to the row FairLLaVA-Age ( LDAC , then LLM + LDIM )
+
+in Tab. S8. 2. Joint DAC + MI training. In the second setting, which we use in all main experiments, the DAC is not pre-trained. Instead, it is trained jointly with the report gen-erator during fairness-aware fine-tuning, with the com-bined objective LLM + LDIM + LDAC . This corre-sponds to the row FairLLaVA-Age ( LLM + LDIM +
+
+LDAC ).All ablations are run for one debiasing epoch. As shown in Tab. S8, joint training of the DAC yields consis-You are an expert medical assistant AI capable of modifying clinical          
+
+> documents to user specifications. You make minimal changes to the original
+> document to satisfy user requests. You never add information that is not
+> already directly stated in the original document.
+> Extract three sections from the input radiology report: 'Indication',
+> 'Findings' and ' Impression'.Leave an extracted section as null if it does not
+> exist in the original report. The output should be in JSON format. An
+> Indication section can refer to the History, Indication or Reason for Study
+> sections in the original report. Remove any information not directly
+> observable from the current imaging study. For instance, remove any
+> patient demographic data, past medical history, or comparison to prior
+> images or studies. The generated 'Findings' and 'Impression' sections
+> should not reference any changes based on prior images, studies, or
+> external knowledge about the patient. Rewrite such comparisons as a
+> status observation based only on the current image or study. Remember to
+> remove any numbering or bullets.
+> Examples of inputs and expected outputs:
+> INPUT:
+> REPORT: There is an increased cardiothoracic index, suggesting possible
+> cardiomegaly. A calcified granuloma is observed at the base of the left
+> lung. There is an image compatible with chronic inflammatory changes,
+> likely bronchiectasis, in the retrocardiac region. Also noted is a double -
+> curved dorsolumbar scoliosis.
+> OUTPUT:
+> {" INDICATION":"Progressive shortness of breath and suspected
+> congestive heart failure -evaluation of cardiac size and pulmonary status.“
+> "FINDINGS":"Increased cardiothoracic ratio. Calcified granuloma at the
+> base of left lung. Double -curved dorsolumbar scoliosis".
+> "IMPRESSION":"Findings suggestive of Cardiomegaly Chronic
+> inflammatory changes seen."}
+> Please do below report
+> INPUT:
+> REPORT:Findings are consistent with COPD, with prominence of the right
+> hilum suggestive of inflammatory changes on the right side. Evidence of an
+> old fracture in the left ribs. Mild compression of the left side of the
+> trachea, possibly related to a goiter, suprasternal structure, or other
+> adjacent anatomical changes.
+
+Figure S6. OpenBio-LLM Prompt used for preprocessing the Pad-Chest Dataset to convert full report summary into standard radiol-ogy report section - ”Findings”, ”Indication”, ”Impression”. 
+
+tently better equity-scaled metrics and higher overall per-formance. For the age-focused ES-metrics, ES-BLEU-4 improves from 2.48 to 5.47 , ES-RadGraph-F1 from 3.50 to 
+
+3.75 , and ES-GREEN from 2.08 to 2.36 when moving from the pretrained DAC to the jointly trained DAC. At the same time, overall report quality improves: BLEU-1 rises from 
+
+31 .77 to 35 .28 , BLEU-4 from 10 .48 to 13 .96 , RadGraph-F1 from 27 .16 to 28 .49 , and GREEN from 33 .06 to 34 .12 .These results highlight a key limitation of using a strong pretrained attribute classifier as an adversary. Because the DAC is optimized in isolation and then frozen, its gradients during debiasing tend to aggressively remove age-related signal from the shared representation, including clinically relevant features, which leads to catastrophic forgetting 
+
+of some concepts and a noticeable drop in overall perfor-mance. This behavior is previously noted as limitation of Adv. MLP classifier [41], where pretrained demographic classifiers can over-regularize the model. In contrast, jointly training the DAC with LDIM and LLM allows the model to gradually disentangle demographic information while be-ing continually constrained by the primary reporting objec-tive, resulting in a more balanced trade-off between equity-scaled performance and overall clinical utility. 
+
+K. Additional Qualitative Samples 
+
+In Fig. S7, we show qualitative examples where the LLaVA-Rad baseline correctly identifies a key condition for one de-mographic subgroup but fails to mention the same finding for another, suggesting a dependence on spurious correla-tions with subgroup membership. In contrast, FairLLaVA, trained with our debiasing objectives, more consistently re-covers the clinically relevant findings across all subgroups by focusing on image evidence rather than demographic cues. In some cases, such as the White–vs–Black pair, the baseline also appears less confident in its descriptions (Gen-der: Male in Fig. S7), whereas FairLLaVA provides clearer and more definitive statements about the underlying pathol-ogy in Fig. S7. 
+
+References 
+
+[1] Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ah-mad, Ilge Akkaya, Florencia Leoni Aleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et al. Gpt-4 technical report. arXiv preprint arXiv:2303.08774 ,2023. 1, 5 [2] Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana Hasson, Karel Lenc, Arthur Men-sch, Katherine Millican, Malcolm Reynolds, et al. Flamingo: a visual language model for few-shot learning. Advances in neural information processing systems , 35:23716–23736, 2022. 1 [3] Hugo Berg, Siobhan Hall, Yash Bhalgat, Hannah Kirk, Alek-sandar Shtedritski, and Max Bain. A prompt array keeps the bias away: Debiasing vision-language models with ad-versarial learning. In Proceedings of the 2nd Conference of the Asia-Pacific Chapter of the Association for Compu-tational Linguistics and the 12th International Joint Confer-ence on Natural Language Processing (Volume 1: Long Pa-pers) , pages 806–822, 2022. 1, 3 [4] Rishi Bommasani, Drew A Hudson, Ehsan Adeli, Russ Alt-man, Simran Arora, Sydney von Arx, Michael S Bernstein, Jeannette Bohg, Antoine Bosselut, Emma Brunskill, et al. On the opportunities and risks of foundation models. arXiv preprint arXiv:2108.07258 , 2021. 1 [5] Aurelia Bustos, Antonio Pertusa, Jose-Maria Salinas, and Maria De La Iglesia-Vaya. Padchest: A large chest x-ray image dataset with multi-label annotated reports. Medical image analysis , 66:101797, 2020. 5, 6, 12 [6] Centers for Disease Control and Prevention. Data guides: Demographics. https : / / www . cdc . gov / dhds / data - guides / demographics . html , 2025. Ac-cessed 2025-11-10. 6 Method Age Group ↑ Overall ↑
+
+> ES-BLEU-1
+> ES-BLEU-4
+> ES-RadGraph-F1
+> ES-GREEN
+> BLEU-1
+> BLEU-4
+> RadGraph-F1
+> GREEN
+
+FairLLaVA-Age (LDAC then LLM + LDIM ) 3.83 2.48 3.50 2.08 31.77 10.48 27.16 33.06 
+
+FairLLaVA-Age (LLM + LDIM + LDAC ) 17.82 5.47 3.75 2.36 35.28 13.96 28.49 34.12 
+
+Table S8. ES-M metrics for the Age Group attribute on the MIMIC-CXR dataset and overall performance. Joint training of the LDAC 
+
+with LDIM improves equity-scaled scores while preserving or improving overall report quality. Ground Truth Report 
+
+Ground Truth :
+
+Cardiomegaly  LLaVARad Generated Report  FairLLaVA Generated Report 
+
+> Young Old
+
+The cardiac silhouette is mildly enlarged. 
+
+The mediastinal contours are normal. There is no 
+
+pleural effusion or pneumothorax. There is no 
+
+focal consolidation concerning for pneumonia. A
+
+vascular stent is noted in the right upper 
+
+extremity. 
+
+The cardiac silhouette is mildly enlarged. 
+
+There is mild pulmonary vascular congestion. No 
+
+focal consolidation is seen. There is no pleural 
+
+effusion or pneumothorax. A right -sided vascular 
+
+stenting is re - demonstrated. 
+
+Compared to the prior study there is no significant 
+
+interval change. 
+
+Missing Pulmonary edema and other details. 
+
+Left -sided AICD/pacemaker device is noted with 
+
+leads terminating in the right atrium, right 
+
+ventricle, and coronary sinus. Mild to moderate 
+
+cardiomegaly is demonstrated. There is mild 
+
+pulmonary edema with perihilar haziness and 
+
+vascular indistinctness. No large pleural effusion 
+
+or pneumothorax is identified. There is no focal 
+
+consolidation. Degenerative changes are noted in 
+
+the thoracic spine., 
+
+Interstitial pulmonary edema noted . There 
+
+are no large pleural effusions. There is no 
+
+pneumothorax. Persistent moderate cardiomegaly. 
+
+Median sternotomy wires are intact. Left pectoral 
+
+pacemaker is unchanged in visualized. 
+
+Ground Truth :
+
+Pulmonary Edema 
+
+> Hispanic  Whi te
+
+Diffuse increase in interstitial markings as well as 
+
+pulmonary vessel engorgement are suggestive of 
+
+moderate to severe pulmonary edema . Cardiac 
+
+silhouette is moderately enlarged. There is no 
+
+pleural effusion or pneumothorax. 
+
+The lungs are well -expanded. There is moderate 
+
+pulmonary edema . No focal consolidation is 
+
+identified. There is no pleural effusion or 
+
+pneumothorax. The cardiomediastinal silhouette 
+
+is unchanged. 
+
+The cardiac silhouette is enlarged. There is mild 
+
+pulmonary edema . No definite focal consolidation 
+
+is seen. There is no pleural effusion or 
+
+pneumothorax. 
+
+The lungs are clear without focal consolidation. No 
+
+pleural effusion or pneumothorax is seen. The 
+
+cardiac and mediastinal silhouettes are stable, with 
+
+the cardiac silhouette mildly enlarged. The 
+
+right subclavian brachiocephalic stent appears 
+
+grossly unchanged. The bones are noted to be 
+
+somewhat sclerotic ; on prior imaging, thought to 
+
+be related to renal osteodystrophy. 
+
+AP and lateral views of the chest. Lower lung 
+
+volumes seen on the current exam. The lungs are 
+
+clear of consolidation or effusion. The 
+
+cardiomediastinal silhouette is unchanged 
+
+given differences in positioning and technique. No 
+
+acute osseous abnormality is identified. 
+
+Frontal and lateral views of the chest were 
+
+obtained. There are relatively low lung volumes. 
+
+The cardiac silhouette is enlarged. There 
+
+is mild pulmonary vascular congestion. No 
+
+definite focal consolidation is seen. There is no 
+
+pleural effusion or pneumothorax. 
+
+Frontal and lateral views of the chest were 
+
+obtained. There is prominence of the interstitial 
+
+markings suggesting moderate interstitial edema. 
+
+No large pleural effusion is seen. There is no 
+
+evidence of pneumothorax. The cardiac 
+
+silhouette is enlarged. The aorta is tortuous. 
+
+Ground Truth :
+
+Cardiomegaly 
+
+There is a moderate right pleural effusion with 
+
+overlying atelectasis, underlying consolidation is not 
+
+excluded. The left lung is clear. The cardiac 
+
+silhouette is difficult to assess due to the 
+
+right base opacity, although appears top 
+
+normal to mildly enlarged . Mediastinal contours 
+
+are unremarkable. 
+
+There is a moderate right pleural effusion with 
+
+associated atelectasis. There is also a small left 
+
+pleural effusion. The cardiac silhouette is 
+
+enlarged . The mediastinal contours are normal. 
+
+There is no pneumothorax. 
+
+There is moderate cardiomegaly . Central 
+
+pulmonary vessels are engorged, and there is mild 
+
+interstitial edema with a large right pleural 
+
+effusion. A trace left pleural effusion is also 
+
+present. There is no pneumothorax. 
+
+Single portable view of the chest. The lungs are 
+
+clear of focal consolidation or large effusion. 
+
+Cardiac silhouette is enlarged but stable in 
+
+configuration. No acute osseous abnormality is 
+
+identified. 
+
+Single portable view of the chest. The lungs are 
+
+clear of focal consolidation or large effusion. 
+
+Cardiac silhouette is enlarged but 
+
+stable . Osseous and soft tissue structures are 
+
+unremarkable.", 
+
+Single portable view of the chest. The lungs are 
+
+clear. There is no left effusion or pulmonary 
+
+vascular congestion . Cardiac silhouette is 
+
+enlarged but stable in configuration. No acute 
+
+osseous abnormality detected. 
+
+> Female  Male
+
+Figure S7. Qualitative samples show LLaVA-Rad baseline produces unfair results for some subgroups (”Old”, “White”, ”Male”) of demographic attributes. [7] Juan Manuel Zambrano Chaves, Shih-Cheng Huang, Yanbo Xu, Hanwen Xu, Naoto Usuyama, Sheng Zhang, Fei Wang, Yujia Xie, Mahmoud Khademi, Ziyi Yang, et al. Towards a clinically accessible radiology foundation model: open-access and lightweight, with automated evaluation. arXiv preprint arXiv:2403.08002 , 2024. 1, 3, 5, 6, 8, 11, 12 [8] Xiuying Chen, Tairan Wang, Juexiao Zhou, Zirui Song, Xin Gao, and Xiangliang Zhang. Evaluating and mitigating bias in ai-based medical text generation. Nature Computational Science , pages 1–9, 2025. 1, 3, 6, 7 [9] Zhihong Chen, Maya Varma, Jean-Benoit Delbrouck, Mag-dalini Paschali, Louis Blankemeier, Dave Van Veen, Jeya Maria Jose Valanarasu, Alaa Youssef, Joseph Paul Cohen, Eduardo Pontes Reis, et al. Chexagent: Towards a foun-dation model for chest x-ray interpretation. arXiv preprint arXiv:2401.12208 , 2024. 1, 6, 8 [10] Pengyu Cheng, Weituo Hao, Shuyang Dai, Jiachang Liu, Zhe Gan, and Lawrence Carin. Club: A contrastive log-ratio up-per bound of mutual information. In International confer-ence on machine learning , pages 1779–1788. PMLR, 2020. 4[11] Wei-Lin Chiang, Zhuohan Li, Zi Lin, Ying Sheng, Zhang-hao Wu, Hao Zhang, Lianmin Zheng, Siyuan Zhuang, Yong-hao Zhuang, Joseph E. Gonzalez, Ion Stoica, and Eric P. Xing. Vicuna: An open-source chatbot impressing gpt-4 with 90%* chatgpt quality, 2023. 3, 5, 15 [12] Joseph Paul Cohen, Joseph D. Viviano, Paul Bertin, Paul Morrison, Parsa Torabian, Matteo Guarrera, Matthew P Lungren, Akshay Chaudhari, Rupert Brooks, Mohammad Hashir, and Hadrien Bertrand. Torchxrayvision: A library of chest x-ray datasets and models. In Proceedings of The 5th International Conference on Medical Imaging with Deep Learning , pages 231–249. PMLR, 2022. 10 [13] Yin Cui, Menglin Jia, Tsung-Yi Lin, Yang Song, and Serge Belongie. Class-balanced loss based on effective number of samples. Proceedings of the IEEE/CVF Conference on Com-puter Vision and Pattern Recognition (CVPR) , pages 9268– 9277, 2019. 1, 2, 6 [14] Wenlong Deng, Blair Chen, Beidi Zhao, Chiyu Zhang, Xi-aoxiao Li, and Christos Thrampoulidis. Llm-assisted content conditional debiasing for fair text embedding. arXiv preprint arXiv:2402.14208 , 2024. 1, 3 [15] Raman Dutt, Ondrej Bohdal, Sotirios A Tsaftaris, and Tim-othy Hospedales. Fairtune: Optimizing parameter efficient fine tuning for fairness in medical image analysis. arXiv preprint arXiv:2310.05055 , 2023. 2, 3 [16] Judy Wawira Gichoya, Imon Banerjee, Ananth RBhimireddy, Jenevieve L Burns, Leo Anthony Celi, Lin Chen, Rafael Correa, Natalie Dullerud, Marzyeh Ghas-semi, Shih-Cheng Huang, et al. Ai recognition of patient race in medical imaging. The Lancet Digital Health , 4(6): e406–e414, 2022. 1, 2 [17] Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Ruoyu Zhang, Runxin Xu, Qihao Zhu, Shirong Ma, Peiyi Wang, Xiao Bi, et al. Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning. arXiv preprint arXiv:2501.12948 , 2025. 1, 6, 8, 11 [18] Xudong Han, Timothy Baldwin, and Trevor Cohn. Balanc-ing out bias: Achieving fairness through balanced training. In Proceedings of the 2022 conference on empirical methods in natural language processing , pages 11335–11350, 2022. 1, 2, 6, 7, 8 [19] Edward J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, Weizhu Chen, et al. Lora: Low-rank adaptation of large language models. ICLR ,1(2):3, 2022. 5 [20] Jeremy Irvin, Pranav Rajpurkar, Michael Ko, Yifan Yu, Sil-viana Ciurea-Ilcus, Chris Chute, Henrik Marklund, Behzad Haghgoo, Robyn Ball, Katie Shpanskaya, et al. Chexpert: A large chest radiograph dataset with uncertainty labels and expert comparison. In Proceedings of the AAAI conference on artificial intelligence , pages 590–597, 2019. 6, 10 [21] Saahil Jain, Ashwin Agrawal, Adriel Saporta, Steven Truong, Du Nguyen Duong, Tan Bui, Pierre Chambon, Yuhao Zhang, Matthew P Lungren, Andrew Y Ng, et al. Radgraph: Extracting clinical entities and relations from ra-diology reports. In Thirty-fifth Conference on Neural Infor-mation Processing Systems Datasets and Benchmarks Track (Round 1) , 2021. 6 [22] Ruinan Jin, Zikang Xu, Yuan Zhong, Qingsong Yao, DOU QI, S Kevin Zhou, and Xiaoxiao Li. Fairmedfm: fair-ness benchmarking for medical imaging foundation mod-els. Advances in Neural Information Processing Systems ,37:111318–111357, 2024. 2, 3 [23] Alistair Johnson, Tom Pollard, Roger Mark, Seth Berkowitz, and Steven Horng. MIMIC-CXR database, 2024. RRID:SCR 007345. 2, 5 [24] Alistair E. W. Johnson, Tom J. Pollard, Seth J. Berkowitz, Nathaniel R. Greenbaum, Matthew P. Lungren, Chih-Ying Deng, Yifan Peng, Zhiyong Lu, Roger G. Mark, and Steven Horng. MIMIC-CXR, a de-identified publicly available database of chest radiographs with free-text reports. Scien-tific Data , 6(1):317, 2019. 2, 5, 6 [25] Emmanouil Krasanakis and Symeon Papadopoulos. To-wards standardizing ai bias exploration. arXiv preprint arXiv:2405.19022 , 2024. 1, 2 [26] Preethi Lahoti, Alex Beutel, Jilin Chen, Kang Lee, Flavien Prost, Nithum Thain, Xuezhi Wang, and Ed Chi. Fair-ness without demographics through adversarially reweighted learning. Advances in neural information processing sys-tems , 33:728–740, 2020. 1, 2, 6, 7, 8 [27] Chin-Yew Lin. ROUGE: A package for automatic evaluation of summaries. In Text Summarization Branches Out , pages 74–81, Barcelona, Spain, 2004. Association for Computa-tional Linguistics. 6 [28] Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong Jae Lee. Visual instruction tuning. Advances in neural information processing systems , 36:34892–34916, 2023. 1, 3, 6, 8 [29] Tianci Liu, Haoyu Wang, Shiyang Wang, Yu Cheng, and Jing Gao. Lidao: Towards limited interventions for debi-asing (large) language models. In International Conference on Machine Learning , pages 32083–32099. PMLR, 2024. 1, 3[30] William Lotter. Acquisition parameters influence AI recog-nition of race in chest x-rays and mitigating these factors re-duces underdiagnosis bias. Nature Communications , 15(1): 7465, 2024. 1, 2 [31] Yan Luo, Min Shi, Muhammad Osama Khan, Muham-mad Muneeb Afzal, Hao Huang, Shuaihang Yuan, Yu Tian, Luo Song, Ava Kouhana, Tobias Elze, Yi Fang, and Mengyu Wang. Fairclip: Harnessing fairness in vision-language learning. In CVPR , 2024. 2, 3, 6, 7 [32] Anna Majkowska, Saurabh Mittal, Daniel F. Steiner, Joshua J. Reicher, Scott M. McKinney, G. E. Duggan, Ki-ran Eswaran, Po-Hsuan Cameron Chen, Yun Liu, S. Ram Kalidindi, Amy Ding, Greg S. Corrado, Daniel Tse, and Shravya Shetty. Chest radiograph interpretation with deep learning models: Assessment with radiologist-adjudicated reference standards and population-adjusted evaluation. Ra-diology , 294(2):421–431, 2020. 10 [33] Dana Moukheiber, Saurabh Mahindre, Lama Moukheiber, Mira Moukheiber, and Mingchen Gao. Looking beyond what you see: An empirical analysis on subgroup intersectional fairness for multi-label chest x-ray classification using social determinants of racial health inequities. CoRR , 2024. 2, 3 [34] Sophie Ostmeier, Justin Xu, Zhihong Chen, Maya Varma, Louis Blankemeier, Christian Bluethgen, Arne Ed-ward Michalson Md, Michael Moseley, Curtis Langlotz, Ak-shay S Chaudhari, and Jean-Benoit Delbrouck. GREEN: Generative radiology report evaluation and error notation. In 
+
+Findings of the Association for Computational Linguistics: EMNLP 2024 , pages 374–390, Miami, Florida, USA, 2024. Association for Computational Linguistics. 6 [35] Ankit Pal and Malaikannan Sankarasubbu. Openbiollms: Advancing open-source large language models for health-care and life sciences. https://huggingface.co/ aaditya/OpenBioLLM-Llama3-70B , 2024. 5, 15 [36] Kishore Papineni, Salim Roukos, Todd Ward, and Wei-Jing Zhu. Bleu: a method for automatic evaluation of machine translation. In Proceedings of the 40th Annual Meeting on Association for Computational Linguistics , page 311–318, USA, 2002. Association for Computational Linguistics. 6 [37] Otavio Parraga, Martin D. More, Christian M. Oliveira, Nathan S. Gavenski, Lucas S. Kupssinsk¨ u, Adilson Medronha, Luis V. Moura, Gabriel S. Sim˜ oes, and Ro-drigo C. Barros. Fairness in deep learning: A survey on vision and language research. ACM Comput. Surv. , 57(6), 2025. 2, 3 [38] Raphael Poulain, Hamed Fayyaz, and Rahmatollah Beheshti. Aligning (medical) llms for (counterfactual) fairness. arXiv preprint arXiv:2408.12055 , 2024. 3 [39] Alec Radford, Jeff Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever. Language models are unsuper-vised multitask learners. 2019. 1 [40] Andrew Sellergren, Sahar Kazemzadeh, Tiam Jaroen-sri, Atilla Kiraly, Madeleine Traverse, Timo Kohlberger, Shawn Xu, Fayaz Jamil, C´ ıan Hughes, Charles Lau, et al. Medgemma technical report. arXiv preprint arXiv:2507.05201 , 2025. 1, 6, 8, 11 [41] Ashish Seth, Mayur Hemani, and Chirag Agarwal. Dear: Debiasing vision-language models with additive residuals. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 6820–6829, 2023. 1, 2, 6, 12, 16 [42] Xudong Shen, Chao Du, Tianyu Pang, Min Lin, Yongkang Wong, and Mohan Kankanhalli. Finetuning text-to-image diffusion models for fairness. arXiv preprint arXiv:2311.07604 , 2023. 1 [43] Min Shi, Yan Luo, Yu Tian, Lucy Q. Shen, Nazlee Zebar-dast, Mohammad Eslami, Saber Kazeminasab, Michael V. Boland, David S. Friedman, Louis R. Pasquale, and Mengyu Wang. Equitable artificial intelligence for glaucoma screen-ing with fair identity normalization. npj Digital Medicine , 8 (1):46, 2025. 3 [44] Yucheng Shi, Quanzheng Li, Jin Sun, Xiang Li, and Ninghao Liu. Enhancing cognition and explainability of multimodal foundation models with self-synthesized data. arXiv preprint arXiv:2502.14044 , 2025. 5, 8, 12 [45] Weimin Tan, Qiaoling Wei, Zhen Xing, Hao Fu, Hongyu Kong, Yi Lu, Bo Yan, and Chen Zhao. Fairer ai in ophthal-mology via implicit fairness learning for mitigating sexism and ageism. Nature Communications , 15:4750, 2024. 2, 3 [46] Philipp Tschandl, Cliff Rosendahl, and Harald Kittler. The HAM10000 dataset, a large collection of multi-source der-matoscopic images of common pigmented skin lesions. Sci-entific Data , 5:180161, 2018. 5 [47] Peiran Wang, Linjie Tong, Jiaxiang Liu, and Zuozhu Liu. Fair-moe: Fairness-oriented mixture of experts in vision-language models. arXiv preprint arXiv:2502.06094 , 2025. 2, 3 [48] Rui Wang, Pengyu Cheng, and Ricardo Henao. Toward fair-ness in text generation via mutual information minimization based on importance sampling. In International conference on artificial intelligence and statistics , pages 4473–4485. PMLR, 2023. 1, 3 [49] Peng Xia, Ze Chen, Juanxi Tian, Yangrui Gong, Ruibo Hou, Yue Xu, Zhenbang Wu, Zhiyuan Fan, Yiyang Zhou, Kangyu Zhu, Wenhao Zheng, Zhaoyang Wang, Xiao Wang, Xuchao Zhang, Chetan Bansal, Marc Niethammer, Junzhou Huang, Hongtu Zhu, Yun Li, Jimeng Sun, Zongyuan Ge, Gang Li, James Zou, and Huaxiu Yao. Cares: A comprehensive benchmark of trustworthiness in medical vision language models. In NeurIPS Datasets and Benchmarks Track , 2024. 1, 2, 3 [50] Justin Xu, Zhihong Chen, Andrew Johnston, Louis Blanke-meier, Maya Varma, Jason Hom, William J. Collins, Ankit Modi, Robert Lloyd, Benjamin Hopkins, Curtis Langlotz, and Jean-Benoit Delbrouck. Overview of the first shared task on clinical text generation: RRG24 and “discharge me!”. In Proceedings of the 23rd Workshop on Biomedical Natu-ral Language Processing , pages 85–98, Bangkok, Thailand, 2024. Association for Computational Linguistics. 5, 12 [51] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao, Chengen Huang, Chenxu Lv, et al. Qwen3 technical report. arXiv preprint arXiv:2505.09388 , 2025. 1, 6, 8, 11 [52] Heeji Yoon, Jaewoo Jung, Junwan Kim, Hyungyu Choi, Heeseong Shin, Sangbeom Lim, Honggyu An, Chaehyun Kim, Jisang Han, Donghyun Kim, Chanho Eom, Sunghwan Hong, and Seungryong Kim. Visual representation align-ment for multimodal large language models, 2025. 8 [53] Feiyang Yu, Mark Endo, Rayan Krishnan, Ian Pan, Andy Tsai, Eduardo Pontes Reis, Eduardo Kaiser Ururahy Nunes Fonseca, Henrique Min Ho Lee, Zahra Shakeri Hossein Abad, Andrew Y. Ng, Curtis P. Langlotz, Vasantha Kumar Venugopal, and Pranav Rajpurkar. Evaluating progress in automatic chest x-ray radiology report generation. Patterns ,4(9):100802, 2023. 1 [54] Zhuoran Yu and Yong Jae Lee. How multimodal llms solve image tasks: A lens on visual grounding, task reasoning, and answer decoding. arXiv preprint arXiv:2508.20279 , 2025. 8 [55] Sheng Zhang, Yanbo Xu, Naoto Usuyama, Hanwen Xu, Jaspreet Bagga, Robert Tinn, Sam Preston, Rajesh Rao, Mu Wei, Naveen Valluri, et al. Biomedclip: a multimodal biomedical foundation model pretrained from fifteen million scientific image-text pairs. arXiv preprint arXiv:2303.00915 ,2023. 5, 9, 15 [56] Weike Zhao, Chaoyi Wu, Xiaoman Zhang, Ya Zhang, Yan-feng Wang, and Weidi Xie. Ratescore: A metric for radi-ology report generation. In Proceedings of the 2024 Confer-ence on Empirical Methods in Natural Language Processing ,pages 15004–15019, 2024. 1
